@@ -62,7 +62,10 @@ are not learned from the data LLMs are trained on.
 
 Run your Linux kernel patches by the scripts/checkpatch.pl script, which will check for other things that may need to be adjusted.
 
-## Provenance
+## Contributing
 
-Distilled and maintained in a shared knowledge base; this repository is a
-portable export. Edit upstream and re-export so the two don't drift.
+This collection of previously unwritten, or at least not written
+together in the same place, knowledge is sure to be incomplete.
+
+If you and your LLM discover an area that could be improved, please
+try to make that improvement and open a pull request.
