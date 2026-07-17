@@ -1,10 +1,8 @@
 ---
 name: exemplars
-description: "Per-developer kernel style profiles for 14 respected kernel developers, each derived from their real commits with cited hashes. Reference detail behind kernel-readability-principles.md; load a specific section when you want to emulate a particular developer's strength."
+description: "Per-developer kernel style profiles for 14 respected kernel developers, each derived from their real commits with cited hashes. Reference detail behind kernel-readability-principles.md; consult a specific section to emulate a particular developer's strength."
 metadata: 
-  node_type: memory
   type: reference
-  originSessionId: 1b03c34b-c035-4437-8752-9061cdcb78a1
 ---
 Per-developer profiles derived from real commits in ~/linux (cited hashes). Synthesis: [kernel-readability-principles](./kernel-readability-principles.md). Primary voice: [kernel-style](./kernel-style.md).
 ---
@@ -30,7 +28,7 @@ Subsystem: mm-heavy (rmap, folios, memory hotplug, pfnmap), also s390/KVM, virti
 - Extract a well-named helper as a prep patch before the behavior change (e.g. 07b0303540e1).
 - Names encode the semantic guarantee (folio_maybe_mapped_shared) (e.g. 003fde4492c8).
 - Mechanical conversions split one-change-per-commit (e.g. 003fde/e1e1a3 series).
-Steal this: justify every claim with the exact observable fallout — name the precise /proc, cgroup, meminfo fields that move and which direction, paste the splat, say how the bug was found.
+Technique: justify every claim with the exact observable fallout — name the precise /proc, cgroup, meminfo fields that move and which direction, paste the splat, say how the bug was found.
 ---
 # Thomas Gleixner kernel style
 ## Changelog — open with the concrete symptom, end with the cure.
@@ -52,7 +50,7 @@ Steal this: justify every claim with the exact observable fallout — name the p
 - When every caller passes `current`, drop the param, fetch inside (e.g. 8b68e978718f).
 - WARN_ON_ONCE + graceful recovery for "can't happen" states (e.g. 8b68e978718f).
 - Naming verb_object, unabbreviated.
-Steal this: write the changelog as a causal narrative — name the reporter, walk symptom→mechanism→root-cause with real numbers or an ASCII race ladder, then "Cure this by...".
+Technique: write the changelog as a causal narrative — name the reporter, walk symptom→mechanism→root-cause with real numbers or an ASCII race ladder, then "Cure this by...".
 ---
 # Johannes Weiner kernel style
 - Open by stating the mechanism/problem, not the fix; describe how the code behaves today first (e.g. c2f6ea38fc1b, e3aa7df331bc).
@@ -67,7 +65,7 @@ Steal this: write the changelog as a causal narrative — name the reporter, wal
 - Fold review changes as bracketed [hannes@...: ...] crediting the suggester (e.g. 90abee6d7895).
 - Comments explain why, esp. locking/racing invariants, full sentences (e.g. 51b8c1fe250d); update header comment in the same diff (e.g. c2f6ea38fc1b).
 - Decompose: each decision its own named helper, replace goto labels with early-return helpers + a got_one: tail (e.g. c2f6ea38fc1b).
-Steal this: lead with how the code behaves today, prove the problem and fix with pasted real measurements, and disarm the skeptic by naming the fix's own remaining weaknesses.
+Technique: lead with how the code behaves today, prove the problem and fix with pasted real measurements, and disarm the skeptic by naming the fix's own remaining weaknesses.
 ---
 # Breno Leitao kernel style
 Changelogs read like incident write-ups: symptom, root cause, fix.
@@ -82,7 +80,7 @@ Changelogs read like incident write-ups: symptom, root cause, fix.
 - Always Fixes: + reproducer link; Cc: stable with reasoning (e.g. 94da84410298).
 - Comments sparse, why-only, where a reader would misread the invariant (e.g. a4da447a2efb).
 - Extract cohesive helpers (push_udp/push_ipv4/push_ipv6), one protocol layer each; tiny no-functional-change steps before the behavioral patch (e.g. cacfb1f4e9f6).
-Steal this: forensic narrative — paste the splat/numbers, walk the failure step by step, name the alternatives you rejected.
+Technique: forensic narrative — paste the splat/numbers, walk the failure step by step, name the alternatives you rejected.
 ---
 # Usama Arif kernel style
 (Large sample ~200 commits across mm/THP/hugetlb/zswap/filemap.)
@@ -96,7 +94,7 @@ Steal this: forensic narrative — paste the splat/numbers, walk the failure ste
 - Comments sparse, strictly why; rewrite a comment the change invalidates in the same diff (e.g. a3be0819bde7).
 - Extract duplicated inline logic into one static-inline helper, convert every call site in the same commit (e.g. 05b7dcf221c9); thread error returns through whole chains (e.g. c5106d76977b).
 - Names read as English: probationary_split_queue, force_thp_readahead.
-Steal this: before writing the fix sentence, write the causal chain that makes the fix obviously correct — trigger, each broken assumption, consequence, in order.
+Technique: before writing the fix sentence, work out the causal chain that makes the fix obviously correct — trigger, each broken assumption, consequence, in order.
 ---
 # David Woodhouse kernel style
 Narrative debugging changelogs as detective stories.
@@ -110,7 +108,7 @@ Narrative debugging changelogs as detective stories.
 - Fixes: with subject + Cc: stable when warranted.
 - Comments: why and contract; upgrade a one-liner into a block once the subtlety grows (e.g. f18a02b45805).
 - Move work past the cheap early-exit guard (run the bail-out before allocation) (e.g. 7725834e5965); add defensive checks against hostile/broken inputs at entry (e.g. 39035f9c0969).
-Steal this: write the changelog as the bug's biography — trace the exact call sequence that breaks, name the commit/year/hardware that caused it, say in plain prose why the fix is correct and what it deliberately doesn't do.
+Technique: write the changelog as the bug's biography — trace the exact call sequence that breaks, name the commit/year/hardware that caused it, say in plain prose why the fix is correct and what it deliberately doesn't do.
 ---
 # Joerg Roedel kernel style
 (iommu/amd, vt-d, x86/sev, KVM/SVM; ~1614 commits.)
@@ -124,7 +122,7 @@ Steal this: write the changelog as the bug's biography — trace the exact call 
 - Fixes: rigorously; credit Suggested-by/Reported-by.
 - Comments: moderate, purposeful — every non-obvious function states when it runs and what invariant it protects; explain execution context (NMI/IST/noinstr) (e.g. be1a5408868a).
 - One commit, one change; extract `__name()` helper in its own patch (e.g. 237b6f332913); front-load validation then goto out_free_* unwinding.
-Steal this: state the consequence before the fix — what breaks and why it matters, then the one-line remedy.
+Technique: state the consequence before the fix — what breaks and why it matters, then the one-line remedy.
 ---
 # Dan Williams kernel style
 Each changelog is a self-contained case file.
@@ -139,7 +137,7 @@ Each changelog is a self-contained case file.
 - Name a stop-gap as a stop-gap so future readers know it's intentional debt (e.g. ae86cbfef381).
 - Comments sparse, why-not-what; replace now-wrong comments in the same hunk; full kerneldoc on exported helpers (e.g. 2aeaf663b85e, 101c268bd2f3).
 - lockdep_assert_held + caller-side guard() over re-acquiring in a leaf; small named predicates/resets for state lifecycle (e.g. 6f5c4eca48ff, 53989fad1286).
-Steal this: changelog as standalone forensic report — reproducer + raw splat annotated 1)2)3) + fix as a reasoned decision — so a future reader diagnoses and trusts the fix without the thread or diff.
+Technique: changelog as standalone forensic report — reproducer + raw splat annotated 1)2)3) + fix as a reasoned decision — so a future reader diagnoses and trusts the fix without the thread or diff.
 ---
 # Peter Zijlstra kernel style
 - Open with the concrete symptom/offending behavior in one plain sentence (e.g. a551844e345b, 2a77e4be12cb).
@@ -153,7 +151,7 @@ Steal this: changelog as standalone forensic report — reproducer + raw splat a
 - Comments: the why/invariant, never the obvious what (e.g. a551844e345b).
 - ASCII tables for concurrency: two CPU columns, ordered ops, labeled barriers, explicit "X pairs with Y"; tag each barrier with its partner inline (e.g. c7f2e3cd6c1f, 1f676247f36a).
 - Factor recurring idioms into tiny static inlines (try_get_desc/put_desc); single labeled exit when cleanup added; thread state through signatures, not globals (e.g. 1f676247f36a, 894d1b3db41c).
-Steal this: the two-column ASCII concurrency table with explicitly paired, partner-tagged barriers — makes an unreviewable memory-ordering claim auditable at a glance.
+Technique: the two-column ASCII concurrency table with explicitly paired, partner-tagged barriers — makes an unreviewable memory-ordering claim auditable at a glance.
 ---
 # Ingo Molnar kernel style
 ## Changelog
@@ -171,7 +169,7 @@ Steal this: the two-column ASCII concurrency table with explicitly paired, partn
 ## Code structure
 - Vertically align related definitions into columns (e.g. 2b4d5b2582de).
 - Simplify expressions ((&p->se)->cfs_rq → p->se.cfs_rq); split fat headers; never mix a whitespace sweep with a logic change.
-Steal this: land the functional change and a separate "No change in functionality:" cleanup that realigns and copy-edits the surrounding code/comments.
+Technique: land the functional change and a separate "No change in functionality:" cleanup that realigns and copy-edits the surrounding code/comments.
 ---
 # Mel Gorman kernel style
 Subject: lowercase `subsystem[, subsystem]:` then a precise imperative naming the mechanism, not the symptom (e.g. e1a556374abc).
@@ -186,7 +184,7 @@ Subject: lowercase `subsystem[, subsystem]:` then a precise imperative naming th
 - Series: "Patch series" blurb then "This patch (of N):" (e.g. bbbecb35a41c); inline the shell reproducer (e.g. a8bbf72ab9b3).
 - Comments sparse, why-not-what (ordering rationale) (e.g. d34c5fa06fad); block comments for subtle invariants.
 - Decompose a giant hot function into named fast/slow static-inline helpers, rare path `unlikely`, note the text-size tradeoff (e.g. 11e33f6a55ed); predicate/action helper names.
-Steal this: make the changelog prove itself — current-behavior-then-why-wrong, then a real before/after benchmark table with %-deltas and the CPU/counter breakdown that explains the cause; name your own regressions first.
+Technique: make the changelog prove itself — current-behavior-then-why-wrong, then a real before/after benchmark table with %-deltas and the CPU/counter breakdown that explains the cause; name your own regressions first.
 ---
 # Vlastimil Babka kernel style
 - Open with the present-tense status quo or the bug before any fix (e.g. 284f17ac13fe, 700d2e9a36b9).
@@ -200,7 +198,7 @@ Steal this: make the changelog prove itself — current-behavior-then-why-wrong,
 - Even one-line removals get a "what is now dead and why it's safe" log (e.g. c9929f0e344a).
 - Comments: why + warn, not what; full kerneldoc with Context:/Return: spelling out the danger and safer alternative (e.g. 284f17ac13fe, cfb837e84331).
 - Decompose by use case not flags (split into a clean path + a _bulk variant); rename for accuracy and say why; drop params/dead locals once derivable; land big reworks as a dozen+ small bisectable steps.
-Steal this: present-tense status quo → numbered failure chain → explicit "To fix this / Therefore" pivot; always name what you didn't do and why.
+Technique: present-tense status quo → numbered failure chain → explicit "To fix this / Therefore" pivot; always name what you didn't do and why.
 ---
 # Michal Hocko kernel style
 - Open with the problem before the fix — a concrete user-visible symptom or bug report, often citing the introducing commit by hash+subject (e.g. 9a5b183941b5). Reverts: "This reverts commit <hash>." then concede what was good before why it must go (e.g. 55ab834a86a9).
@@ -213,7 +211,7 @@ Steal this: present-tense status quo → numbered failure chain → explicit "To
 - Even trivial patches get a real one-line justification.
 - Comments why-not-what at the decision point; explain semantic constraints/dangers ("Higher order nofail allocations are really expensive and potentially dangerous"); terse, lowercase-casual, readable over polished.
 - Minimal surgical diffs; intent-named locals (bool nofail, gfp_t alloc_gfp); named predicates over open-coded bit tests (!gfpflags_allow_blocking(gfp)); rename for symmetry.
-Steal this: make the changelog argue the change — open with the symptom, name the obvious fix you rejected and why, reason about consequences over asserting correctness, be honest about what you got wrong or still don't understand.
+Technique: make the changelog argue the change — open with the symptom, name the obvious fix you rejected and why, reason about consequences over asserting correctness, be honest about what you got wrong or still don't understand.
 ---
 # Shakeel Butt kernel style
 - Open with current behavior in present tense ("At the moment, the kernel..."), then problem, then fix; never "This patch" (e.g. f735eebe55f8).
@@ -228,4 +226,4 @@ Steal this: make the changelog argue the change — open with the symptom, name 
 - Comments sparse, strictly why (a race, cacheline constraint, arch limit); encode invariants + BUILD_BUG_ON pairs; rewrite stale kerneldoc on behavior change (e.g. f735eebe55f8, 2fba5961c64c).
 - Refactor toward fewer args/inlined helpers; `__` prefix signals "not re-entrant/irq-safe"; replace a global lock with a per-object lock when the global wasn't protecting shared data; many small single-purpose commits under a titled series.
 - Plainspoken, self-deprecating ("a simple (and dumb)" approach that beat the clever one by 1-3%).
-Steal this: lead every changelog with the measured production symptom and a reproducible benchmark table, so reviewers feel the pain and trust the win before reading a single line of diff.
+Technique: lead every changelog with the measured production symptom and a reproducible benchmark table, so reviewers feel the pain and trust the win before reading a single line of diff.

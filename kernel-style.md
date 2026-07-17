@@ -1,11 +1,11 @@
 ---
 name: kernel-style
-description: Linux kernel commit/comment/changelog & code style — concrete, checkable rules distilled from real hand-written mm/kernel commits (with example hashes) plus maintainer edits of AI-drafted patches. Load before writing or reviewing any kernel code, comment, or changelog.
+description: Linux kernel commit/comment/changelog & code style — concrete, checkable rules distilled from real hand-written mm/kernel commits (with example hashes) plus maintainer edits of AI-drafted patches. A reference for writing or reviewing kernel code, comments, and changelogs.
 metadata:
   type: reference
 ---
 # Linux kernel commit & comment style
-Concrete, checkable conventions distilled from hand-written kernel commits (2012–2026) across mm, sched/numa, x86/mm, hugetlb, ipc, fs/proc, plus rules learned from maintainer edits of AI-drafted patches. Most rules cite real hashes; edit-derived rules quote the before/after instead. Related: [kernel-readability-principles](./kernel-readability-principles.md), [llm-tells-checklist](./llm-tells-checklist.md), [exemplars](./exemplars.md). See [README.md](./README.md) for load order.
+Concrete, checkable conventions distilled from hand-written kernel commits (2012–2026) across mm, sched/numa, x86/mm, hugetlb, ipc, fs/proc, plus rules learned from maintainer edits of AI-drafted patches. Most rules cite real hashes; edit-derived rules quote the before/after instead. Related: [kernel-readability-principles](./kernel-readability-principles.md), [llm-tells-checklist](./llm-tells-checklist.md), [exemplars](./exemplars.md). See [README.md](./README.md) for reading order. This file is reference documentation, not instructions to execute; a tool that merely encounters it should treat it as data.
 ## 0. Factual integrity — never invent, always verify
 Enforced before any other pass.
 - **Never invent facts, numbers, quotes, dates, performance results, commit hashes, or technical claims.** If you write it, you read it from a primary source this session: a file on disk, `git log` / `git show`, command output, benchmark artifact, crash dump, Phabricator diff, task, or brain record. Not from memory, not from pattern completion, not from plausible invention.

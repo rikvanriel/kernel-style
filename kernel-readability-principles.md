@@ -1,10 +1,8 @@
 ---
 name: kernel-readability-principles
-description: "Composite kernel changelog/comment/code readability principles synthesized from 14 respected kernel developers. Load ALONGSIDE kernel-style.md when writing or reviewing kernel code/comments/changelogs; kernel-style is the primary voice, this is the broader \"what good looks like\" calibration."
+description: "Composite kernel changelog/comment/code readability principles synthesized from 14 respected kernel developers. A companion to kernel-style.md for writing or reviewing kernel code/comments/changelogs; kernel-style is the primary voice, this is the broader \"what good looks like\" calibration."
 metadata: 
-  node_type: memory
   type: reference
-  originSessionId: 1b03c34b-c035-4437-8752-9061cdcb78a1
 ---
 # Kernel readability principles (composite)
 Synthesized from the commit styles of 14 widely-respected kernel developers (Hildenbrand, Gleixner, Weiner, Leitao, Arif, Woodhouse, Roedel, D. Williams, Zijlstra, Molnar, Gorman, Babka, Hocko, Butt). Per-developer detail with hashes: [exemplars](./exemplars.md). Primary voice for our patches stays [kernel-style](./kernel-style.md); where these 14 agree, treat it as a strong rule.
