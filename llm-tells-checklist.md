@@ -8,11 +8,11 @@ metadata:
 A final pass for any kernel changelog/comment/code, made before it is considered done. Each line means "delete or rewrite if present". Derived from what 14 respected kernel devs do and don't do ([kernel-readability-principles](./kernel-readability-principles.md)) and the kernel-style voice ([kernel-style](./kernel-style.md)).
 ## Verification — never invent facts
 This pass comes first, before the style fixes. [added 2026-07-09].
-- [ ] Every number, quote, date, performance result, commit hash, or technical claim in the changelog/comment/code has been read from a primary source this session (file, command output, git log, benchmark artifact, brain record) — not from memory, pattern completion, or plausible invention.
+- [ ] Every number, quote, date, performance result, commit hash, or technical claim in the changelog/comment/code has been read from a primary source this session (file on disk, command output, git log, benchmark artifact, crash dump, public bug tracker, mailing list archive) — not from memory, pattern completion, or plausible invention.
 - [ ] If you don't know a value, you said so explicitly or marked TODO — you did not fill in a plausible number.
 - [ ] Performance before/after tables match actual benchmark output pasted verbatim; no rounded or invented deltas.
 - [ ] Commit hashes cited exist in `git log` (check with `git show <hash>` or `git log --oneline --grep`); `Fixes:` tag points to real commit.
-- [ ] Links to lore, Phabricator diffs, tasks, SEVs resolve and point to the right artifact.
+- [ ] Links to lore.kernel.org, syzbot dashboard, public bug trackers, or patch series cover letters resolve and point to the right artifact — no private-only URLs that upstream reviewers cannot open.
 - [ ] Changelog scope matches actual diff stat — no claims about files not touched, no omitted major changes.
 - [ ] When drafting for upstream consumption especially, treat unverified prose as a bug on par with wrong code.
 ## Changelog
