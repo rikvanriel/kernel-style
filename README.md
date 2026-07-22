@@ -36,20 +36,22 @@ be reasonably reviewed by a person.
 
 Suggested reading order:
 
-1. [kernel-style.md](./kernel-style.md) — the rules. **Start here.**
-2. [kernel-readability-principles.md](./kernel-readability-principles.md) — the reasoning behind them.
-3. [llm-tells-checklist.md](./llm-tells-checklist.md) — generic-LLM tells to strip before sending.
-4. [exemplars.md](./exemplars.md) — annotated real-commit examples the rules come from.
-5. [patch-series.md](./patch-series.md) — how to structure a multi-patch series: one logical change per patch, bisectability, ordering, cover letters. Read when your change is more than one patch.
+1. [kernel-style.md](./kernel-style.md) — slim entry point with overview and code-structure rules. **Start here.**
+2. [changelog-style.md](./changelog-style.md) — detailed changelog and code-comment rules: subject, body structure, verbatim artifacts, paragraph caps, audience relevancy, trailers, comment density, LLM-slop contrasts. Load when drafting or reviewing a patch message.
+3. [kernel-readability-principles.md](./kernel-readability-principles.md) — the reasoning behind them.
+4. [llm-tells-checklist.md](./llm-tells-checklist.md) — generic-LLM tells to strip before sending.
+5. [exemplars.md](./exemplars.md) — annotated real-commit examples the rules come from.
+6. [patch-series.md](./patch-series.md) — how to structure a multi-patch series: one logical change per patch, bisectability, ordering, cover letters. Read when your change is more than one patch.
 
 The full guide is every `*.md` file in this directory; `kernel-style.md` is the
-entry point.
+entry point and points to `changelog-style.md` for details to keep token cost under 1000 words in the base file (split 2026-07-22).
 
 ## Files
 
 | File | Purpose |
 |---|---|
-| [kernel-style.md](./kernel-style.md) | Concrete style rules: subject lines, changelog structure, comment density, code structure, LLM-slop contrasts, verbatim anchors |
+| [kernel-style.md](./kernel-style.md) | Slim entry point: overview, factual integrity summary, code structure rules, pointers to detailed files (<1000 words) |
+| [changelog-style.md](./changelog-style.md) | Detailed changelog and code-comment style rules, audience relevancy rule, verbatim artifacts, paragraph caps, trailers, LLM-slop contrasts, anchors (~3500 words) |
 | [kernel-readability-principles.md](./kernel-readability-principles.md) | The why behind the rules |
 | [llm-tells-checklist.md](./llm-tells-checklist.md) | Checklist of generic-LLM tells to remove |
 | [exemplars.md](./exemplars.md) | Annotated real-commit examples |
