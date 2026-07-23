@@ -68,7 +68,7 @@ The full guide is every `*.md` file in this directory; total ~11.3k words across
 | [exemplars.md](./exemplars.md) | Annotated real-commit examples per developer voice | Mandatory on Phase 2 review before git commit; may load once in Phase 1 to calibrate specific voice but not every draft iteration; keep resident through Phase 3 | L |
 | [patch-series.md](./patch-series.md) | Multi-patch series structure, bisectability, ordering, cover letters | On demand only when >1 patch | M |
 
-*Size tiers are approximate to avoid drift: S <1k words, M 1–3k words, L >3k words. For exact token counts run ``wc -w`` or `wc -w` locally. Total across six guide files is ~11.3k words; resident per phase grows cumulatively ~2.5k → ~5.8k → ~9.2k words as documented in How to load.*
+*Size tiers are approximate to avoid drift: S <1k words, M 1–3k words, L >3k words. For exact word counts run `wc -w` locally, or `./scripts/measure-tokens.py` for approximate token estimate via chars÷4 heuristic (uses tiktoken cl100k_base if installed). Total across six guide files is ~11.3k words; resident per phase grows cumulatively ~2.5k → ~5.8k → ~9.2k words as documented in How to load.*
 
 ## Kernel Coding Style
 

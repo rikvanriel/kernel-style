@@ -93,10 +93,10 @@ Assisted-by: <PROVIDER>:<MODEL> [<TOOL> or <ROLE>]
 Signed-off-by: Rik van Riel <riel@surriel.com>
 ```
 
-* `Assisted-by` acknowledges non-trivial tool assistance following Documentation/process/coding-assistants.rst style adapted for docs repositories. Use public provider:model names that already appear in git history for this repository — scan `git log --grep Assisted-by` or `git log --format=%B | grep Assisted-by` before inventing new spelling. Current established forms in this repo history:
+* `Assisted-by` acknowledges non-trivial tool assistance following Documentation/process/coding-assistants.rst style adapted for docs repositories. Use public provider:model names that already appear in git history for this repository — scan `git log --grep Assisted-by` or `git log --format=%B | grep Assisted-by` before inventing new spelling. Current established forms in this repo history (verified via `git log --grep Assisted-by`):
   - `Assisted-by: Claude:claude-opus-4-8` — for Claude-family models
   - `Assisted-by: Meta:avocado-tester` — for Meta Avocado-family models
-  - `Assisted-by: Gemini:gemini-3-pro` — for Gemini models (example format, adjust version as needed)
+If using another provider model family, follow the same `PROVIDER:MODEL` pattern with capitalized provider name matching public model family naming — for example `Assisted-by: Gemini:gemini-3-pro` would be appropriate format for Gemini models, adjust version as needed, but verify no prior established spelling already exists in git history before inventing new variant.
   List only public model names, never internal-only tooling codenames. Multiple Assisted-by lines allowed, one per model, ordered by contribution weight. If changes are purely human-authored with trivial tool assistance (spelling, formatting, boilerplate completion), Assisted-by may be omitted, but when in doubt include it — omitting meaningful assistance may impede acceptance.
 
 * `Signed-off-by` certifies Developer Certificate of Origin per usual kernel process. For this repository Rik van Riel signs off as owner on every commit, whether human-authored or AI-assisted. An AI agent must never add its own Signed-off-by — only human SOB.
@@ -108,7 +108,7 @@ This rule exists so git history itself carries complete provenance without needi
 ### 6. Token budget measurement — soft not hard
 
 - Total hot-set token budget is tracked as informational, not as hard CI failure, to avoid perverse incentives to delete load-bearing calibration examples to hit a number.
-- Measure with real tokenizer, not words alone, because Message-IDs and commit hashes tokenize worse than prose. Use `wc -w` locally, or `./scripts/measure-tokens.py` when available, (planned) defaulting to tiktoken cl100k_base or equivalent, reporting total tokens for Phase 1 always-hot set, Phase 2 with exemplars, Phase 3 with changelog-style, and Phase 3 with patch-series.
+- Measure with real tokenizer, not words alone, because Message-IDs and commit hashes tokenize worse than prose. Use `wc -w` locally, or `./scripts/measure-tokens.py` (uses tiktoken cl100k_base when installed, else chars÷4 heuristic) cl100k_base or equivalent, reporting total tokens for Phase 1 always-hot set, Phase 2 with exemplars, Phase 3 with changelog-style, and Phase 3 with patch-series.
 - Soft targets (reassess quarterly):
   * Phase 1 always hot ≤5,000 tokens (≈3,000 words)
   * Phase 2 review with exemplars ≤11,000 tokens
@@ -119,8 +119,8 @@ This rule exists so git history itself carries complete provenance without needi
 
 ### 7. Hard denylist for internal identifiers
 
-- A denylist check should be run locally before committing, and may be enforced via CI in future if matched. Denylist is an explicit enumerated list, never a regex matching hex patterns (to avoid false positives on legitimate kernel commit hashes which saturate these files).
-- Initial denylist to be maintained in `.github/workflows/` or pre-commit hook config: case-insensitive fixed strings for known internal internal project codenames, internal host patterns, internal tool names that are not public, private bucket hash prefixes if known distinct from kernel hashes, and any other tokens Rik adds over time.
+- A denylist check should be run locally before committing, and may be enforced via CI in future per plan — for now run locally as manual review checklist item if matched. Denylist is an explicit enumerated list, never a regex matching hex patterns (to avoid false positives on legitimate kernel commit hashes which saturate these files).
+- Initial denylist to be maintained in `.github/workflows/` or pre-commit hook config: case-insensitive fixed strings for known internal project codenames, internal host patterns, internal tool names that are not public, private bucket hash prefixes if known distinct from kernel hashes, and any other tokens Rik adds over time.
 - This is the hard guard complementing the soft token budget. It catches the leak class that actually matters for a public repo.
 
 ### 8. Exemplar citation rule
@@ -142,7 +142,7 @@ This rule exists so git history itself carries complete provenance without needi
 
 1. Edit the relevant hot file(s) to update normative checkable rules, keeping within token budget philosophy (pattern hot, provenance cold, one source of truth, no duplication).
 2. Update or create corresponding *-rationale.md entry/entries in same commit or same PR stack, moving provenance metadata out of hot text into rationale with public LKML Message-IDs and public reviewer names only.
-3. Run `wc -w` locally, or `./scripts/measure-tokens.py` when available, to confirm hot-set token delta is reasonable and update README Files table size tiers if crossing S/M/L boundary (S <1k words, M 1–2.5k, L >3k).
+3. Run `wc -w` locally, or `./scripts/measure-tokens.py` , to confirm hot-set token delta is reasonable and update README Files table size tiers if crossing S/M/L boundary (S <1k words, M 1–2.5k, L >3k).
 4. Run denylist grep locally to confirm no internal identifiers introduced.
 5. Request adversarial review from independent reviewer before landing. Reviewer checklist must include: re-derive from source old vs new, confirm no enforceable meaning weakened, confirm rationale updated, confirm no internal identifiers leaked, confirm Files table and load order documentation still accurate.
 6. Commit with descriptive commit message following the repository's own style rules — what changed, why, how to verify, no internal codenames in commit text.
