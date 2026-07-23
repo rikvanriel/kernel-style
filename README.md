@@ -34,28 +34,41 @@ be reasonably reviewed by a person.
 
 ## How to load
 
-Suggested reading order:
+Three-phase workflow optimized for token cost. Each phase loads its specific files **in addition to** all previous phases — nothing unloads until the task is complete, so context is never lost between phases. Unload everything at end of task.
 
-1. [kernel-style.md](./kernel-style.md) — slim entry point with overview and code-structure rules. **Start here.**
-2. [changelog-style.md](./changelog-style.md) — detailed changelog and code-comment rules: subject, body structure, verbatim artifacts, paragraph caps, audience relevancy, trailers, comment density, LLM-slop contrasts. Load when drafting or reviewing a patch message.
-3. [kernel-readability-principles.md](./kernel-readability-principles.md) — the reasoning behind them.
-4. [llm-tells-checklist.md](./llm-tells-checklist.md) — generic-LLM tells to strip before sending.
-5. [exemplars.md](./exemplars.md) — annotated real-commit examples the rules come from.
-6. [patch-series.md](./patch-series.md) — how to structure a multi-patch series: one logical change per patch, bisectability, ordering, cover letters. Read when your change is more than one patch.
+**Phase 1 — draft code: always hot (~2,520 words ≈4,300 tokens)**
+1. [kernel-style.md](./kernel-style.md) — slim entry point: overview, factual integrity summary, code structure rules, 4 anchor verbatim quotes for base voice calibration. Load first, keep resident through all phases.
+2. [kernel-readability-principles.md](./kernel-readability-principles.md) — composite principles distilled from 14 kernel developers, checkable rules for changelog structure, comments, code decomposition, one-line signature per developer. Keep resident through all phases.
+3. [llm-tells-checklist.md](./llm-tells-checklist.md) — checklist of generic LLM tells to strip and verification pass for factual integrity. Run as final pass within Phase 1 draft, keep resident through Phase 2 review, re-run at review gate. Do not unload until task end.
 
-The full guide is every `*.md` file in this directory; `kernel-style.md` is the
-entry point and points to `changelog-style.md` for details to keep token cost under 1000 words in the base file (split 2026-07-22).
+**Phase 2 — review code before git commit: add mandatory exemplars (~3,255 words ≈5,700 tokens transient, once per patch)**
+4. Run `git diff` or `git diff --cached` to capture changed hunks. Keep Phase 1 files resident.
+5. Load [exemplars.md](./exemplars.md) mandatory at review gate. Compare diff against relevant developer section(s), adjust tone and comment density to match, then keep resident through Phase 3 — do not skip this load. Do not preload exemplars every draft iteration; once per patch at review is sufficient because kernel-readability-principles already synthesizes the 14 profiles hot and kernel-style.md carries 4 anchor quotes hot for base calibration. You may load exemplars once during Phase 1 only to calibrate a specific voice, but not every draft iteration.
+   * For syzkaller / crash reports / UAF with KASAN splat: load Dan Williams section for annotated splat pattern with numbered markers.
+   * For concurrency / locking / memory ordering races: load Gleixner section for CPU0/CPU1 ASCII race ladder, or Zijlstra section for partner-tagged barrier table.
+   * For performance numbers / benchmark tables: load Mel Gorman or Shakeel Butt section.
+   * Otherwise still load exemplars.md and focus on subsystem-closest developer section; do not rely on anchors alone — anchors give base voice, exemplars give per-developer calibration required at review gate.
+6. If reviewing code comments for density or style, pull [changelog-style.md](./changelog-style.md) early during Phase 2 as well — its §2 contains detailed comment rules beyond the summary in kernel-style.md.
+
+**Phase 3 — draft changelog: add mandatory changelog-style (~3,461 words ≈5,800 tokens transient)**
+7. Keep Phase 1 and Phase 2 files resident. Load [changelog-style.md](./changelog-style.md) mandatory when writing commit message. Follow problem→cause→fix→effect structure, verbatim artifacts rule, paragraph caps, audience relevancy, trailers. Unload all files at end of task after commit is written.
+8. If change is >1 patch, also load [patch-series.md](./patch-series.md) on demand during Phase 3 (~2,112 words ≈3,475 tokens transient) for multi-patch structure, bisectability, cover letters.
+
+The full guide is every `*.md` file in this directory; total ~11.3k words across all files, but resident set grows cumulatively by phase: ~2.5k words in Phase 1 draft, ~5.8k words in Phase 2 review, ~9.2k words in Phase 3 single-patch changelog draft (~11.3k with patch-series for multi-patch). `kernel-style.md` points to detail files to keep base token cost manageable.
+
 
 ## Files
 
-| File | Purpose |
-|---|---|
-| [kernel-style.md](./kernel-style.md) | Slim entry point: overview, factual integrity summary, code structure rules, pointers to detailed files (<1000 words) |
-| [changelog-style.md](./changelog-style.md) | Detailed changelog and code-comment style rules, audience relevancy rule, verbatim artifacts, paragraph caps, trailers, LLM-slop contrasts, anchors (~3500 words) |
-| [kernel-readability-principles.md](./kernel-readability-principles.md) | The why behind the rules |
-| [llm-tells-checklist.md](./llm-tells-checklist.md) | Checklist of generic-LLM tells to remove |
-| [exemplars.md](./exemplars.md) | Annotated real-commit examples |
-| [patch-series.md](./patch-series.md) | How to split a change into a bisectable, reviewable patch series |
+| File | Purpose | Load when | Size |
+|---|---|---|---|
+| [kernel-style.md](./kernel-style.md) | Slim entry point: overview, factual integrity summary, code structure rules, 4 anchor quotes, pointers to detail files | Always hot — Phase 1, Phase 2, Phase 3 — keep resident until task end | S |
+| [kernel-readability-principles.md](./kernel-readability-principles.md) | Composite principles distilled from 14 developers; why behind the rules; signature strengths per developer | Always hot — Phase 1, Phase 2, Phase 3 — keep resident until task end | S |
+| [llm-tells-checklist.md](./llm-tells-checklist.md) | Checklist of generic LLM tells to strip; final verification pass | Always hot — Phase 1, Phase 2, Phase 3 — keep resident until task end | S |
+| [changelog-style.md](./changelog-style.md) | Detailed changelog and code-comment style rules, audience relevancy, verbatim artifacts, paragraph caps, trailers, LLM-slop contrasts | Mandatory on Phase 3 draft changelog; pull early in Phase 2 review if checking comment density or message wording; keep resident until task end | L |
+| [exemplars.md](./exemplars.md) | Annotated real-commit examples per developer voice | Mandatory on Phase 2 review before git commit; may load once in Phase 1 to calibrate specific voice but not every draft iteration; keep resident through Phase 3 | L |
+| [patch-series.md](./patch-series.md) | Multi-patch series structure, bisectability, ordering, cover letters | On demand only when >1 patch | M |
+
+*Size tiers are approximate to avoid drift: S <1k words, M 1–3k words, L >3k words. For exact token counts run ``wc -w`` (planned) or `wc -w` locally. Total across six guide files is ~11.3k words; resident per phase grows cumulatively ~2.5k → ~5.8k → ~9.2k words as documented in How to load.*
 
 ## Kernel Coding Style
 
