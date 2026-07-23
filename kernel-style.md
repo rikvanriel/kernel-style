@@ -29,7 +29,7 @@ Full rules in [changelog-style.md §1](./changelog-style.md#1-changelog--commit-
 - Open body with problem in present tense; lead bugfix with real-world symptom not code mechanism.
 - Structure problem → cause → fix → effect, 3–6 short paragraphs, 90% ≤50 words, max 70, never beyond.
 - Explain WHY with data; paste raw kernel message verbatim for bugfixes — KASAN/WARNING/oops/Call Trace must appear as indented literal block, not paraphrase.
-- **Write for upstream audience, not internal tooling.** Strip internal agent nicknames, private bucket hashes without public syzbot link, internal branch names, internal hostnames, private build IDs, vendor ticket IDs. Use generic "syzkaller triggers", "KASAN reports", "tested on v6.15-rc1". Credit tools generically in prose and via trailers, not by instance name. [added 2026-07-22]
+- **Write for upstream audience, not internal tooling.** Strip internal agent nicknames, private bucket hashes without public syzbot link, internal branch names, internal hostnames, private build IDs, vendor ticket IDs. Use generic "syzkaller triggers", "KASAN reports", "tested on v6.15-rc1". Credit tools generically in prose and via trailers, not by instance name.
 - Trailers: Fixes: + Cc: stable paired, Reported-by, Link to lore, Assisted-by for non-trivial tool work.
 - Tone calm factual engineer-to-engineer; active voice; no marketing adjectives, no hedging filler, no em-dash sprinkling, no recap.
 
@@ -38,12 +38,12 @@ Full rules in [changelog-style.md §2](./changelog-style.md#2-code-comments). Hi
 
 - Comment WHY not WHAT — hardware, locking, ordering, lifetime, invariants.
 - Low density, purposeful, 1–2 lines typical, max 2–8 lines block, same 50-word paragraph cap.
-- No internal identifiers in source — no dashboards, bucket hashes, agent nicknames, private branches, hostnames, ticket IDs in `/* */`. Ever. Put operational provenance in commit message if needed, generic there too. [added 2026-07-22]
+- No internal identifiers in source — no dashboards, bucket hashes, agent nicknames, private branches, hostnames, ticket IDs in `/* */`. Ever. Put operational provenance in commit message if needed, generic there too.
 - One source of truth: document at definition not header prototype; cross-reference not duplicate.
 
 ## 3. Code structure
 - **Split out named helper when predicate gets multi-branch or reused.** Helpers small single-purpose. e.g. `should_flush_tlb()`.
-- **Cap function length: 80% ≤20 lines, hard max 40** unless unavoidable or splitting increases complexity. Signal to extract helper, not pad. [added 2026-07-15]
+- **Cap function length: 80% ≤20 lines, hard max 40** unless unavoidable or splitting increases complexity. Signal to extract helper, not pad.
 - **Rename rather than duplicate when refactoring toward finer locking.**
 - **Prefer minimal obvious fix over rework.** e.g. "This patch implements the obvious fix."
 - **Locals short conventional; helper names predicate or action.**

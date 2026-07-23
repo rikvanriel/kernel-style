@@ -1,13 +1,13 @@
 ---
 name: llm-tells-checklist
 description: "Final-pass checklist to strip LLM tells from kernel code, comments, and changelogs before finishing. A pass to make after drafting; it's the negative half of kernel-style.md / kernel-readability-principles.md."
-metadata: 
+metadata:
   type: reference
 ---
 # LLM-tells final pass
 A final pass for any kernel changelog/comment/code, made before it is considered done. Each line means "delete or rewrite if present". Derived from what 14 respected kernel devs do and don't do ([kernel-readability-principles](./kernel-readability-principles.md)) and the kernel-style voice ([kernel-style](./kernel-style.md)).
 ## Verification — never invent facts
-This pass comes first, before the style fixes. [added 2026-07-09].
+This pass comes first, before the style fixes.
 - [ ] Every number, quote, date, performance result, commit hash, or technical claim in the changelog/comment/code has been read from a primary source this session (file on disk, command output, git log, benchmark artifact, crash dump, public bug tracker, mailing list archive) — not from memory, pattern completion, or plausible invention.
 - [ ] If you don't know a value, you said so explicitly or marked TODO — you did not fill in a plausible number.
 - [ ] Performance before/after tables match actual benchmark output pasted verbatim; no rounded or invented deltas.

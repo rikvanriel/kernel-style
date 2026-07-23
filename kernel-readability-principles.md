@@ -1,7 +1,7 @@
 ---
 name: kernel-readability-principles
 description: "Composite kernel changelog/comment/code readability principles synthesized from 14 respected kernel developers. A companion to kernel-style.md for writing or reviewing kernel code/comments/changelogs; kernel-style is the primary voice, this is the broader \"what good looks like\" calibration."
-metadata: 
+metadata:
   type: reference
 ---
 # Kernel readability principles (composite)
