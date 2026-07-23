@@ -6,6 +6,29 @@ metadata:
 ---
 Per-developer profiles derived from real commits in ~/linux (cited hashes). Synthesis: [kernel-readability-principles](./kernel-readability-principles.md). Primary voice: [kernel-style](./kernel-style.md).
 ---
+# How to choose which developer section to focus on at review gate
+
+When you load this file during Phase 2 review (mandatory before git commit per README three-phase workflow), use `git diff` output to decide which per-developer profile to emphasize. Load the full file once, then focus your comparison on the section matching the bug class below; you do not need to re-read all 14 profiles every time, but you must load the file to access the routing table and chosen section — do not rely on anchors alone.
+
+**Per-subsystem / per-bug-class routing:**
+
+* **syzkaller crash report / UAF with KASAN splat / WARNING / oops with Call Trace** → **Dan Williams** section for annotated splat pattern with numbered markers. Also relevant: **Breno Leitao** for forensic KASAN walk-through with alternatives rejected; **David Woodhouse** for bug biography with exact call sequence and hardware context.
+
+* **concurrency / locking / memory ordering race / deadlock / RCU stall** → **Thomas Gleixner** section for two-column CPU0/CPU1 ASCII race ladder, or **Peter Zijlstra** section for partner-tagged barrier table with explicit pairing comments. Use Gleixner for race ladder, Zijlstra specifically for barrier pairing — do not conflate.
+
+* **performance numbers / benchmark tables / throughput / latency regression** → **Mel Gorman** section for before/after tables with %-deltas and counter breakdown explaining cause, or **Shakeel Butt** section for production fleet measurement with reproducible benchmark command and results table.
+
+* **locking / refcount / lifetime / invariant subtlety in code comments** → **David Hildenbrand** section for exact observable fallout enumeration (which /proc cgroup meminfo fields move and direction), plus **Joerg Roedel** for concise consequence-before-fix pattern.
+
+* **arguing design tradeoffs / pre-empting reviewer objections** → **Michal Hocko** section for naming obvious fix rejected and why and honest about misses; **Vlastimil Babka** section for numbered failure chain with explicit To-fix-Therefore pivot and scope limits honestly stated; **Johannes Weiner** section for disarming skeptic by naming fix's own remaining weaknesses.
+
+* **minimal surgical fix / mechanical cleanup separation** → **Ingo Molnar** section for No-change-in-functionality separate cleanup that realigns and copy-edits.
+
+* **Otherwise subsystem-closest developer section** — if none of the above bug classes fit cleanly, pick the developer whose subsystem history most closely matches files touched per per-developer subsystem lists at each profile header, compare draft tone against that profile, adjust. Do not rely on anchors alone.
+
+If in doubt after consulting routing table, load the full exemplars file and skim all 14 one-line signature strengths in kernel-readability-principles.md § Signature strength to steal from each to pick closest match, then deep-dive corresponding full profile here.
+
+---
 # David Hildenbrand kernel style
 Subsystem: mm-heavy (rmap, folios, memory hotplug, pfnmap), also s390/KVM, virtio-mem. ~1186 commits 2014-2025.
 ## Changelog

@@ -43,18 +43,14 @@ Three-phase workflow optimized for token cost. Each phase loads its specific fil
 
 **Phase 2 — review code before git commit: add mandatory exemplars (~3,255 words ≈5,700 tokens transient, once per patch)**
 4. Run `git diff` or `git diff --cached` to capture changed hunks. Keep Phase 1 files resident.
-5. Load [exemplars.md](./exemplars.md) mandatory at review gate. Compare diff against relevant developer section(s), adjust tone and comment density to match, then keep resident through Phase 3 — do not skip this load. Do not preload exemplars every draft iteration; once per patch at review is sufficient because kernel-readability-principles already synthesizes the 14 profiles hot and kernel-style.md carries 4 anchor quotes hot for base calibration. You may load exemplars once during Phase 1 only to calibrate a specific voice, but not every draft iteration.
-  * For syzkaller / crash reports / UAF with KASAN splat: load Dan Williams section for annotated splat pattern with numbered markers.
-  * For concurrency / locking / memory ordering races: load Gleixner section for CPU0/CPU1 ASCII race ladder, or Zijlstra section for partner-tagged barrier table.
-  * For performance numbers / benchmark tables: load Mel Gorman or Shakeel Butt section.
-  * Otherwise still load exemplars.md and focus on subsystem-closest developer section; do not rely on anchors alone — anchors give base voice, exemplars give per-developer calibration required at review gate.
+5. Load [exemplars.md](./exemplars.md) mandatory at review gate. See exemplars.md introduction for per-subsystem routing table mapping bug class to developer section to focus on. Compare diff against relevant developer section(s), adjust tone and comment density to match, then keep resident through Phase 3 — do not skip this load. Do not preload exemplars every draft iteration; once per patch at review is sufficient because kernel-readability-principles already synthesizes the 14 profiles hot and kernel-style.md carries 4 anchor quotes hot for base calibration. You may load exemplars once during Phase 1 only to calibrate a specific voice, but not every draft iteration.
 6. If reviewing code comments for density or style, pull [changelog-style.md](./changelog-style.md) early during Phase 2 as well — its §2 contains detailed comment rules beyond the summary in kernel-style.md.
 
 **Phase 3 — draft changelog: add mandatory changelog-style (~3,461 words ≈5,800 tokens transient)**
 7. Keep Phase 1 and Phase 2 files resident. Load [changelog-style.md](./changelog-style.md) mandatory when writing commit message. Follow problem→cause→fix→effect structure, verbatim artifacts rule, paragraph caps, audience relevancy, trailers. Unload all files at end of task after commit is written.
 8. If change is >1 patch, also load [patch-series.md](./patch-series.md) on demand during Phase 3 (~2,112 words ≈3,475 tokens transient) for multi-patch structure, bisectability, cover letters.
 
-The full guide is every `*.md` file in this directory; total ~11.3k words across all files, but resident set grows cumulatively by phase: ~2.5k words in Phase 1 draft, ~5.8k words in Phase 2 review, ~9.2k words in Phase 3 single-patch changelog draft (~11.3k with patch-series for multi-patch). `kernel-style.md` points to detail files to keep base token cost manageable.
+The full guide is every `*.md` file in this directory; total ~11.8k words across six guide files, but resident set grows cumulatively by phase: ~2.5k words in Phase 1 draft, ~6.2k words in Phase 2 review, ~9.7k words in Phase 3 single-patch changelog draft (~11.8k with patch-series for multi-patch). `kernel-style.md` points to detail files to keep base token cost manageable.
 
 
 ## Files
@@ -68,7 +64,7 @@ The full guide is every `*.md` file in this directory; total ~11.3k words across
 | [exemplars.md](./exemplars.md) | Annotated real-commit examples per developer voice | Mandatory on Phase 2 review before git commit; may load once in Phase 1 to calibrate specific voice but not every draft iteration; keep resident through Phase 3 | L |
 | [patch-series.md](./patch-series.md) | Multi-patch series structure, bisectability, ordering, cover letters | On demand only when >1 patch | M |
 
-*Size tiers are approximate to avoid drift: S <1k words, M 1–3k words, L >3k words. For exact word counts run `wc -w` locally, or `./scripts/measure-tokens.py` for approximate token estimate via chars÷4 heuristic (uses tiktoken cl100k_base if installed). Total across six guide files is ~11.3k words; resident per phase grows cumulatively ~2.5k → ~5.8k → ~9.2k words as documented in How to load.*
+*Size tiers are approximate to avoid drift: S <1k words, M 1–3k words, L >3k words. For exact word counts run `wc -w` locally, or `./scripts/measure-tokens.py` for approximate token estimate via chars÷4 heuristic (uses tiktoken cl100k_base if installed). Total across six guide files is ~11.8k words; resident per phase grows cumulatively ~2.5k → ~6.2k → ~9.7k words as documented in How to load.*
 
 ## Kernel Coding Style
 
@@ -91,3 +87,13 @@ together in the same place, knowledge is sure to be incomplete.
 
 If you and your LLM discover an area that could be improved, please
 try to make that improvement and open a pull request.
+
+For guidelines on modifying this style guide itself — three-tier file
+architecture, scope separation between normative hot files and rationale
+companions, adversarial review gate before landing norm changes,
+external-facing discipline for public repo, token budget methodology,
+commit trailer requirements (`Assisted-by:` and `Signed-off-by:`),
+exemplar citation rule, and rule ID cross-linking — see
+[CONTRIBUTING.md](./CONTRIBUTING.md). That document is written for both
+human contributors and LLMs proposing changes to the style guide, and is
+loaded on demand when modifying rules rather than when writing kernel patches.
