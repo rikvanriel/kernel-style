@@ -82,18 +82,4 @@ Run your Linux kernel patches by the scripts/checkpatch.pl script, which will ch
 
 ## Contributing
 
-This collection of previously unwritten, or at least not written
-together in the same place, knowledge is sure to be incomplete.
-
-If you and your LLM discover an area that could be improved, please
-try to make that improvement and open a pull request.
-
-For guidelines on modifying this style guide itself — three-tier file
-architecture, scope separation between normative hot files and rationale
-companions, adversarial review gate before landing norm changes,
-external-facing discipline for public repo, token budget methodology,
-commit trailer requirements (`Assisted-by:` and `Signed-off-by:`),
-exemplar citation rule, and rule ID cross-linking — see
-[CONTRIBUTING.md](./CONTRIBUTING.md). That document is written for both
-human contributors and LLMs proposing changes to the style guide, and is
-loaded on demand when modifying rules rather than when writing kernel patches.
+This collection of previously unwritten, or at least not written together in the same place, knowledge is sure to be incomplete. If you and your LLM discover an area that could be improved, please try to make that improvement and open a pull request. For guidelines on modifying this style guide itself see [CONTRIBUTING.md](./CONTRIBUTING.md).
