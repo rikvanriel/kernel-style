@@ -82,4 +82,6 @@ Run your Linux kernel patches by the scripts/checkpatch.pl script, which will ch
 
 ## Contributing
 
-This collection of previously unwritten, or at least not written together in the same place, knowledge is sure to be incomplete. If you and your LLM discover an area that could be improved, please try to make that improvement and open a pull request. For guidelines on modifying this style guide itself see [CONTRIBUTING.md](./CONTRIBUTING.md).
+This collection of previously unwritten, or at least not written together in the same place, knowledge is sure to be incomplete. If you and your LLM discover an area that could be improved, please try to make that improvement and open a pull request.
+
+For guidelines on modifying this style guide itself see [CONTRIBUTING.md](./CONTRIBUTING.md).
