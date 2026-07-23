@@ -44,10 +44,10 @@ Three-phase workflow optimized for token cost. Each phase loads its specific fil
 **Phase 2 — review code before git commit: add mandatory exemplars (~3,255 words ≈5,700 tokens transient, once per patch)**
 4. Run `git diff` or `git diff --cached` to capture changed hunks. Keep Phase 1 files resident.
 5. Load [exemplars.md](./exemplars.md) mandatory at review gate. Compare diff against relevant developer section(s), adjust tone and comment density to match, then keep resident through Phase 3 — do not skip this load. Do not preload exemplars every draft iteration; once per patch at review is sufficient because kernel-readability-principles already synthesizes the 14 profiles hot and kernel-style.md carries 4 anchor quotes hot for base calibration. You may load exemplars once during Phase 1 only to calibrate a specific voice, but not every draft iteration.
-   * For syzkaller / crash reports / UAF with KASAN splat: load Dan Williams section for annotated splat pattern with numbered markers.
-   * For concurrency / locking / memory ordering races: load Gleixner section for CPU0/CPU1 ASCII race ladder, or Zijlstra section for partner-tagged barrier table.
-   * For performance numbers / benchmark tables: load Mel Gorman or Shakeel Butt section.
-   * Otherwise still load exemplars.md and focus on subsystem-closest developer section; do not rely on anchors alone — anchors give base voice, exemplars give per-developer calibration required at review gate.
+  * For syzkaller / crash reports / UAF with KASAN splat: load Dan Williams section for annotated splat pattern with numbered markers.
+  * For concurrency / locking / memory ordering races: load Gleixner section for CPU0/CPU1 ASCII race ladder, or Zijlstra section for partner-tagged barrier table.
+  * For performance numbers / benchmark tables: load Mel Gorman or Shakeel Butt section.
+  * Otherwise still load exemplars.md and focus on subsystem-closest developer section; do not rely on anchors alone — anchors give base voice, exemplars give per-developer calibration required at review gate.
 6. If reviewing code comments for density or style, pull [changelog-style.md](./changelog-style.md) early during Phase 2 as well — its §2 contains detailed comment rules beyond the summary in kernel-style.md.
 
 **Phase 3 — draft changelog: add mandatory changelog-style (~3,461 words ≈5,800 tokens transient)**
@@ -68,7 +68,7 @@ The full guide is every `*.md` file in this directory; total ~11.3k words across
 | [exemplars.md](./exemplars.md) | Annotated real-commit examples per developer voice | Mandatory on Phase 2 review before git commit; may load once in Phase 1 to calibrate specific voice but not every draft iteration; keep resident through Phase 3 | L |
 | [patch-series.md](./patch-series.md) | Multi-patch series structure, bisectability, ordering, cover letters | On demand only when >1 patch | M |
 
-*Size tiers are approximate to avoid drift: S <1k words, M 1–3k words, L >3k words. For exact token counts run ``wc -w`` (planned) or `wc -w` locally. Total across six guide files is ~11.3k words; resident per phase grows cumulatively ~2.5k → ~5.8k → ~9.2k words as documented in How to load.*
+*Size tiers are approximate to avoid drift: S <1k words, M 1–3k words, L >3k words. For exact token counts run ``wc -w`` or `wc -w` locally. Total across six guide files is ~11.3k words; resident per phase grows cumulatively ~2.5k → ~5.8k → ~9.2k words as documented in How to load.*
 
 ## Kernel Coding Style
 

@@ -10,7 +10,7 @@ The goal is three properties simultaneously: well documented, efficient to load,
 
 Every file in this repository falls into exactly one tier. The tier determines how heavily it is optimized for token cost and what kind of content belongs there.
 
-**Tier 1 — normative hot.** Loaded every time an LLM drafts or reviews kernel code or changelogs. Must stay under soft token budget (see below). Contains only checkable imperatives and minimal concrete patterns necessary to disambiguate those imperatives. No history, no Message-IDs, no dates, no "[added by...]" / "[validation...]" inline provenance tags, no alternative phrasings considered and rejected, no per-developer anecdote expansion beyond what is in the file today.
+**Tier 1 — normative hot.** Loaded every time an LLM drafts or reviews kernel code or changelogs. Must stay under soft token budget (see below). Contains only checkable imperatives and minimal concrete patterns necessary to disambiguate those imperatives. No history, no Message-IDs, no dates, no "" / "" inline provenance tags, no alternative phrasings considered and rejected, no per-developer anecdote expansion beyond what is in the file today.
 
 Current Tier 1 files and approximate budgets (measured via `wc -w`; token estimate via chars÷4 or tiktoken cl100k_base — use `wc -w` locally for approximate word count; exact token measurement via tiktoken cl100k_base is recommended when `./scripts/measure-tokens.py` exists):
 
@@ -81,10 +81,31 @@ This repository is public on GitHub and intended for upstream kernel contributor
 
 - No internal codenames, no agent codenames, no internal tool nicknames, no private bucket hashes without public syzbot link, no internal branch names, no internal hostnames, no private build IDs, no vendor ticket IDs, no Phabricator or Jira IDs, no 1:1 chat shorthand, in file content **or commit messages**.
 - Write what changed, why, how to verify, what behavior or documentation quality is unlocked — in terms an external reviewer can act on without private context.
-- Inline rule provenance like "[added YYYY-MM-DD by X]" or "[validation YYYY-MM-DD: ...]" does not belong in normative hot files. Use git commit history for authorship and dates. If provenance aids understanding, put it in the matching *-rationale.md* file with public LKML Message-IDs and public reviewer names only — never internal codenames.
+- Inline rule provenance like "" or "" does not belong in normative hot files. Use git commit history for authorship and dates. If provenance aids understanding, put it in the matching *-rationale.md* file with public LKML Message-IDs and public reviewer names only — never internal codenames.
 - Before publishing a commit, re-read the diff as if you are an external reviewer with zero internal context. If anything requires private context to parse, rewrite it.
 
-### 5. Token budget measurement — soft not hard
+### 5. Commit trailers required
+
+Every commit to this repository must end with both trailers in this order, after a blank line separating them from the commit message body:
+
+```
+Assisted-by: <PROVIDER>:<MODEL> [<TOOL> or <ROLE>]
+Signed-off-by: Rik van Riel <riel@surriel.com>
+```
+
+* `Assisted-by` acknowledges non-trivial tool assistance following Documentation/process/coding-assistants.rst style adapted for docs repositories. Use public provider:model names that already appear in git history for this repository — scan `git log --grep Assisted-by` or `git log --format=%B | grep Assisted-by` before inventing new spelling. Current established forms in this repo history:
+  - `Assisted-by: Claude:claude-opus-4-8` — for Claude-family models
+  - `Assisted-by: Meta:avocado-tester` — for Meta Avocado-family models
+  - `Assisted-by: Gemini:gemini-3-pro` — for Gemini models (example format, adjust version as needed)
+  List only public model names, never internal-only tooling codenames. Multiple Assisted-by lines allowed, one per model, ordered by contribution weight. If changes are purely human-authored with trivial tool assistance (spelling, formatting, boilerplate completion), Assisted-by may be omitted, but when in doubt include it — omitting meaningful assistance may impede acceptance.
+
+* `Signed-off-by` certifies Developer Certificate of Origin per usual kernel process. For this repository Rik van Riel signs off as owner on every commit, whether human-authored or AI-assisted. An AI agent must never add its own Signed-off-by — only human SOB.
+
+* No other trailers are required unless fixing a prior commit (then add `Fixes:` with full 12-character commit hash and subject context in body, per kernel-style rules themselves).
+
+This rule exists so git history itself carries complete provenance without needing inline `` tags in normative markdown files — those tags belong in commit trailers, not in file content, per external-facing discipline above.
+
+### 6. Token budget measurement — soft not hard
 
 - Total hot-set token budget is tracked as informational, not as hard CI failure, to avoid perverse incentives to delete load-bearing calibration examples to hit a number.
 - Measure with real tokenizer, not words alone, because Message-IDs and commit hashes tokenize worse than prose. Use `wc -w` locally, or `./scripts/measure-tokens.py` when available, (planned) defaulting to tiktoken cl100k_base or equivalent, reporting total tokens for Phase 1 always-hot set, Phase 2 with exemplars, Phase 3 with changelog-style, and Phase 3 with patch-series.
@@ -94,22 +115,22 @@ This repository is public on GitHub and intended for upstream kernel contributor
   * Phase 3 single-patch with changelog-style ≤17,000 tokens
   * Phase 3 multi-patch with patch-series ≤21,000 tokens
   Current estimated baseline as of 2026-07-22 after initial provenance scrub: Phase1 ~4,330 tok, Phase2 ~10,030 tok, Phase3 single ~15,830 tok, Phase3 multi ~19,305 tok — already within targets except Phase3 single slightly over due to changelog-style size; slimming changelog-style per plan will bring it under.
-- CI reports token delta on PRs as informational comment, does not block merge. Human reviewer uses the number as signal, not gate.
+- Token delta should be reported in PR description as informational, does not block merge; future CI may automate this. Human reviewer uses the number as signal, not gate.
 
-### 6. Hard denylist for internal identifiers
+### 7. Hard denylist for internal identifiers
 
-- CI runs a denylist grep that **fails the PR** if matched. Denylist is an explicit enumerated list, never a regex matching hex patterns (to avoid false positives on legitimate kernel commit hashes which saturate these files).
+- A denylist check should be run locally before committing, and may be enforced via CI in future if matched. Denylist is an explicit enumerated list, never a regex matching hex patterns (to avoid false positives on legitimate kernel commit hashes which saturate these files).
 - Initial denylist to be maintained in `.github/workflows/` or pre-commit hook config: case-insensitive fixed strings for known internal internal project codenames, internal host patterns, internal tool names that are not public, private bucket hash prefixes if known distinct from kernel hashes, and any other tokens Rik adds over time.
 - This is the hard guard complementing the soft token budget. It catches the leak class that actually matters for a public repo.
 
-### 7. Exemplar citation rule
+### 8. Exemplar citation rule
 
 - Every new checkable rule added to hot or Tier 2 files must cite at least one real kernel commit hash verified via `git show` or `git log --oneline`, or be explicitly marked experimental with an expiry date for reassessment.
 - For calibration/stylistic rules, include at minimum one positive example hash and, where the rule corrects a common LLM default, include the negative contrast pattern as well (what not to do, ideally with reference to real AI-generated draft that got it wrong if available, phrased generically without internal attribution).
 - For mechanically checkable rules (no trailing period in subject, paragraph ≤50 words, Fixes: paired with Cc: stable), zero hashes needed — rule is self-verifying.
 - Hashes live in hot files only to the minimum needed for disambiguation; extended hash lists and per-developer anecdotes belong in exemplars.md or *-rationale.md companions.
 
-### 8. Rule ID system for cross-linking hot to cold
+### 9. Rule ID system for cross-linking hot to cold
 
 - Every normative rule in hot and Tier 2 files gets a stable ID comment or anchor that survives wording tweaks, e.g. `<!-- CL-14 -->` in markdown source near the rule, or a markdown heading anchor that is part of the API.
 - Corresponding entry in *-rationale.md uses same ID as heading or key, so an editor modifying a hot rule can find its rationale unambiguously and a CI script can check for orphan IDs in either direction.
