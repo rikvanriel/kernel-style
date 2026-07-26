@@ -10,7 +10,7 @@ The goal is three properties simultaneously: well documented, efficient to load,
 
 Every file in this repository falls into exactly one tier. The tier determines how heavily it is optimized for token cost and what kind of content belongs there.
 
-**Tier 1 — normative hot.** Loaded every time an LLM drafts or reviews kernel code or changelogs. Must stay under soft token budget (see below). Contains only checkable imperatives and minimal concrete patterns necessary to disambiguate those imperatives. No history, no Message-IDs, no dates, no "" / "" inline provenance tags, no alternative phrasings considered and rejected, no per-developer anecdote expansion beyond what is in the file today.
+**Tier 1 — normative hot.** Loaded every time an LLM drafts or reviews kernel code or changelogs. Must stay under soft token budget (see below). Contains only checkable imperatives and minimal concrete patterns necessary to disambiguate those imperatives. No history, no Message-IDs, no dates, no inline provenance tags naming who reviewed or approved a change, no alternative phrasings considered and rejected, no per-developer anecdote expansion beyond what is in the file today.
 
 Current Tier 1 files and approximate budgets (measured via `wc -w`; token estimate via chars÷4 or tiktoken cl100k_base — use `wc -w` locally for approximate word count; exact token measurement via tiktoken cl100k_base is recommended when `./scripts/measure-tokens.py` exists):
 
@@ -71,6 +71,7 @@ These apply to every pull request or local commit that touches normative content
   * Does any calibration example necessary to disambiguate a stylistic rule get dropped from hot path? (Pattern examples stay hot; provenance metadata moves cold.)
   * Does any carve-out, exemption, or edge-case note disappear?
   * Does new text introduce internal identifiers, internal project codenames, private hostnames, private bucket hashes, or 1:1 context not meaningful to an external reader?
+  * **The cut test:** for every sentence in the new text, ask "would cutting or shortening this phrase lose the reader anything they could act on?" If no, cut it or trim it down to whatever part does carry actionable content. Apply this literally to phrases like "adapted from X", "moved here per plan", "distilled for token efficiency", "generalizes patterns proven effective elsewhere" — these narrate the document's own drafting or adaptation history instead of telling the reader what to do or what a rule is, and they almost always fail the cut test. This is distinct from an internal-identifier leak: it isn't a confidentiality problem, it's dead weight the reader gets zero value from. Genuine provenance that helps the reader interpret a rule (e.g. "distilled from 14 kernel developers" naming what a rule is synthesized *from*) usually passes the cut test and should stay — the test is the same either way, judge each phrase on it rather than pattern-matching the example list.
   * Does Files table or load-order documentation still match actual file sizes and load triggers after the change?
 - A review returning "looks good" with no specific probing is not a review — ask for re-review with adversarial stance.
 - Genuine disagreement between author and reviewer escalates to repository owner (Rik van Riel) or third-party tiebreak, not resolved by author alone.
@@ -81,7 +82,7 @@ This repository is public on GitHub and intended for upstream kernel contributor
 
 - No internal codenames, no agent codenames, no internal tool nicknames, no private bucket hashes without public syzbot link, no internal branch names, no internal hostnames, no private build IDs, no vendor ticket IDs, no Phabricator or Jira IDs, no 1:1 chat shorthand, in file content **or commit messages**.
 - Write what changed, why, how to verify, what behavior or documentation quality is unlocked — in terms an external reviewer can act on without private context.
-- Inline rule provenance like "" or "" does not belong in normative hot files. Use git commit history for authorship and dates. If provenance aids understanding, put it in the matching *-rationale.md* file with public LKML Message-IDs and public reviewer names only — never internal codenames.
+- Inline rule provenance (who reviewed or approved a change, when) does not belong in normative hot files. Use git commit history for authorship and dates. If provenance aids understanding, put it in the matching *-rationale.md* file with public LKML Message-IDs and public reviewer names only — never internal codenames.
 - Before publishing a commit, re-read the diff as if you are an external reviewer with zero internal context. If anything requires private context to parse, rewrite it.
 
 ### 5. Commit trailers required
@@ -114,12 +115,12 @@ This rule exists so git history itself carries complete provenance without needi
   * Phase 2 review with exemplars ≤11,000 tokens
   * Phase 3 single-patch with changelog-style ≤17,000 tokens
   * Phase 3 multi-patch with patch-series ≤21,000 tokens
-  Current estimated baseline as of 2026-07-22 after initial provenance scrub: Phase1 ~4,330 tok, Phase2 ~10,030 tok, Phase3 single ~15,830 tok, Phase3 multi ~19,305 tok — already within targets except Phase3 single slightly over due to changelog-style size; slimming changelog-style per plan will bring it under.
+  Current estimated baseline as of 2026-07-22 after initial provenance scrub: Phase1 ~4,330 tok, Phase2 ~10,030 tok, Phase3 single ~15,830 tok, Phase3 multi ~19,305 tok — already within targets except Phase3 single slightly over due to changelog-style size; slimming changelog-style further will bring it under.
 - Token delta should be reported in PR description as informational, does not block merge; future CI may automate this. Human reviewer uses the number as signal, not gate.
 
 ### 7. Hard denylist for internal identifiers
 
-- A denylist check should be run locally before committing, and may be enforced via CI in future per plan — for now run locally as manual review checklist item if matched. Denylist is an explicit enumerated list, never a regex matching hex patterns (to avoid false positives on legitimate kernel commit hashes which saturate these files).
+- A denylist check should be run locally before committing, and may be enforced via CI in future — for now run locally as manual review checklist item if matched. Denylist is an explicit enumerated list, never a regex matching hex patterns (to avoid false positives on legitimate kernel commit hashes which saturate these files).
 - Initial denylist to be maintained in `.github/workflows/` or pre-commit hook config: case-insensitive fixed strings for known internal project codenames, internal host patterns, internal tool names that are not public, private bucket hash prefixes if known distinct from kernel hashes, and any other tokens Rik adds over time.
 - This is the hard guard complementing the soft token budget. It catches the leak class that actually matters for a public repo.
 
@@ -155,4 +156,4 @@ This repository is licensed under CC-BY-4.0 (see LICENSE). It is reference docum
 
 ---
 
-_Last updated: 2026-07-22 — initial version establishing three-tier architecture, adversarial review gate, token budget methodology, and external-facing discipline for public repo._
+_Last updated: 2026-07-26 — peer-review.md reframed so self-review by a single author is the default, mandatory gate (a second reviewer is an optional enhancement, not a prerequisite); added the cut test (§3) as a standing check against audience-irrelevant meta-commentary (phrases narrating a document's own drafting/adaptation history instead of giving the reader actionable content), applied repo-wide. Prior: 2026-07-22 — initial version establishing three-tier architecture, adversarial review gate, token budget methodology, and external-facing discipline for public repo._

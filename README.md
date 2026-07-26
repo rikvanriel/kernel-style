@@ -38,7 +38,7 @@ Three-phase workflow optimized for token cost. Each phase loads additional files
 
 **Phase 1 — draft code:** load [coding.md](./coding.md) always hot. See coding.md for Phase 1 checklist and upstream kernel coding style reference.
 
-**Phase 2 — review code before git commit:** load [review.md](./review.md) mandatory on top of Phase 1 base. See review.md for Phase 2 checklist, exemplars routing table reference, and peer-review process.
+**Phase 2 — review code before git commit:** load [review.md](./review.md) mandatory on top of Phase 1 base. See review.md for Phase 2 checklist, exemplars routing table reference, and the review process (self-review by default, a second reviewer when available).
 
 **Phase 3 — draft changelog:** load [commit.md](./commit.md) mandatory on top of Phase 1+2 base. See commit.md for Phase 3 checklist, changelog-style rules reference, and checkpatch verification.
 
@@ -50,13 +50,13 @@ Three-phase workflow optimized for token cost. Each phase loads additional files
 | [kernel-style.md](./kernel-style.md) | Slim entry point overview factual integrity summary code structure rules 4 anchor quotes pointers to detail files | Always hot Phase 1 Phase 2 Phase 3 — keep resident until task end | S |
 | [kernel-readability-principles.md](./kernel-readability-principles.md) | Composite principles distilled from 14 developers why behind rules signature strengths per developer | Always hot Phase 1 Phase 2 Phase 3 — keep resident until task end | S |
 | [llm-tells-checklist.md](./llm-tells-checklist.md) | Checklist generic LLM tells to strip final verification pass | Always hot Phase 1 Phase 2 Phase 3 — keep resident until task end | S |
-| [coding.md](./coding.md) | Phase 1 draft code checklist distilled from README, upstream kernel coding style reference moved here per plan | Always hot Phase 1 — keep resident until task end | S |
+| [coding.md](./coding.md) | Phase 1 draft code checklist distilled from README, upstream kernel coding style reference moved here from README | Always hot Phase 1 — keep resident until task end | S |
 | [review.md](./review.md) | Phase 2 review checklist distilled from README, exemplars routing reference, peer-review process reference | Mandatory Phase 2 review before git commit — keep resident until task end | M |
 | [commit.md](./commit.md) | Phase 3 draft changelog checklist distilled from README, changelog-style rules reference, checkpatch verification moved here | Mandatory Phase 3 draft changelog — keep resident until task end | M |
 | [changelog-style.md](./changelog-style.md) | Detailed changelog and code-comment style rules audience relevancy verbatim artifacts paragraph caps trailers LLM-slop contrasts | Mandatory Phase 3 draft changelog pull early Phase 2 review if checking comment density; keep resident until task end | L |
 | [exemplars.md](./exemplars.md) | Annotated real-commit examples per developer voice with per-subsystem routing table at top | Mandatory Phase 2 review before git commit may load once Phase 1 to calibrate specific voice but not every draft iteration; keep resident through Phase 3 | L |
 | [patch-series.md](./patch-series.md) | Multi-patch series structure bisectability ordering cover letters | On demand only when >1 patch | M |
-| [peer-review.md](./peer-review.md) | Peer review process specification with two mandatory questions what is wrong and is there materially better way adapted for public GitHub audience | Mandatory Phase 2 review and Phase 3 changelog drafting — keep resident until task end | M |
+| [peer-review.md](./peer-review.md) | Review process specification with two mandatory questions what is wrong and is there materially better way — self-review by default, escalating to a second reviewer when available | Mandatory Phase 2 review and Phase 3 changelog drafting — keep resident until task end | M |
 
 *Size tiers are approximate to avoid drift: S <1k words, M 1–3k words, L >3k words. For exact word counts run `wc -w` locally, or `./scripts/measure-tokens.py` for approximate token estimate. Resident set grows cumulatively by phase as files listed in How to load are added; patch-series adds cost only when needed.*
 

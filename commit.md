@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Phase 3 draft changelog checklist for Linux kernel style — mandatory changelog-style load when drafting commit message, trailers checklist, checkpatch reference moved here from README, distilled for token efficiency. Load during Phase 3 draft changelog on top of Phase 1 base and Phase 2 review base per README three-phase cumulative workflow.
+description: Phase 3 draft changelog checklist for Linux kernel style — mandatory changelog-style load when drafting commit message, trailers checklist, checkpatch reference moved here from README. Load during Phase 3 draft changelog on top of Phase 1 base and Phase 2 review base per README three-phase cumulative workflow.
 metadata:
  type: reference
 ---
@@ -18,7 +18,7 @@ Keep resident from Phase 1 and Phase 2:
 - `llm-tells-checklist.md` — final-pass checklist. Re-run at final verification gate before commit.
 - `coding.md` — Phase 1 draft checklist. Keep resident per cumulative model.
 - `review.md` — Phase 2 review checklist. Keep resident per cumulative model; cross-reference not duplicate here.
-- `exemplars.md` — annotated real-commit examples per developer voice. Keep resident through Phase 3 if loaded at Phase 2 review gate as mandatory per plan, which is typical workflow order. Unload at task end.
+- `exemplars.md` — annotated real-commit examples per developer voice. Keep resident through Phase 3 if already loaded at the Phase 2 review gate (the typical workflow order). Unload at task end.
 
 Add mandatory for Phase 3 draft changelog:
 - `changelog-style.md` — detailed changelog and code-comment style rules. Load mandatory when writing commit message. Follow problem→cause→fix→effect structure, verbatim artifacts rule, paragraph caps, audience relevancy, trailers, LLM-slop contrasts. Unload at task end after commit written.
@@ -44,7 +44,7 @@ On demand during Phase 3 if needed:
 
 4. Run llm-tells-checklist.md final pass against commit message draft to verify no LLM tells slipped in: no "This patch" opening, no vague justification without numbers, no marketing adjectives, no hedging filler, no recap paragraph, no em-dash sprinkling, no mixed verb tense, no over-bulleting, no templated Pros/Cons, no hyper-formal tone, no ornate verbs, no inferable boilerplate, no verbose operational detail, no internal identifiers, no invented facts numbers or commit hashes.
 
-5. Run checkpatch.pl script verification before posting patches — moved here from README.md per plan to keep README focused on index role while preserving checkpatch reference in Phase 3 final verification path where it is actually executed. Run `scripts/checkpatch.pl` script, which will check for other things that may need to be adjusted. No warnings expected with modified CONFIG options =y =m =n, and pass allnoconfig / allmodconfig and O=builddir per submit-checklist.rst.
+5. Run checkpatch.pl script verification before posting patches — moved here from README.md, run at this final-verification point since that's where it's actually executed. Run `scripts/checkpatch.pl` script, which will check for other things that may need to be adjusted. No warnings expected with modified CONFIG options =y =m =n, and pass allnoconfig / allmodconfig and O=builddir per submit-checklist.rst.
 
 6. Verify commit trailers per CONTRIBUTING.md §5 commit trailers required and per kernel-style repo history established forms: every commit must end with both trailers in order after blank line separating from commit message body:
  ```

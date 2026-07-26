@@ -1,6 +1,6 @@
 ---
 name: coding
-description: Phase 1 draft code checklist for Linux kernel style — concrete rules for code structure and comments distilled for hot-path token efficiency. Load during Phase 1 draft code per README three-phase cumulative workflow.
+description: Phase 1 draft code checklist for Linux kernel style — concrete rules for code structure and comments. Load during Phase 1 draft code per README three-phase cumulative workflow.
 metadata:
   type: reference
 ---
@@ -36,7 +36,7 @@ Do not load changelog-style.md yet — Phase 3 mandatory when drafting commit me
 
 ## Next phase pointer
 
-When code draft passes llm-tells checklist final pass, move to Phase 2 review — see review.md for Phase 2 mandatory checklist including exemplars.md mandatory load before git commit and peer-review process per peer-review.md and git diff comparison workflow. Do not proceed to git commit without completing Phase 2 review gate per CONTRIBUTING.md adversarial review requirement for norm changes to style guide itself and per kernel patch best practice of self-review before commit.
+When code draft passes llm-tells checklist final pass, move to Phase 2 review — see review.md for Phase 2 mandatory checklist including exemplars.md mandatory load before git commit and the review process per peer-review.md (self-review by default, a second reviewer when available) and git diff comparison workflow. Do not proceed to git commit without completing the Phase 2 self-review gate; CONTRIBUTING.md's adversarial review requirement is a separate, additional gate that applies specifically to changes to this style guide's own normative content.
 
 ---
 *Phase 1 draft code checklist for kernel-style guide per README three-phase workflow. For full rules see kernel-style.md §3 code structure, changelog-style.md §2 comments, llm-tells-checklist.md final pass.*

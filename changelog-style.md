@@ -1,12 +1,12 @@
 ---
 name: changelog-style
-description: Linux kernel changelog and code comment style — concrete rules for commit messages, trailers, verbatim artifacts, paragraph caps, audience relevancy, comment density, and LLM-slop contrasts. Split from kernel-style.md 2026-07-22 to keep token cost down; kernel-style.md now points here for details.
+description: Linux kernel changelog and code comment style — concrete rules for commit messages, trailers, verbatim artifacts, paragraph caps, audience relevancy, comment density, and LLM-slop contrasts.
 metadata:
   type: reference
 ---
 # Changelog and code comment style
 
-Concrete rules for Linux kernel commit messages and source comments, distilled from hand-written commits 2012–2026 and maintainer edits of AI drafts. This file was split from `kernel-style.md` on 2026-07-22 because that file grew past 3000 words; load this when you are writing or reviewing a patch changelog or adding comments. For code structure rules (helpers, function length, early return) see `kernel-style.md` §3. For principles behind the rules see `kernel-readability-principles.md`. For LLM tells checklist see `llm-tells-checklist.md`.
+Concrete rules for Linux kernel commit messages and source comments, distilled from hand-written commits 2012–2026 and maintainer edits of AI drafts. Load this when you are writing or reviewing a patch changelog or adding comments. For code structure rules (helpers, function length, early return) see `kernel-style.md` §3. For principles behind the rules see `kernel-readability-principles.md`. For LLM tells checklist see `llm-tells-checklist.md`.
 
 ## 0. Factual integrity — never invent, always verify
 Enforced before any other pass.
