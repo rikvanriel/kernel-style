@@ -22,15 +22,15 @@ in the Linux kernel. You need to read all your code, including AI generated
 code, with a skeptical eye, and ask yourself how it could be improved.
 
 These LLM instructions exist to make the AI-generated code easier for
-you to read, and hopefully reduce the number of changes that you need to make.
+you to read, and reduce the number of changes that you need to make.
 
-For anything except the most trivial changes, there will be things you need
+For anything except trivial changes, there will be things you need
 to change between the first draft, and what you eventually post upstream.
 
 If your project is larger than a single patch, you will want to plan your
 changes ahead of time, so each patch contains one logical change, and your
 functionality is introduced in small enough changes that your series can
-be reasonably reviewed by a person.
+be reviewed by a person.
 
 ## How to load
 
@@ -50,9 +50,9 @@ Three-phase workflow optimized for token cost. Each phase loads additional files
 | [kernel-style.md](./kernel-style.md) | Slim entry point overview factual integrity summary code structure rules 4 anchor quotes pointers to detail files | Always hot Phase 1 Phase 2 Phase 3 — keep resident until task end | S |
 | [kernel-readability-principles.md](./kernel-readability-principles.md) | Composite principles distilled from 14 developers why behind rules signature strengths per developer | Always hot Phase 1 Phase 2 Phase 3 — keep resident until task end | S |
 | [llm-tells-checklist.md](./llm-tells-checklist.md) | Checklist generic LLM tells to strip final verification pass | Always hot Phase 1 Phase 2 Phase 3 — keep resident until task end | S |
-| [coding.md](./coding.md) | Phase 1 draft code checklist distilled from README, upstream kernel coding style reference moved here from README | Always hot Phase 1 — keep resident until task end | S |
-| [review.md](./review.md) | Phase 2 review checklist distilled from README, exemplars routing reference, peer-review process reference | Mandatory Phase 2 review before git commit — keep resident until task end | M |
-| [commit.md](./commit.md) | Phase 3 draft changelog checklist distilled from README, changelog-style rules reference, checkpatch verification moved here | Mandatory Phase 3 draft changelog — keep resident until task end | M |
+| [coding.md](./coding.md) | Phase 1 draft code checklist (moved from README), upstream kernel coding style reference | Always hot Phase 1 — keep resident until task end | S |
+| [review.md](./review.md) | Phase 2 review checklist, exemplars routing reference, peer-review process reference | Mandatory Phase 2 review before git commit — keep resident until task end | M |
+| [commit.md](./commit.md) | Phase 3 draft changelog checklist (moved from README), changelog-style rules reference, checkpatch verification | Mandatory Phase 3 draft changelog — keep resident until task end | M |
 | [changelog-style.md](./changelog-style.md) | Detailed changelog and code-comment style rules audience relevancy verbatim artifacts paragraph caps trailers LLM-slop contrasts | Mandatory Phase 3 draft changelog pull early Phase 2 review if checking comment density; keep resident until task end | L |
 | [exemplars.md](./exemplars.md) | Annotated real-commit examples per developer voice with per-subsystem routing table at top | Mandatory Phase 2 review before git commit may load once Phase 1 to calibrate specific voice but not every draft iteration; keep resident through Phase 3 | L |
 | [patch-series.md](./patch-series.md) | Multi-patch series structure bisectability ordering cover letters | On demand only when >1 patch | M |
