@@ -79,6 +79,7 @@ These apply to both changelogs and comments; kept here because they are most oft
 - **No recap paragraphs** ("In summary, this change.."). End on the effect or a trailer.
 - **No mixed verb tense.** Describe the code's current behavior consistently in the present ("does", "turns"); don't drift into past ("did so") or call present code the "original" version. (validation 2026-07-01, David Hildenbrand review.)
 - **No vague justification.** Not "improves performance" — give a number, a workload, a before/after.
+- **No double negatives.** "not X and not Y," "doesn't not do Z," "not uncommon" force the reader to invert two negations to find the actual meaning. State the positive condition directly: "only when X" not "not unless X"; "still holds" not "doesn't not hold"; "rare" not "not uncommon."
 - **No over-explaining a simple point in a comment.** If the why fits in one line, don't write five; trim to the shortest form that still conveys the reasoning. Long-but-true comments are still slop. (validation 2026-07-01, Lorenzo review of the PG_has_hwpoisoned fix.)
 - **No templated Pros/Cons scaffolding.** Structure follows the actual problem→fix logic.
 - **No hyper-formal tone.** Plain, occasionally dry/wry; first person ("we", "I") appears naturally.

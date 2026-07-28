@@ -23,6 +23,7 @@ This pass comes first, before the style fixes.
 - [ ] Vague justification ("improves performance", "more efficient") — replace with a number, a named workload, a pasted splat/repro, or concrete reasoning. Don't invent numbers; if none, say so.
 - [ ] Marketing adjectives: robust, powerful, seamless, comprehensive, elegant, gracefully — cut.
 - [ ] Hedging filler: "Note that", "Importantly", "It's worth noting", "Keep in mind" — cut, state the fact directly.
+- [ ] Double negative ("not X, not Y", "doesn't not do Z") — rewrite as the positive condition it actually describes. Applies to comments too.
 - [ ] Recap/"In summary" paragraph at the end — cut; end on the effect or a trailer.
 - [ ] Bulleted lists where prose fits — convert to paragraphs; keep bullets only for genuinely parallel items or pasted data.
 - [ ] Em-dash sprinkling — prefer periods/parentheses.
