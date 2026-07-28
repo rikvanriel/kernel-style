@@ -7,6 +7,8 @@ metadata:
 # Structuring a patch series
 Concrete, checkable rules for splitting a change into a reviewable, bisectable series, grounded in the kernel process docs and verbatim upstream review. Related: [kernel-style](./kernel-style.md).
 
+When reviewing a submitted series against the rules below (bisectability, ordering, self-containment), use `/kseries` to review the whole git range commit-by-commit in one pass, rather than invoking `/kreview` once per patch by hand — `/kseries` is what actually checks cross-patch concerns like bisectability that a single-commit review can't see. It comes from the same external [review-prompts](https://github.com/masoncl/review-prompts) repo as `/kreview`; see [review-prompts.md](./review-prompts.md) for what it is and one-time setup.
+
 ## 1. One logical change per patch
 - **Separate each logical change into its own patch; group a single logical change spanning many files into one patch.** "Separate each **logical change** into a separate patch." and "if you make a single change to numerous files, group those changes into a single patch." (submitting-patches.rst, "Separate your changes").
 - **Split unlike work: bug fix vs. enhancement, API update vs. its first user.** "if your changes include both bug fixes and performance enhancements for a single driver, separate those changes into two or more patches. If your changes include an API update, and a new driver which uses that new API, separate those into two patches." (submitting-patches.rst, "Separate your changes").
