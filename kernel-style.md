@@ -18,9 +18,9 @@ Enforced before any other pass, in every file.
 - **If you don't know, say you don't know.** Mark TODO rather than fill plausible value.
 - **Verify every changelog claim against the diff.** Scope, files, symptom, root cause, fix, perf delta, Fixes hash, Link URL, Reported-by name.
 - **Paste raw artifacts verbatim; don't summarize from memory.** Oops, benchmark table, git log output — paste literal then explain.
-- **Treat unverified prose as a bug on par with wrong code.** Run `/kreview`, `checkpatch.pl`, `git log`, benchmark, then write.
+- **Treat unverified prose as a bug on par with wrong code.** Verify before you write it, don't fix it up after.
 
-For full checklist see changelog-style.md §0.
+For full checklist — including the pre-write verification tools (`/kreview`, `checkpatch.pl`, `git log`, benchmark) — see changelog-style.md §0.
 
 ## 1. Changelog / commit message — summary
 Full rules in [changelog-style.md §1](./changelog-style.md#1-changelog--commit-message). Highlights:

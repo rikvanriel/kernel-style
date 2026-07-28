@@ -14,7 +14,7 @@ Enforced before any other pass.
 - **If you don't know, say you don't know.** State the gap explicitly — "TODO: verify benchmark on physical system" or "need to check git log for exact hash" — rather than filling in a plausible value. A missing fact is recoverable; a fabricated fact is a trust breach.
 - **Verify every changelog claim against the diff.** Scope, files touched, symptom, root cause, fix mechanism, performance delta, `Fixes:` hash, `Link:` URL, `Reported-by:` name — each must be checked, not assumed.
 - **Paste raw artifacts verbatim; don't summarize from memory.** Oops splat, benchmark table, `git log --oneline`, `perf stat` output — paste the literal block you saw, then explain. Do not re-type numbers from recall.
-- **When drafting patches for upstream, treat unverified prose as a bug on par with wrong code.** Run `/kreview`, run `checkpatch.pl`, run `git log`, run the benchmark, then write.
+- **When drafting patches for upstream, treat unverified prose as a bug on par with wrong code.** Run `/kreview` (see [review-prompts.md](./review-prompts.md) for what this is and how to set it up), run `checkpatch.pl`, run `git log`, run the benchmark, then write.
 
 ## 1. Changelog / commit message
 - **Subject: `subsystem: lowercase imperative summary`.** Lowercase after the colon, no trailing period, imperative mood. (e.g. `1aa43598c03b` "mm: remove unnecessary calls to lru_add_drain"; `434247637c66` "bpf: use kvzmalloc to allocate BPF verifier environment"). x86/tip commits capitalize the first word per maintainer convention (e.g. `209954cbc7d0` "x86/mm/tlb: Update mm_cpumask lazily") — match the subsystem's existing style, not a fixed rule.

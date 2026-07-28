@@ -57,6 +57,7 @@ Three-phase workflow optimized for token cost. Each phase loads additional files
 | [exemplars.md](./exemplars.md) | Annotated real-commit examples per developer voice with per-subsystem routing table at top | Mandatory Phase 2 review before git commit may load once Phase 1 to calibrate specific voice but not every draft iteration; keep resident through Phase 3 | L |
 | [patch-series.md](./patch-series.md) | Multi-patch series structure bisectability ordering cover letters | On demand only when >1 patch | M |
 | [peer-review.md](./peer-review.md) | Review process specification with two mandatory questions what is wrong and is there materially better way — self-review by default, escalating to a second reviewer when available | Mandatory Phase 2 review and Phase 3 changelog drafting — keep resident until task end | M |
+| [review-prompts.md](./review-prompts.md) | What `/kreview` (referenced in kernel-style.md and changelog-style.md §0) actually is — an external slash command from the review-prompts repo, not built in — and one-time setup | On demand: read once to set up `/kreview`; not part of the phase-loading token budget | S |
 
 *Size tiers are approximate to avoid drift: S <1k words, M 1–3k words, L >3k words. For exact word counts run `wc -w` locally, or `./scripts/measure-tokens.py` for approximate token estimate. Resident set grows cumulatively by phase as files listed in How to load are added; patch-series adds cost only when needed.*
 
