@@ -26,6 +26,9 @@ Synthesized from the commit styles of 14 widely-respected kernel developers (Hil
 15. **Rename for accuracy as part of the change, and say why in the log.** (Babka `adj_next`→`adj_start` `1e76454f9361`, Weiner, Hocko)
 16. **One logical change per commit;** land big reworks as a sequence of small, individually-bisectable steps; keep mechanical cleanup ("No change in functionality:") separate from logic. (Ingo `2b4d5b2582de`, Babka, Breno)
 17. **Minimal surgical diffs:** drop dead params/locals the moment a refactor makes them derivable; no drive-by changes. (Babka `e1f42a577f63`, Breno, Hocko)
+18. **An unused parameter in freshly-written code is a design smell, not a harmless wart.** It usually means the function is being more conservative than necessary because the data to do the precise thing was available but unused. Wire it in to tighten the logic, or drop it.
+19. **Compute the general case first, then narrow a safety/special-case check to exactly the condition it protects.** Don't bail to a conservative fallback for every caller when only one sub-case needs the restriction — it silently degrades the common case.
+20. **Grep the tree for an existing helper before writing new logic for a familiar problem.** Reviewers expect reuse and will name the helper you missed instead of approving a reinvention.
 ## Anti-LLM-tells (none of the 14 do these) — see [llm-tells-checklist](./llm-tells-checklist.md)
 - Opening with "This patch …" and skipping the problem; leading with the fix.
 - Vague justification ("improves performance") instead of a number, workload, or pasted artifact.

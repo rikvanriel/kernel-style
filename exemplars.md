@@ -45,7 +45,7 @@ Subsystem: mm-heavy (rmap, folios, memory hotplug, pfnmap), also s390/KVM, virti
 - Tone: precise, conversational, occasionally wry bracketed asides and ":)".
 ## Comments
 - Heavy, high-quality kerneldoc on new helpers: summary, every @param, failure modes, "See <fn>() for details." (e.g. e1e1a3ae7f9f).
-- Inline comments explain WHY/contract, never restate (e.g. 003fde4492c8).
+- Inline comments explain WHY/contract, never restate (e.g. 003fde4492c8; Message-ID db3d2c65-31f2-4430-bef4-4dae76135eed@kernel.org, lore lkml).
 - Document imprecision explicitly so callers trust the result (e.g. 003fde4492c8).
 ## Code structure
 - Extract a well-named helper as a prep patch before the behavior change (e.g. 07b0303540e1).
