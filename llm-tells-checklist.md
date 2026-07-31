@@ -29,6 +29,7 @@ This pass comes first, before the style fixes.
 - [ ] Em-dash sprinkling — prefer periods/parentheses.
 - [ ] No `Fixes:`/`Link:`/`Reported-by:` where warranted — add.
 - [ ] Doesn't say what the change does NOT do / its limits — add if non-trivial.
+- [ ] A paragraph restates a code comment added or touched in the same diff, or two adjacent paragraphs describe sequential sub-steps of one change that a connective (since/so/then/--) could join under the paragraph cap — compress; run changelog-style.md's compression pass.
 ## Comments
 - [ ] Comment restates the code ("/* increment counter */") — delete.
 - [ ] Kerneldoc `/**` with `@param` on a static internal helper — downgrade to a plain `/*` why-block or delete; reserve `/**` for exported APIs.

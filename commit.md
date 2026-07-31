@@ -35,6 +35,7 @@ On demand during Phase 3 if needed:
  - Subject `subsystem: imperative summary`, lowercase after colon, no period, imperative mood. Check git history prevailing prefix via `git log --oneline -- <path>` to match existing subsystem token consistency.
  - Open body with problem in present tense; lead bugfix with real-world symptom not code mechanism.
  - Structure problem → cause → fix → effect as 3–6 short paragraphs, 90% ≤50 words, max 70, never beyond.
+ - Before finalizing, run changelog-style.md's compression pass: cut anything restating a code comment in the same diff, cut glosses of already-obvious values, join adjacent paragraphs that describe sequential sub-steps of one change when a connective fits them under the cap. Keep separate only paragraphs carrying a genuinely distinct, independently-verifiable claim.
  - Explain WHY with data; paste raw kernel message verbatim for bugfixes — KASAN/WARNING/oops/Call Trace as indented literal block, not paraphrase. Must appear, not optional.
  - Write for upstream audience not internal tooling per audience relevancy rule — strip internal agent nicknames, private bucket hashes without public syzbot link, internal branch names, hostnames, build IDs, vendor ticket IDs. Use generic phrasing.
  - Trailers: Fixes: + Cc: stable paired, Reported-by, Link to lore, Assisted-by for non-trivial tool work, Signed-off-by for DCO certification.
