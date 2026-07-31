@@ -25,11 +25,13 @@ Add mandatory for Phase 2 review:
 On demand during Phase 2 if needed:
 - `changelog-style.md` — pull early if reviewing code comments for density or style, or if reviewing proposed commit message structure before drafting final message. Its §2 contains detailed comment rules beyond summary in kernel-style.md; §1 contains detailed changelog rules beyond summary. Normally changelog-style loads in Phase 3, but an early pull in Phase 2 is fine if you need it there.
 
-Do not load patch-series.md yet — that is on demand only for multi-patch in Phase 3.
+- `patch-series.md` - pull early if any single source file has 200 or more changed lines, or a patch has 400 or more changed lines.
 
 ## Phase 2 mandatory steps
 
 1. Run `git diff` or `git diff --cached` to capture changed hunks. Keep Phase 1 files resident.
+
+1a. Check per-file changed-line counts from that diff. If any single source file has 200 or more changed lines, load patch-series.md and run its size-threshold examination before continuing: does this diff contain more than one logical change (mechanical conversion vs. behavioral change, code motion vs. rewrite, an already-handled case vs. a genuinely new algorithm, a helper vs. its first caller)? If yes, propose a split, then re-run the same four-tell examination on each proposed patch per patch-series.md's recursion step — do not stop at the first cut. Tell the human the resulting split — named patches, scope, dependency order — before proceeding; do not silently keep reviewing or commit the single large diff. If no, state explicitly why this is one atomic logical change despite its size, then continue to step 2.
 
 2. Load exemplars.md mandatory at review gate. See exemplars.md introduction "How to choose which developer section to focus on at review gate" for per-subsystem routing table mapping bug class to developer section to focus on. Compare diff against relevant developer section(s), adjust tone and comment density to match, then keep resident through Phase 3 — do not skip this load. Do not preload exemplars every draft iteration; once per patch at review is sufficient because kernel-readability-principles already synthesizes the 14 profiles hot and kernel-style.md carries 4 anchor quotes hot for base calibration. You may load exemplars once during Phase 1 only to calibrate specific voice, but not every draft iteration.
 
