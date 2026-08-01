@@ -18,6 +18,10 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 - <!-- R0-6 --> Treat unverified prose as bug — enforced via `/kreview` gate, checkpatch.pl, lint-changelog.py.
 
+- <!-- R0-7 --> Carried-forward text is re-asserted — from forward-porting a long mm series onto a newer base in 2026-08. Two independent failures, both inherited rather than invented: a changelog kept "zero WARN/BUG" stress figures and a "~14 hours bare-metal" claim measured on the *old* base, and a bugfix changelog described a `list_del` corruption splat that the author had never reproduced, both restated verbatim under the porting author's name. The 14-hour run had in fact missed a preempt-count underflow later found in that same code, so the retained claim was not merely stale but misleading. R0-1 ("never invent") did not fire because nothing was invented — the gap was that re-asserting someone else's unverified claim is indistinguishable, to a reader, from making it yourself. Enforcement: treat every retained sentence in a rewritten changelog as newly written for R0-8 purposes.
+
+- <!-- R0-8 --> Name the artifact per claim — companion mechanical step for R0-1/R0-3/R0-7. Same 2026-08 series: `checkpatch.pl` reported "no obvious style problems and is ready for submission" on a patch whose changelog asserted an unobserved splat, so the existing tool gate gave false assurance. Listing each empirical claim beside the artifact that produced it (log path, command output, `git show` hash) is checkable by a reviewer and by the author, where "did I verify this?" recalled from memory is not.
+
 - <!-- R0-3-CH --> Changelog-specific verification of scope/files/symptom/cause/fix/perf/Fixes/Link/Reported-by — subset of R0-3 focused on changelog.
 
 - <!-- R0-5-CH --> Artifact verbatim checks: git show exists, lore/syzbot link resolves.

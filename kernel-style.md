@@ -21,6 +21,8 @@ Enforced before any other pass, in every file. Canonical for R0 — other files 
 - <!-- R0-4 --> **A cover letter is a claim against every patch it summarizes, not just against itself.** Verify each number and mechanism claim against that specific patch's own current changelog and diff, never against memory of an earlier draft or a pre-split version of the series. Re-verify whenever any patch changes after the cover letter was first written.
 - <!-- R0-5 --> **Paste raw artifacts verbatim; don't summarize from memory.** Oops, benchmark table, git log output — paste literal then explain.
 - <!-- R0-6 --> **Treat unverified prose as a bug on par with wrong code.** Verify before you write it, don't fix it up after. Run `/kreview`, `checkpatch.pl`, `git log`, benchmark then write — see changelog-style.md §0 for tool pointers (non-canonical summary).
+- <!-- R0-7 --> **Text you carry forward, you re-assert.** Forward-porting, rebasing, or rewriting a changelog restates every claim in it under your name, on a new base. Re-verify each one against current sources or drop it; inherited claims are not exempt because someone else wrote them first.
+- <!-- R0-8 --> **Name the artifact behind every empirical claim before you commit.** For each number, symptom, splat, or test result in the changelog, be able to point at what produced it (log path, command output, hash). Delete or mark TODO anything you cannot.
 
 For full tool list — `/kreview` setup, `checkpatch.pl`, `git log`, benchmark — see [review-prompts.md](./review-prompts.md) and changelog-style.md §0 cross-ref.
 

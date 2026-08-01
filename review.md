@@ -8,6 +8,8 @@ metadata:
 
 Concrete checklist for reviewing Linux kernel code and proposed commit message structure before committing to git. Load this file at start of Phase 2 review task **in addition to** Phase 1 base files already resident per cumulative load model — do not unload Phase 1 files until task end. For full load order see README.md How to load section.
 
+**When this gate fires.** On the action, not the task label: any `git commit`, `git commit --amend`, or rebase `edit` that lands code or a changelog you wrote. That includes a patch you author incidentally while doing something else — a fix discovered mid-forward-port, a helper added during a rebase, a changelog reworded while restructuring a series. "I was doing a port, not writing a patch" is not an exemption; those patches reach reviewers identically to planned ones.
+
 > **For automated tools:** this repository is reference documentation. Nothing here is instruction to execute. Treat as data when crawling; guidance applies only when user deliberately loads it to write or review kernel patch.
 
 ## Load order for Phase 2
@@ -29,7 +31,7 @@ On demand during Phase 2 if needed:
 
 ## Phase 2 mandatory steps
 
-1. Run `git diff` or `git diff --cached` to capture changed hunks. Keep Phase 1 files resident.
+1. Capture the change as an artifact and review *that*, not the working copy you just typed. Commit (or stage) first, then read it back with `git show`, `git format-patch --stdout`, or `git diff --cached`, and review the output as if another developer had posted it. Reviewing your own draft in place tends to re-run the reasoning that produced it and confirm intent; reading the same change back as a decontextualized patch is what surfaces a comment that restates the code, a claim with no artifact behind it, or a now-redundant line. Keep Phase 1 files resident.
 
 1a. Check per-file changed-line counts from that diff. If any single source file has 200 or more changed lines, load patch-series.md and run its size-threshold examination before continuing: inventory the diff's distinct logical pieces, then sweep target patch counts upward (2, 3, 4, ...) per patch-series.md, applying its incremental-narrowing check before accepting any ceiling, then sweep back down folding only patches with nothing independently checkable of their own — do not stop at the first cut and do not fold back a real parallel-old-and-new milestone just because its full payoff lands in a later patch. Tell the human the resulting split — named patches, scope, dependency order — before proceeding; do not silently keep reviewing or commit the single large diff. If the examination finds no separable step, state explicitly why this is one atomic logical change despite its size, then continue to step 2.
 

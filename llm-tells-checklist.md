@@ -43,3 +43,4 @@ This pass comes first, before the style fixes.
 - [ ] Bare `{ }` scoping blocks — declare at function top.
 - [ ] goto-ladder where early returns read better — flatten.
 - [ ] Drive-by changes mixed with the logic change — split into a separate commit.
+- [ ] Pre-existing code the change has made redundant — a call the new code turns into a no-op, a branch nothing can reach now — remove it, and don't let a comment explain the dead step as if it were required. Sibling of the "comment now contradicted by the code change" item above.

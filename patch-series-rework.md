@@ -45,6 +45,8 @@ For a Sapling-managed tree, `sl absorb -n` (dry run) shows which commit each hun
 
 `Signed-off-by:`/`From:` are tracked per commit, not per hunk. When redistributing hunks across patches with different authors — forward-porting someone else's series, for instance — verify the resulting patch's authorship still accurately reflects who wrote what; git will not do this for you at hunk granularity.
 
+Changelogs carried through a rework are re-asserted, not merely copied (kernel-style.md §0 R0-7). A retained "tested for N hours", "zero warnings", or splat description was measured against the old base, before the conflicts you just resolved; on the new base it is an unverified claim published under the reworking author's name. Re-run it, restate what you actually ran, or cut it — and treat a test claim that predates a bug you fixed during the rework as actively misleading, since it demonstrably did not catch that bug.
+
 If an earlier patch already carries `Reviewed-by:`, `Acked-by:`, or `Tested-by:` from a public posting, squashing or grafting new hunks into it invalidates those tags per patch-series.md §7's "drop if a patch changed substantially" rule — drop them explicitly and note the loss in the rework's own changelog trailer area, rather than carrying them forward silently or letting them quietly disappear.
 
 ---
