@@ -9,15 +9,16 @@ A final pass for any kernel changelog/comment/code, made before it is considered
 
 This checklist is a blunt, self-administered pass over the same category of tell; `/kslop` (from [review-prompts](./review-prompts.md)) runs an automated version with a much higher confidence bar — cluster requirement, compared against neighbouring code, hard cap of 3 findings, phrased as questions rather than flat deletions. Use both: this checklist to fix things yourself before posting, `/kslop` as a second, noise-gated pass.
 ## Verification — never invent facts
+Canonical: kernel-style.md §0 (R0-1..R0-6) — this section is cross-ref checklist only per CONTRIBUTING §2.
 This pass comes first, before the style fixes.
-- [ ] Every number, quote, date, performance result, commit hash, or technical claim in the changelog/comment/code has been read from a primary source this session (file on disk, command output, git log, benchmark artifact, crash dump, public bug tracker, mailing list archive) — not from memory, pattern completion, or plausible invention.
-- [ ] If you don't know a value, you said so explicitly or marked TODO — you did not fill in a plausible number.
-- [ ] Performance before/after tables match actual benchmark output pasted verbatim; no rounded or invented deltas.
-- [ ] Commit hashes cited exist in `git log` (check with `git show <hash>` or `git log --oneline --grep`); `Fixes:` tag points to real commit.
-- [ ] Links to lore.kernel.org, syzbot dashboard, public bug trackers, or patch series cover letters resolve and point to the right artifact — no private-only URLs that upstream reviewers cannot open.
-- [ ] Changelog scope matches actual diff stat — no claims about files not touched, no omitted major changes.
-- [ ] If a cover letter accompanies the series, every number and every mechanism claim in it has been checked against the specific patch's own current changelog and diff — not copied from an earlier draft or a pre-split version of the series.
-- [ ] When drafting for upstream consumption especially, treat unverified prose as a bug on par with wrong code.
+- [ ] <!-- R0-1 --> Every number/quote/date/perf result/hash/claim sourced this session (file, git log/show, cmd output, benchmark, crash dump, public tracker, lore) — not memory. See R0-1 canonical.
+- [ ] <!-- R0-2 --> If you don't know, TODO — not plausible fill. See R0-2.
+- [ ] Performance before/after tables match actual benchmark output pasted verbatim; no rounded/invented deltas.
+- [ ] Commit hashes exist in `git log` (`git show <hash>`); `Fixes:` points to real commit.
+- [ ] Links to lore.kernel.org/syzbot/public tracker resolve — no private-only URLs.
+- [ ] Changelog scope matches diff stat — no claims about untouched files.
+- [ ] <!-- R0-4 --> If cover letter present, every number/mechanism claim checked against specific patch's own current changelog/diff — not earlier draft or pre-split version. Re-verify after any patch change. See R0-4.
+- [ ] <!-- R0-6 --> Treat unverified prose as bug on par with wrong code. Gate: `scripts/lint-changelog.py`, `/kreview`, `checkpatch.pl`.
 ## Changelog
 - [ ] Opens with "This patch …" or the fix — rewrite to open with the problem / current behavior in present tense.
 - [ ] Bugfix that doesn't lead with the real-world symptom (who hits it, what breaks) — add it; for a race, add an ASCII `CPU 1 / CPU 2` ladder.

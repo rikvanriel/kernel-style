@@ -37,13 +37,15 @@ Phase 0 checklist for this.
 
 Four-phase workflow optimized for token cost. Each phase loads additional files on top of previous phases — nothing unloads until task end, so context is never lost between phases.
 
+Machine helper: `./scripts/phases.py --phase N` prints exact cat commands + token counts. Use `--bug-class race|perf|syzkaller|...` in Phase 2 to load only chosen exemplars profile, saving ~5k tok.
+
 **Phase 0 — plan before writing code:** load [planning.md](./planning.md) on demand, before Phase 1, whenever the change is not a single self-evident edit — see planning.md "When this phase fires" for the concrete trigger. Splits the request into logical-change themes, checks for function-length/helper-extraction needs, converges the plan via self- or peer-review, and gets human sign-off before any code is written. Skipped entirely for trivial changes.
 
-**Phase 1 — draft code:** load [coding.md](./coding.md) always hot. See coding.md for Phase 1 checklist and upstream kernel coding style reference.
+**Phase 1 — draft code:** load [coding.md](./coding.md) always hot. See coding.md for Phase 1 checklist and upstream kernel coding style reference. On demand: [exemplars-routing.md](./exemplars-routing.md) tiny routing table (~180w) to pick profile without paying full exemplars.md cost.
 
-**Phase 2 — review code before git commit:** load [review.md](./review.md) mandatory on top of Phase 1 base. See review.md for Phase 2 checklist, exemplars routing table reference, and the review process (self-review by default, a second reviewer when available).
+**Phase 2 — review code before git commit:** load [review.md](./review.md) mandatory on top of Phase 1 base, plus [exemplars-routing.md](./exemplars-routing.md) mandatory to pick profile. See review.md for Phase 2 checklist, routing table reference (extracted from exemplars.md intro to save tokens), and the review process (self-review by default, a second reviewer when available). Full [exemplars.md](./exemplars.md) loaded on demand per routing pick, not the whole file every time.
 
-**Phase 3 — draft changelog:** load [commit.md](./commit.md) mandatory on top of Phase 1+2 base. See commit.md for Phase 3 checklist, changelog-style rules reference, and checkpatch verification.
+**Phase 3 — draft changelog:** load [commit.md](./commit.md) mandatory on top of Phase 1+2 base. See commit.md for Phase 3 checklist, changelog-style rules reference, and verification: `scripts/checkpatch.pl --strict`, `scripts/lint-changelog.py` (Rule IDs CL-10..CL-14, CL-12 caps), `scripts/verify-cover-letter.py` for multi-patch staleness.
 
 
 ## Files

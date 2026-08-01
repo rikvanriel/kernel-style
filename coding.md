@@ -18,13 +18,13 @@ Load this file at start of Phase 1 draft code task. If the change is non-trivial
 - This file `coding.md` — Phase 1 specific checklist below.
 
 On demand during Phase 1 only if needed:
-- `exemplars.md` may load once to calibrate specific voice, but not every draft iteration — mandatory load is at Phase 2 review gate. See exemplars.md introduction for per-subsystem routing table.
+- `exemplars-routing.md` (~180w tiny) may load once to pick developer profile to calibrate voice — see routing table, then load only that section from `exemplars.md` on demand. Full `exemplars.md` mandatory is at Phase 2 review gate, but routing file saves ~5k tok when you need only one profile. Full file `exemplars.md` (3,685w) is optional here.
 
 Do not load changelog-style.md yet — Phase 3 mandatory when drafting commit message. Do not load patch-series.md yet — on demand only for multi-patch in Phase 3.
 
 ## Phase 1 checklist — what to do while drafting code
 
-- Follow kernel-style.md §0 factual integrity checklist before any other pass: never invent facts numbers quotes dates performance results commit hashes or technical claims; if you don't know say you don't know mark TODO; verify every claim against diff and primary sources; paste raw artifacts verbatim not from memory; treat unverified prose as bug on par with wrong code. Full detail in kernel-style.md §0 and changelog-style.md §0 — those are single source of truth, do not duplicate here beyond this summary pointer.
+- <!-- R0-1..R0-6 --> Follow kernel-style.md §0 factual integrity checklist before any other pass (canonical R0-1..R0-6): never invent, TODO if unknown, verify claim vs diff, paste verbatim, treat unverified prose as bug. Full detail in kernel-style.md §0 — single source per CONTRIBUTING §2, changelog-style §0 cross-refs there.
 
 - Follow kernel-style.md §3 code structure rules for splitting helpers, function length caps, renaming vs duplicating, minimal obvious fix preference, locals naming, guard early return. Full detail and example hashes in kernel-style.md §3 — single source of truth, do not duplicate here beyond this pointer.
 

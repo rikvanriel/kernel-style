@@ -16,11 +16,11 @@ Current Tier 1 files and approximate budgets (measured via `wc -w`; token estima
 
 | File | Words | ~tokens | Role |
 |---|---|---|---|
-| kernel-style.md | ~990 | ~1,735 | slim entry point, factual integrity, code structure, 4 anchor quotes |
+| kernel-style.md | ~1,094 | ~1,911 | slim entry point, factual integrity R0-1..R0-6 canonical, code structure CS-10/11, 4 anchor quotes |
 | kernel-readability-principles.md | ~1,175 | ~2,060 | composite principles from 14 developers, signature strengths |
-| llm-tells-checklist.md | ~800 | ~1,210 | final-pass checklist, verification never-invent |
-| coding.md | ~700 | ~1,160 | Phase 1 draft-code checklist, upstream coding-style pointer |
-| **Phase 1 total always hot** | **~3,660** | **~6,165** | base resident set |
+| llm-tells-checklist.md | ~736 | ~1,141 | final-pass checklist, verification R0 cross-ref, LLM tells |
+| coding.md | ~686 | ~1,150 | Phase 1 draft-code checklist, upstream coding-style pointer, routing on-demand |
+| **Phase 1 total always hot** | **~3,691** | **~6,262** | base resident set (4 files) |
 
 These four stay resident through all phases of a patch-writing task. Nothing in Tier 1 may reference internal tooling, private hostnames, private bucket IDs, agent codenames, internal branch names, or vendor ticket IDs. Assume every character in Tier 1 is world-readable forever via public git history.
 
@@ -30,26 +30,33 @@ Current Tier 2 files:
 
 | File | Words | ~tokens | Load trigger |
 |---|---|---|---|
-| changelog-style.md | ~4,000 | ~6,610 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording |
-| exemplars.md | ~3,685 | ~6,445 | mandatory on Phase 2 review before git commit; may load once in Phase 1 to calibrate specific voice but not every draft iteration |
-| patch-series.md | ~3,145 | ~5,065 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
-| patch-series-rework.md | ~1,120 | ~1,780 | on demand, on top of patch-series.md, only when reworking an already-existing series rather than splitting fresh work |
-| peer-review.md | ~2,565 | ~4,065 | mandatory during Phase 0 plan convergence, Phase 2 review, and Phase 3 changelog drafting |
-| planning.md | ~1,060 | ~1,660 | on demand, before Phase 1, whenever the change is not a single self-evident edit |
-| review.md | ~1,235 | ~2,005 | mandatory Phase 2 review checklist |
-| commit.md | ~1,175 | ~2,015 | mandatory Phase 3 changelog checklist |
+| changelog-style.md | ~3,956 | ~6,584 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording. Contains Rule IDs CL-10..CL-28, CL-11, CL-12, CL-14 |
+| exemplars-routing.md | ~315 | ~560 | tiny routing table canonical per CONTRIBUTING §2 — mandatory Phase 2 to pick profile, on-demand Phase 1. Saves ~3,169w / ~5.6k tok vs full exemplars.md via `scripts/phases.py --extract` |
+| exemplars.md | ~3,435 | ~6,040 | full per-developer profiles — on-demand per routing pick via `scripts/phases.py --bug-class <class> --extract-only`, not whole file hot. Keep only chosen section resident to save tokens |
+| patch-series.md | ~3,144 | ~5,064 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
+| patch-series-rework.md | ~1,118 | ~1,781 | on demand, on top of patch-series.md, only when reworking an already-existing series rather than splitting fresh work |
+| peer-review.md | ~2,585 | ~4,097 | mandatory during Phase 0 plan convergence, Phase 2 review, and Phase 3 changelog drafting |
+| planning.md | ~1,166 | ~1,847 | on demand, before Phase 1, whenever the change is not a single self-evident edit |
+| review.md | ~1,272 | ~2,092 | mandatory Phase 2 review checklist, now uses routing file + lint-changelog machine helper |
+| commit.md | ~1,205 | ~2,098 | mandatory Phase 3 changelog checklist, now uses lint-changelog.py + verify-cover-letter.py |
 
 `review-prompts.md` (~275 words, ~530 tokens) is a special case: read once to set up `/kreview`/`/kseries`, not part of the recurring per-task load budget below.
 
-Phase 2 adds exemplars to Phase 1 base for total ~7,340 words (~12,610 tok) resident during review. Phase 3 adds changelog-style (and patch-series if needed) on top for total ~11,340 words (~19,220 tok) resident during changelog drafting (~14,390 words / ~24,110 tok with patch-series). This cumulative figure tracks the flagship content addition per phase (exemplars.md, changelog-style.md, patch-series.md) on top of the Tier 1 base; it does not additionally sum review.md/commit.md/peer-review.md, which are also resident at those phases — see the Tier 2 table above for their individual sizes. Unload all at task end. See README.md "How to load" for the full workflow with per-subsystem routing cues.
+Phase 2 now loads routing (315w) hot + keeps only chosen profile section (~266w for race example) resident instead of full exemplars.md, for total HOT ~7,871w (~13,021 tok) resident during review (was ~11,194w with full exemplars before dedup). Measured via `scripts/phases.py --phase 2`. Phase 2 on-demand full exemplars.md still available if needed. Phase 3 single with changelog-style: HOT ~13,024w (~21,693 tok) resident during changelog drafting (~16,168w / ~26,757 tok with patch-series on-demand). This figure tracks flagship content per phase on top of Tier 1 base, does not additionally sum optional files separately — see Tier 2 table above. Use `scripts/phases.py --phase N --bug-class <class> --extract-only` to load only one profile and save ~3,169w / ~5.6k tok. Unload all at task end. See README.md "How to load" and `scripts/phases.py`.
 
 **Tier 3 — rationale and history. Never loaded by default.** Load only when modifying the style guide itself, to understand intent before changing a rule.
 
-Planned files (to be created alongside slimming work, not yet present for all):
-- `changelog-style-rationale.md` — Message-IDs, dates, public LKML reviewer names, alternative phrasings considered and rejected, per-rule history, validation notes from public reviews.
+**Tier 3 existing / planned:**
+
+Existing:
+- `changelog-style-rationale.md` (~1,117w) — per-rule history for R0-1..R0-6, CL-10..CL-28, CC-10, CS-10. Message-IDs, dates, public LKML reviewer names, alternative phrasings rejected, validation notes. Created to satisfy CONTRIBUTING §1 for Rule IDs added in hot files (addresses review feedback #1). Contains matching entries for every new ID, so manual orphan check passes; automated check via `scripts/check-orphan-ids.py` (0 orphans both directions), to be wired to CI.
+- `kernel-readability-rationale.md` (~345w) — per-developer detail expansion, different scheme (## Principle N headings) — predates Rule ID system.
+- `exemplars.md` already serves as reference detail; now straddles Tier 2/Tier 3: full file Tier 2 on-demand, but individual extracted sections via `phases.py --extract` behave as Tier 3 granularity.
+
+Planned (to be created alongside further slimming):
 - `patch-series-rationale.md` — full lore Message-ID quotes, submitting-patches.rst excerpts that support each rule, historical evolution.
-- `kernel-readability-rationale.md` — per-developer detail expansion beyond the one-line signatures in principles.md.
-- `exemplars.md` already serves as reference detail today; after move to on-demand it straddles Tier 2 and Tier 3 depending on use case.
+
+Rationale files are public-audience too — no internal identifiers.
 
 Rationale files are public-audience too — no internal identifiers, no internal project codenames, no private process narration. Internal audit trail (who reviewed whom internally, which internal tool found what) belongs in git commit trailers or in private notes, never in any public .md file at any tier.
 
@@ -141,9 +148,17 @@ This rule exists so git history itself carries complete provenance without needi
 
 ### 9. Rule ID system for cross-linking hot to cold
 
-- Every normative rule in hot and Tier 2 files gets a stable ID comment or anchor that survives wording tweaks, e.g. `<!-- CL-14 -->` in markdown source near the rule, or a markdown heading anchor that is part of the API.
-- Corresponding entry in *-rationale.md uses same ID as heading or key, so an editor modifying a hot rule can find its rationale unambiguously and a CI script can check for orphan IDs in either direction.
-- CI cross-check: fail PR if a hot rule ID has no matching cold rationale entry, or cold rationale entry has no matching hot rule (orphan after deletion). This enforces presence, not quality — quality remains human adversarial review responsibility.
+ID system is now **live** in hot files (not just planned). Namespace:
+- `R0-1..R0-6` — factual integrity canonical (kernel-style.md §0). Plus `R0-3-CH`, `R0-5-CH`, `R0-6-CH` changelog-specific subset.
+- `CL-10..CL-28` — changelog / commit message rules (CL-10 subject, CL-11 Fixes+Cc, CL-12 caps, CL-14 audience/internal-IDs, CL-20..28 body structure)
+- `CC-10..CC-14` — code comment rules (CC-10 WHY not WHAT, CC-14 no internal IDs)
+- `CS-10..CS-11` — code structure (CS-10 helper extraction, CS-11 function length cap)
+- `CL-13` / `CC-13` — anti-LLM-tells (hedging, marketing, em-dash, recap) — full list in llm-tells-checklist.md, summary in changelog-style.md §3
+
+- Every normative rule in hot and Tier 2 files gets a stable ID comment `<!-- ID -->` near the rule that survives wording tweaks, or heading anchor that is part of API.
+- Corresponding entry in `changelog-style-rationale.md` (or other *-rationale.md) uses same ID as heading or key, so editor modifying hot rule can find its rationale unambiguously and CI can check orphan IDs both directions.
+- CI cross-check: fail PR if hot rule ID has no matching cold rationale entry, or cold rationale entry has no matching hot rule (orphan after deletion). Enforced via `scripts/check-orphan-ids.py --strict` (run manually; to be wired to CI). This enforces presence, not quality — quality remains adversarial review responsibility. Verified: 29 IDs hot ↔ rationale, zero orphans (see review round 2).
+- New files: `exemplars-routing.md` is canonical routing table per §2 one-source-of-truth (was duplicated in exemplars.md intro before dedup). `scripts/phases.py --extract <Developer>` implements real section extraction to make token-saving claim verifiable (fixes feedback #2). `scripts/lint-changelog.py` enforces mechanically checkable subset. `scripts/verify-cover-letter.py` now does real number-by-number diffing per R0-4 (fixes feedback #3, adds `us`/`µs` units).
 
 ---
 
@@ -164,4 +179,4 @@ This repository is licensed under CC-BY-4.0 (see LICENSE). It is reference docum
 
 ---
 
-_Last updated: 2026-07-26 — peer-review.md reframed so self-review by a single author is the default, mandatory gate (a second reviewer is an optional enhancement, not a prerequisite); added the cut test (§3) as a standing check against audience-irrelevant meta-commentary (phrases narrating a document's own drafting/adaptation history instead of giving the reader actionable content), applied repo-wide. Prior: 2026-07-22 — initial version establishing three-tier architecture, adversarial review gate, token budget methodology, and external-facing discipline for public repo._
+_Last updated: 2026-08-01 — fixes per MyClaw Macaroni review: (1) created changelog-style-rationale.md with matching entries for R0-/CL-/CC-/CS- IDs, (2) implemented real per-profile extraction in phases.py --extract + deduped routing table out of exemplars.md intro, (3) fixed verify-cover-letter.py to include us/µs units and do real number diffing not just shape check, (4) relabeled ai-edits internal drafts as INTERNAL DRAFT distinct from EXTERNAL, (5) updated Tier 1/2 tables and §9 to document live ID namespace and new files. Prior: 2026-07-26 — peer-review.md reframed so self-review by a single author is the default, mandatory gate (a second reviewer is an optional enhancement, not a prerequisite); added the cut test (§3) as a standing check against audience-irrelevant meta-commentary (phrases narrating a document's own drafting/adaptation history instead of giving the reader actionable content), applied repo-wide. Prior: 2026-07-22 — initial version establishing three-tier architecture, adversarial review gate, token budget methodology, and external-facing discipline for public repo._
