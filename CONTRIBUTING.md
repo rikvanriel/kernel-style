@@ -32,6 +32,7 @@ Current Tier 2 files:
 | changelog-style.md | ~3,460 | ~5,800 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording |
 | exemplars.md | ~3,255 | ~5,700 | mandatory on Phase 2 review before git commit; may load once in Phase 1 to calibrate specific voice but not every draft iteration |
 | patch-series.md | ~2,110 | ~3,475 | on demand only when change is >1 patch |
+| planning.md | ~1,060 | ~1,770 | on demand, before Phase 1, whenever the change is not a single self-evident edit |
 
 Phase 2 adds exemplars to Phase 1 base for total ~5,780 words resident during review. Phase 3 adds changelog-style (and patch-series if needed) on top for total ~9,240 words resident during changelog drafting (~11,350 with patch-series). Unload all at task end. See README.md "How to load" for full three-phase workflow with per-subsystem routing cues.
 

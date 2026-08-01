@@ -30,11 +30,14 @@ to change between the first draft, and what you eventually post upstream.
 If your project is larger than a single patch, you will want to plan your
 changes ahead of time, so each patch contains one logical change, and your
 functionality is introduced in small enough changes that your series can
-be reviewed by a person.
+be reviewed by a person. See [planning.md](./planning.md) for a concrete
+Phase 0 checklist for this.
 
 ## How to load
 
-Three-phase workflow optimized for token cost. Each phase loads additional files on top of previous phases — nothing unloads until task end, so context is never lost between phases.
+Four-phase workflow optimized for token cost. Each phase loads additional files on top of previous phases — nothing unloads until task end, so context is never lost between phases.
+
+**Phase 0 — plan before writing code:** load [planning.md](./planning.md) on demand, before Phase 1, whenever the change is not a single self-evident edit — see planning.md "When this phase fires" for the concrete trigger. Splits the request into logical-change themes, checks for function-length/helper-extraction needs, converges the plan via self- or peer-review, and gets human sign-off before any code is written. Skipped entirely for trivial changes.
 
 **Phase 1 — draft code:** load [coding.md](./coding.md) always hot. See coding.md for Phase 1 checklist and upstream kernel coding style reference.
 
@@ -56,7 +59,8 @@ Three-phase workflow optimized for token cost. Each phase loads additional files
 | [changelog-style.md](./changelog-style.md) | Detailed changelog and code-comment style rules audience relevancy verbatim artifacts paragraph caps trailers LLM-slop contrasts | Mandatory Phase 3 draft changelog pull early Phase 2 review if checking comment density; keep resident until task end | L |
 | [exemplars.md](./exemplars.md) | Annotated real-commit examples per developer voice with per-subsystem routing table at top | Mandatory Phase 2 review before git commit may load once Phase 1 to calibrate specific voice but not every draft iteration; keep resident through Phase 3 | L |
 | [patch-series.md](./patch-series.md) | Multi-patch series structure bisectability ordering cover letters | On demand only when >1 patch | M |
-| [peer-review.md](./peer-review.md) | Review process specification with two mandatory questions what is wrong and is there materially better way — self-review by default, escalating to a second reviewer when available | Mandatory Phase 2 review and Phase 3 changelog drafting — keep resident until task end | M |
+| [peer-review.md](./peer-review.md) | Review process specification with two mandatory questions what is wrong and is there materially better way — self-review by default, escalating to a second reviewer when available | Mandatory Phase 0 plan convergence, Phase 2 review, and Phase 3 changelog drafting — keep resident until task end | M |
+| [planning.md](./planning.md) | Phase 0 pre-implementation planning: split into logical-change themes, function-length/helper-extraction check, plan convergence via self- or peer-review, human sign-off before coding | On demand, before Phase 1, whenever the change is not a single self-evident edit | M |
 | [review-prompts.md](./review-prompts.md) | What `/kreview` (referenced in kernel-style.md and changelog-style.md §0) actually is — an external slash command from the review-prompts repo, not built in — and one-time setup | On demand: read once to set up `/kreview`; not part of the phase-loading token budget | S |
 
 *Size tiers are approximate to avoid drift: S <1k words, M 1–3k words, L >3k words. For exact word counts run `wc -w` locally, or `./scripts/measure-tokens.py` for approximate token estimate. Resident set grows cumulatively by phase as files listed in How to load are added; patch-series adds cost only when needed.*

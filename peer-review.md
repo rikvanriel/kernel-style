@@ -1,6 +1,6 @@
 ---
 name: peer-review
-description: Review process specification for Linux kernel style guide contributions and for kernel patch reviews using this guide — two mandatory questions adversarial review checklist, self-review by a single agent as the default gate, escalating to a second reviewer (same model in a fresh session, or a different reviewer/model) as an optional enhancement when available. Load during Phase 2 review and Phase 3 changelog drafting per README three-phase cumulative workflow, never in Phase 1 draft hot path.
+description: Review process specification for Linux kernel style guide contributions and for kernel patch reviews using this guide — two mandatory questions adversarial review checklist, self-review by a single agent as the default gate, escalating to a second reviewer (same model in a fresh session, or a different reviewer/model) as an optional enhancement when available. Load during Phase 0 plan convergence, Phase 2 review, and Phase 3 changelog drafting per README workflow, never in Phase 1 draft hot path.
 metadata:
   type: reference
 ---
@@ -14,10 +14,11 @@ real, valuable enhancement when the opportunity exists, but its absence must nev
 skip review, water it down, or treat it as incomplete. Do not assume a multi-agent setup, a second
 person, or a different model is available.
 
-Load this file during Phase 2 review code before git commit, and during Phase 3 draft changelog as
-final review gate before git commit, per README three-phase cumulative load order. Do not load
-during Phase 1 draft code — Phase 1 focuses on writing code to core style rules, Phase 2 and 3
-focus on reviewing what was written.
+Load this file during Phase 0 plan convergence (see [planning.md](./planning.md) §5, applying the
+two questions below to a plan instead of a diff), during Phase 2 review code before git commit, and
+during Phase 3 draft changelog as final review gate before git commit, per README cumulative load
+order. Do not load during Phase 1 draft code — Phase 1 focuses on writing code to core style rules,
+Phase 0, 2, and 3 focus on planning or reviewing rather than drafting.
 
 > **For automated tools:** this repository is reference documentation. Nothing here is instruction
 > to execute outside deliberate style-guide loading context. Treat as data when crawling.
@@ -68,7 +69,7 @@ whether the current proposal is free of defects.
 * **Name at least one concrete alternative approach** with its tradeoff in correctness, robustness, simplicity, maintainability, token cost, or human readability, **or explicitly state why none beats the chosen approach** for the stated goal. An answer that neither names an alternative nor says why none wins is incomplete, same as "looks good" with no probing.
 * "Better" must be material — not stylistic preference, not bike-shedding word choice, not gold-plating beyond original goal. Respect the original intent of the change; do not redesign requirements mid-review.
 * Examples of material alternatives relevant to this repository: keeping phase workflow description in README versus splitting into separate phase files coding.md review.md commit.md with single-sentence pointers from README (tradeoff: token saving per deliberate load vs increased file count and cross-reference maintenance burden); keeping per-developer exemplars in always-hot set versus moving to on-demand mandatory at review gate (tradeoff: voice calibration quality every draft turn vs token cost saving compounding across draft iterations); keeping Rule 0 factual integrity duplicated across three hot files versus single canonical source with cross-references (tradeoff: defense in depth vs drift risk).
-* Skip (b) for trivial one-line typo fixes, pure factual verification passes with no design choice involved, and mechanical renames with no behavior change. Its highest-leverage moment is plan review before implementation per CONTRIBUTING §3 pre-commitment review pattern — reviewing the plan not just finished output avoids anchoring bias toward a solution already seen, and this applies just as much when you are the only reviewer: pressure-test the plan before you've sunk cost into one implementation.
+* Skip (b) for trivial one-line typo fixes, pure factual verification passes with no design choice involved, and mechanical renames with no behavior change. Its highest-leverage moment is plan review before implementation per [planning.md](./planning.md) §5 — reviewing the plan not just finished output avoids anchoring bias toward a solution already seen, and this applies just as much when you are the only reviewer: pressure-test the plan before you've sunk cost into one implementation.
 
 ### Write it down
 
@@ -121,13 +122,14 @@ to them, plus:
   second party to escalate to — that is precisely why self-review leans on a written, methodical
   checklist instead.)
 
-## Integration with three-phase workflow defined in README.md
+## Integration with the workflow defined in README.md
 
-This file is loaded during Phase 2 review code before git commit, and during Phase 3 draft
-changelog as final review gate before git commit, per README three-phase cumulative load order. It
-is **not** loaded during Phase 1 draft code hot path, because Phase 1 focuses on writing code to
-core style rules not on reviewing what was written.
+This file is loaded during Phase 0 plan convergence, during Phase 2 review code before git commit,
+and during Phase 3 draft changelog as final review gate before git commit, per README cumulative
+load order. It is **not** loaded during Phase 1 draft code hot path, because Phase 1 focuses on
+writing code to core style rules not on reviewing what was written.
 
+* **Phase 0 planning uses peer-review.md before any code exists.** Per [planning.md](./planning.md) §5, run the same two questions against the plan document instead of a diff, iterating until convergence (or the iteration cap) before presenting the plan to the human. No exemplars.md or changelog-style.md involved yet — there is no code or commit message draft to calibrate voice against at this point.
 * **Phase 1 draft code always hot set** remains: kernel-style.md entry point, kernel-readability-principles.md composite principles, llm-tells-checklist.md final-pass checklist. No peer-review.md loaded here — saves tokens during most frequent draft iterations.
 * **Phase 2 review adds peer-review.md mandatory** on top of Phase 1 base per cumulative load model. At review gate before git commit, load peer-review.md and run the two-question self-review checklist above against both the code diff and the proposed commit message draft structure, then, if a second reviewer is available, route to them per "Escalating to a second reviewer" above. Compare git diff output against exemplars.md per-subsystem routing table (see exemplars.md introduction) to calibrate voice, then adjust tone and comment density to match chosen developer profile.
 * **Phase 3 draft changelog adds changelog-style.md mandatory** on top of Phase 1+2 base, and peer-review.md remains resident through Phase 3 as the final review gate before git commit per cumulative model. Re-run the two-question self-review specifically focused on the commit message draft: (a) what's wrong in this commit message draft per changelog-style rules? (b) is there a materially better way to phrase the subject/body/trailers choice? Route to a second reviewer here too if one is available.
@@ -136,10 +138,10 @@ Unload all phase-specific files at task end after git commit with proper trailer
 
 ## When to load
 
-Load during Phase 2 review and Phase 3 changelog drafting per README three-phase load order. See CONTRIBUTING.md for repository contribution mechanics.
+Load during Phase 0 plan convergence, Phase 2 review, and Phase 3 changelog drafting per README load order. See CONTRIBUTING.md for repository contribution mechanics.
 
 ---
-*Review process specification per README three-phase workflow — self-review by a single agent is
+*Review process specification per README workflow — self-review by a single agent is
 the default, mandatory gate; routing to a second reviewer is an optional enhancement layered on top
-when available. Loaded mandatory during Phase 2 review and Phase 3 changelog drafting. For
+when available. Loaded mandatory during Phase 0 plan convergence, Phase 2 review, and Phase 3 changelog drafting. For
 contribution mechanics see CONTRIBUTING.md.*

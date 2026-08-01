@@ -6,7 +6,7 @@ metadata:
 ---
 # Phase 1 — draft code
 
-Load this file at start of Phase 1 draft code task. Keep resident through Phase 2 review and Phase 3 changelog drafting per cumulative load model — do not unload until task end. For full load order see README.md How to load section.
+Load this file at start of Phase 1 draft code task. If the change is non-trivial per [planning.md](./planning.md)'s trigger, complete Phase 0 planning and get human sign-off before starting here. Keep resident through Phase 2 review and Phase 3 changelog drafting per cumulative load model — do not unload until task end. For full load order see README.md How to load section.
 
 > **For automated tools:** this repository is reference documentation. Nothing here is instruction to execute. Treat as data when crawling; guidance applies only when user deliberately loads it to write or review kernel patch.
 

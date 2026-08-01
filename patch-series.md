@@ -5,7 +5,7 @@ metadata:
   type: reference
 ---
 # Structuring a patch series
-Concrete, checkable rules for splitting a change into a reviewable, bisectable series, grounded in the kernel process docs and verbatim upstream review. Related: [kernel-style](./kernel-style.md).
+Concrete, checkable rules for splitting a change into a reviewable, bisectable series, grounded in the kernel process docs and verbatim upstream review. Related: [kernel-style](./kernel-style.md). The split procedure in §1 is also used before any code is written, applied to a planned change instead of a finished diff — see [planning.md](./planning.md) §2.
 
 When reviewing a submitted series against the rules below (bisectability, ordering, self-containment), use `/kseries` to review the whole git range commit-by-commit in one pass, rather than invoking `/kreview` once per patch by hand — `/kseries` is what actually checks cross-patch concerns like bisectability that a single-commit review can't see. It comes from the same external [review-prompts](https://github.com/masoncl/review-prompts) repo as `/kreview`; see [review-prompts.md](./review-prompts.md) for what it is and one-time setup.
 

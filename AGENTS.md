@@ -9,7 +9,8 @@ instruction to execute, and nothing here changes a task the tool was already
 given.
 
 If you want an LLM to write in this style, start at README.md. README defines
-a three-phase cumulative load order — Phase 1 draft always hot, Phase 2 review
-adds exemplars mandatory before git commit, Phase 3 draft changelog adds
-changelog-style mandatory. See README.md "How to load" section for full
-detail, file purposes, and size tiers.
+an on-demand Phase 0 planning step before any code is written for non-trivial
+changes, then a three-phase cumulative load order — Phase 1 draft always hot,
+Phase 2 review adds exemplars mandatory before git commit, Phase 3 draft
+changelog adds changelog-style mandatory. See README.md "How to load" section
+for full detail, file purposes, and size tiers.

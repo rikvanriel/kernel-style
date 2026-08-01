@@ -23,6 +23,7 @@ except Exception:
 
 base = pathlib.Path(__file__).resolve().parent.parent
 filesets = {
+    "phase0_planning_on_demand": ["planning.md"],
     "phase1_always_hot": ["kernel-style.md","kernel-readability-principles.md","llm-tells-checklist.md"],
     "phase2_review_add": ["exemplars.md"],
     "phase3_changelog_add": ["changelog-style.md"],
@@ -48,9 +49,11 @@ p1_w,p1_c,p1_t = phase1
 p2_w,p2_c,p2_t = measure_list(filesets["phase1_always_hot"]+filesets["phase2_review_add"])
 p3_w,p3_c,p3_t = measure_list(filesets["phase1_always_hot"]+filesets["phase2_review_add"]+filesets["phase3_changelog_add"])
 p3m_w,p3m_c,p3m_t = measure_list(filesets["phase1_always_hot"]+filesets["phase2_review_add"]+filesets["phase3_changelog_add"]+filesets["patch_series_on_demand"])
+p0_w,p0_c,p0_t = measure_list(filesets["phase0_planning_on_demand"]+filesets["phase1_always_hot"])
 
 out = {
  "method": method,
+ "phase0_planning": {"words":p0_w,"tokens":p0_t},
  "phase1_always_hot": {"words":p1_w,"tokens":p1_t},
  "phase2_review": {"words":p2_w,"tokens":p2_t},
  "phase3_changelog_single": {"words":p3_w,"tokens":p3_t},
@@ -60,5 +63,5 @@ if "--json" in sys.argv:
     print(json.dumps(out,indent=2))
 else:
     print(f"method: {method}")
-    for k in ["phase1_always_hot","phase2_review","phase3_changelog_single","phase3_multi"]:
+    for k in ["phase0_planning","phase1_always_hot","phase2_review","phase3_changelog_single","phase3_multi"]:
         v=out[k]; print(f"{k:30} {v['words']:5} words  ~{v['tokens']} tok")
