@@ -54,7 +54,9 @@ On demand during Phase 3 if needed:
  ```
  Use public provider:model names already appearing in git history for this repository — scan `git log --grep Assisted-by` before inventing new spelling. Current established forms verified in git history: `Assisted-by: Claude:claude-opus-4-8` for Claude-family models, `Assisted-by: Meta:avocado-tester` for Meta Avocado-family models. If using another provider model family follow same PROVIDER:MODEL pattern with capitalized provider name matching public model family naming — for example Gemini:gemini-3-pro would be appropriate format for Gemini models, adjust version as needed, but verify no prior established spelling already exists in git history before inventing new variant. List only public model names never internal-only tooling codenames. Multiple Assisted-by lines allowed ordered by contribution weight. An AI agent must never add its own Signed-off-by — only human SOB certifies DCO per kernel process.
 
-7. Unload all files at task end after commit is written and trailers verified. Do not leave Phase-specific files resident between tasks to respect token budget.
+7. If this patch is part of a multi-patch series with a cover letter, before sending run the cover-letter verification pass per patch-series.md §5: for every number and every "patch N does/is the only one that..." claim in the cover letter, open that specific patch's own current changelog and diff and confirm the exact match. Do this as its own explicit pass over the finished cover letter, separate from writing it — a cover letter drafted earlier in the process (or regenerated via `git format-patch --cover-letter` after a patch changed) is exactly the case this catches. Do not send on the strength of having verified the patches alone.
+
+8. Unload all files at task end after commit is written and trailers verified. Do not leave Phase-specific files resident between tasks to respect token budget.
 
 ## Next phase pointer
 

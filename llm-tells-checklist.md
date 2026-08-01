@@ -16,6 +16,7 @@ This pass comes first, before the style fixes.
 - [ ] Commit hashes cited exist in `git log` (check with `git show <hash>` or `git log --oneline --grep`); `Fixes:` tag points to real commit.
 - [ ] Links to lore.kernel.org, syzbot dashboard, public bug trackers, or patch series cover letters resolve and point to the right artifact — no private-only URLs that upstream reviewers cannot open.
 - [ ] Changelog scope matches actual diff stat — no claims about files not touched, no omitted major changes.
+- [ ] If a cover letter accompanies the series, every number and every mechanism claim in it has been checked against the specific patch's own current changelog and diff — not copied from an earlier draft or a pre-split version of the series.
 - [ ] When drafting for upstream consumption especially, treat unverified prose as a bug on par with wrong code.
 ## Changelog
 - [ ] Opens with "This patch …" or the fix — rewrite to open with the problem / current behavior in present tense.

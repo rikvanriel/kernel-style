@@ -29,7 +29,7 @@ Synthesized from the commit styles of 14 widely-respected kernel developers (Hil
 18. **An unused parameter in freshly-written code is a design smell, not a harmless wart.** It usually means the function is being more conservative than necessary because the data to do the precise thing was available but unused. Wire it in to tighten the logic, or drop it.
 19. **Compute the general case first, then narrow a safety/special-case check to exactly the condition it protects.** Don't bail to a conservative fallback for every caller when only one sub-case needs the restriction — it silently degrades the common case.
 20. **Grep the tree for an existing helper before writing new logic for a familiar problem.** Reviewers expect reuse and will name the helper you missed instead of approving a reinvention.
-21. **Reach for an established term for a common pattern (short read, TOCTOU, use-after-free) instead of re-describing the mechanism from scratch, and name the specific function that completes the other half of the contract.** "The caller retries" is plausible; "__get_user_pages() restarting the read will get the error" is verifiable.
+21. **Reach for an established term for a common pattern (short read, TOCTOU, use-after-free) instead of re-describing the mechanism from scratch, and name the specific function that completes the other half of the contract.** "The caller retries" is plausible; "__get_user_pages() retrying the read will get the error" is verifiable.
 ## Anti-LLM-tells (none of the 14 do these) — see [llm-tells-checklist](./llm-tells-checklist.md)
 - Opening with "This patch …" and skipping the problem; leading with the fix.
 - Vague justification ("improves performance") instead of a number, workload, or pasted artifact.

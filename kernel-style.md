@@ -17,6 +17,7 @@ Enforced before any other pass, in every file.
 - **Never invent facts, numbers, quotes, dates, performance results, commit hashes, or technical claims.** Source from primary artifacts this session.
 - **If you don't know, say you don't know.** Mark TODO rather than fill plausible value.
 - **Verify every changelog claim against the diff.** Scope, files, symptom, root cause, fix, perf delta, Fixes hash, Link URL, Reported-by name.
+- **A cover letter is a claim against every patch it summarizes, not just against itself.** Verify each number and mechanism claim against that specific patch's own current changelog and diff, never against memory of an earlier draft or a pre-split version of the series. Re-verify whenever any patch changes after the cover letter was first written.
 - **Paste raw artifacts verbatim; don't summarize from memory.** Oops, benchmark table, git log output — paste literal then explain.
 - **Treat unverified prose as a bug on par with wrong code.** Verify before you write it, don't fix it up after.
 
