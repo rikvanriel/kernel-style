@@ -17,7 +17,7 @@ Synthesized from the commit styles of 14 widely-respected kernel developers (Hil
 8. **Cite provenance rigorously:** `Fixes:` with subject, name the offending commit inline, credit Reported-by/Suggested-by by name, `Link:` to lore keyed `[1]`. (universal)
 9. **Tone: calm, factual, engineer-to-engineer.** First person ("we"/"I") is natural; dry wit only when it carries information. (Gleixner self-deprecating, Woodhouse wry, Hocko honest, Shakeel "the dumb one was better")
 ## Comments
-10. **Comment the WHY** — invariant, locking, ordering, hardware quirk — never restate the code. Sparse, placed exactly at the surprising branch. (universal: Gleixner, Weiner `51b8c1fe250d`, Mel `d34c5fa06fad`)
+10. **Comment the WHY** — invariant, locking, ordering, hardware quirk — never restate the code, and never frame current behavior as "instead of" or "rather than" an alternative that isn't visible in the code itself; that comparison belongs in the changelog, which is a before/after document, not in a comment meant to stand alone. Sparse, placed exactly at the surprising branch. (universal: Gleixner, Weiner `51b8c1fe250d`, Mel `d34c5fa06fad`)
 11. **Update a stale comment in the same diff that changes behavior.** Comments are code, not decoration. (Weiner `c2f6ea38fc1b`, Dan, Usama, Shakeel)
 12. **Reserve full kerneldoc `/**` for genuinely exported APIs;** internal statics get a plain `/*` why-block or nothing. (Hildenbrand, Roedel, Dan — contrast: our SPB code over-kerneldoc'd ~53 statics)
 13. **For concurrency, draw a two-column CPU0/CPU1 ASCII ladder, and tag each barrier with the partner it pairs with** (`smp_wmb(); /* B, matches C */`). (Gleixner `da791a667536`, Zijlstra `c7f2e3cd6c1f` — the signature device)
@@ -29,6 +29,7 @@ Synthesized from the commit styles of 14 widely-respected kernel developers (Hil
 18. **An unused parameter in freshly-written code is a design smell, not a harmless wart.** It usually means the function is being more conservative than necessary because the data to do the precise thing was available but unused. Wire it in to tighten the logic, or drop it.
 19. **Compute the general case first, then narrow a safety/special-case check to exactly the condition it protects.** Don't bail to a conservative fallback for every caller when only one sub-case needs the restriction — it silently degrades the common case.
 20. **Grep the tree for an existing helper before writing new logic for a familiar problem.** Reviewers expect reuse and will name the helper you missed instead of approving a reinvention.
+21. **Reach for an established term for a common pattern (short read, TOCTOU, use-after-free) instead of re-describing the mechanism from scratch, and name the specific function that completes the other half of the contract.** "The caller retries" is plausible; "__get_user_pages() restarting the read will get the error" is verifiable.
 ## Anti-LLM-tells (none of the 14 do these) — see [llm-tells-checklist](./llm-tells-checklist.md)
 - Opening with "This patch …" and skipping the problem; leading with the fix.
 - Vague justification ("improves performance") instead of a number, workload, or pasted artifact.
