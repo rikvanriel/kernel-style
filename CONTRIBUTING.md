@@ -12,29 +12,35 @@ Every file in this repository falls into exactly one tier. The tier determines h
 
 **Tier 1 — normative hot.** Loaded every time an LLM drafts or reviews kernel code or changelogs. Must stay under soft token budget (see below). Contains only checkable imperatives and minimal concrete patterns necessary to disambiguate those imperatives. No history, no Message-IDs, no dates, no inline provenance tags naming who reviewed or approved a change, no alternative phrasings considered and rejected, no per-developer anecdote expansion beyond what is in the file today.
 
-Current Tier 1 files and approximate budgets (measured via `wc -w`; token estimate via chars÷4 or tiktoken cl100k_base — use `wc -w` locally for approximate word count; exact token measurement via tiktoken cl100k_base is recommended when `./scripts/measure-tokens.py` exists):
+Current Tier 1 files and approximate budgets (measured via `wc -w`; token estimate via chars÷4 or tiktoken cl100k_base — use `wc -w` locally for approximate word count, or `./scripts/measure-tokens.py` for the token estimate):
 
 | File | Words | ~tokens | Role |
 |---|---|---|---|
-| kernel-style.md | ~930 | ~1,650 | slim entry point, factual integrity, code structure, 4 anchor quotes |
-| kernel-readability-principles.md | ~970 | ~1,740 | composite principles from 14 developers, signature strengths |
-| llm-tells-checklist.md | ~630 | ~940 | final-pass checklist, verification never-invent |
-| **Phase 1 total always hot** | **~2,530** | **~4,300** | base resident set |
+| kernel-style.md | ~990 | ~1,735 | slim entry point, factual integrity, code structure, 4 anchor quotes |
+| kernel-readability-principles.md | ~1,175 | ~2,060 | composite principles from 14 developers, signature strengths |
+| llm-tells-checklist.md | ~800 | ~1,210 | final-pass checklist, verification never-invent |
+| coding.md | ~700 | ~1,160 | Phase 1 draft-code checklist, upstream coding-style pointer |
+| **Phase 1 total always hot** | **~3,660** | **~6,165** | base resident set |
 
-These three stay resident through all phases of a patch-writing task. Nothing in Tier 1 may reference internal tooling, private hostnames, private bucket IDs, agent codenames, internal branch names, or vendor ticket IDs. Assume every character in Tier 1 is world-readable forever via public git history.
+These four stay resident through all phases of a patch-writing task. Nothing in Tier 1 may reference internal tooling, private hostnames, private bucket IDs, agent codenames, internal branch names, or vendor ticket IDs. Assume every character in Tier 1 is world-readable forever via public git history.
 
-**Tier 2 — on-demand normative.** Loaded only for specific phases of a patch task, then unloaded at task end. Contains detailed rules that are too large for always-hot but still normative (must be followed, not optional reference).
+**Tier 2 — on-demand normative.** Loaded only for specific phases of a patch task, then unloaded at task end. Contains detailed rules that are too large for always-hot but still normative (must be followed, not optional reference). This includes both content files (changelog-style.md, exemplars.md, patch-series.md, planning.md) and the phase-checklist files that orchestrate loading them (review.md, commit.md, peer-review.md) — all are mandatory once their phase's trigger fires, none are optional reference reading.
 
 Current Tier 2 files:
 
 | File | Words | ~tokens | Load trigger |
 |---|---|---|---|
-| changelog-style.md | ~3,460 | ~5,800 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording |
-| exemplars.md | ~3,255 | ~5,700 | mandatory on Phase 2 review before git commit; may load once in Phase 1 to calibrate specific voice but not every draft iteration |
-| patch-series.md | ~2,110 | ~3,475 | on demand only when change is >1 patch |
-| planning.md | ~1,060 | ~1,770 | on demand, before Phase 1, whenever the change is not a single self-evident edit |
+| changelog-style.md | ~4,000 | ~6,610 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording |
+| exemplars.md | ~3,685 | ~6,445 | mandatory on Phase 2 review before git commit; may load once in Phase 1 to calibrate specific voice but not every draft iteration |
+| patch-series.md | ~3,045 | ~4,890 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
+| peer-review.md | ~2,565 | ~4,065 | mandatory during Phase 0 plan convergence, Phase 2 review, and Phase 3 changelog drafting |
+| planning.md | ~1,060 | ~1,660 | on demand, before Phase 1, whenever the change is not a single self-evident edit |
+| review.md | ~1,235 | ~2,005 | mandatory Phase 2 review checklist |
+| commit.md | ~1,175 | ~2,015 | mandatory Phase 3 changelog checklist |
 
-Phase 2 adds exemplars to Phase 1 base for total ~5,780 words resident during review. Phase 3 adds changelog-style (and patch-series if needed) on top for total ~9,240 words resident during changelog drafting (~11,350 with patch-series). Unload all at task end. See README.md "How to load" for full three-phase workflow with per-subsystem routing cues.
+`review-prompts.md` (~275 words, ~530 tokens) is a special case: read once to set up `/kreview`/`/kseries`, not part of the recurring per-task load budget below.
+
+Phase 2 adds exemplars to Phase 1 base for total ~7,340 words (~12,610 tok) resident during review. Phase 3 adds changelog-style (and patch-series if needed) on top for total ~11,340 words (~19,220 tok) resident during changelog drafting (~14,390 words / ~24,110 tok with patch-series). This cumulative figure tracks the flagship content addition per phase (exemplars.md, changelog-style.md, patch-series.md) on top of the Tier 1 base; it does not additionally sum review.md/commit.md/peer-review.md, which are also resident at those phases — see the Tier 2 table above for their individual sizes. Unload all at task end. See README.md "How to load" for the full workflow with per-subsystem routing cues.
 
 **Tier 3 — rationale and history. Never loaded by default.** Load only when modifying the style guide itself, to understand intent before changing a rule.
 
@@ -73,7 +79,7 @@ These apply to every pull request or local commit that touches normative content
   * Does any carve-out, exemption, or edge-case note disappear?
   * Does new text introduce internal identifiers, internal project codenames, private hostnames, private bucket hashes, or 1:1 context not meaningful to an external reader?
   * **The cut test:** for every sentence in the new text, ask "would cutting or shortening this phrase lose the reader anything they could act on?" If no, cut it or trim it down to whatever part does carry actionable content. Apply this literally to phrases like "adapted from X", "moved here per plan", "distilled for token efficiency", "generalizes patterns proven effective elsewhere" — these narrate the document's own drafting or adaptation history instead of telling the reader what to do or what a rule is, and they almost always fail the cut test. This is distinct from an internal-identifier leak: it isn't a confidentiality problem, it's dead weight the reader gets zero value from. Genuine provenance that helps the reader interpret a rule (e.g. "distilled from 14 kernel developers" naming what a rule is synthesized *from*) usually passes the cut test and should stay — the test is the same either way, judge each phrase on it rather than pattern-matching the example list.
-  * Does Files table or load-order documentation still match actual file sizes and load triggers after the change?
+  * Does CONTRIBUTING's Tier 1/2 tables, README's "How to load" section, or a phase file's own "Load order" section still match actual file sizes and load triggers after the change?
 - A review returning "looks good" with no specific probing is not a review — ask for re-review with adversarial stance.
 - Genuine disagreement between author and reviewer escalates to repository owner (Rik van Riel) or third-party tiebreak, not resolved by author alone.
 
@@ -116,7 +122,7 @@ This rule exists so git history itself carries complete provenance without needi
   * Phase 2 review with exemplars ≤11,000 tokens
   * Phase 3 single-patch with changelog-style ≤17,000 tokens
   * Phase 3 multi-patch with patch-series ≤21,000 tokens
-  Current estimated baseline as of 2026-07-22 after initial provenance scrub: Phase1 ~4,330 tok, Phase2 ~10,030 tok, Phase3 single ~15,830 tok, Phase3 multi ~19,305 tok — already within targets except Phase3 single slightly over due to changelog-style size; slimming changelog-style further will bring it under.
+  Current estimated baseline as of 2026-08-01 (re-measured when coding.md was added to the Tier 1 table and Tier 2 file sizes were refreshed): Phase1 ~6,165 tok, Phase2 ~12,610 tok, Phase3 single ~19,220 tok, Phase3 multi ~24,110 tok — all now over their soft targets, partly because coding.md was previously tracked in the always-hot load order but never counted toward this budget, and partly organic growth of existing files since the 2026-07-22 baseline. Soft targets themselves have not been re-baselined; treat the current numbers as a signal that a slimming pass or a target reassessment is due, not as an immediate blocker.
 - Token delta should be reported in PR description as informational, does not block merge; future CI may automate this. Human reviewer uses the number as signal, not gate.
 
 ### 7. Hard denylist for internal identifiers
@@ -144,9 +150,9 @@ This rule exists so git history itself carries complete provenance without needi
 
 1. Edit the relevant hot file(s) to update normative checkable rules, keeping within token budget philosophy (pattern hot, provenance cold, one source of truth, no duplication).
 2. Update or create corresponding *-rationale.md entry/entries in same commit or same PR stack, moving provenance metadata out of hot text into rationale with public LKML Message-IDs and public reviewer names only.
-3. Run `wc -w` locally, or `./scripts/measure-tokens.py` , to confirm hot-set token delta is reasonable and update README Files table size tiers if crossing S/M/L boundary (S <1k words, M 1–2.5k, L >3k).
+3. Run `./scripts/measure-tokens.py --files` to get current word/token counts for every tracked file, and update the affected row(s) in CONTRIBUTING.md's Tier 1/2 tables (and the cumulative Phase-N totals below them if a Tier 1 file or a flagship Tier 2 content file changed size).
 4. Run denylist grep locally to confirm no internal identifiers introduced.
-5. Request adversarial review from independent reviewer before landing. Reviewer checklist must include: re-derive from source old vs new, confirm no enforceable meaning weakened, confirm rationale updated, confirm no internal identifiers leaked, confirm Files table and load order documentation still accurate.
+5. Request adversarial review from independent reviewer before landing. Reviewer checklist must include: re-derive from source old vs new, confirm no enforceable meaning weakened, confirm rationale updated, confirm no internal identifiers leaked, confirm CONTRIBUTING's Tier tables and README/phase-file load-order documentation still accurate.
 6. Commit with descriptive commit message following the repository's own style rules — what changed, why, how to verify, no internal codenames in commit text.
 
 ---

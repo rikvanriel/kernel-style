@@ -24,11 +24,21 @@ except Exception:
 base = pathlib.Path(__file__).resolve().parent.parent
 filesets = {
     "phase0_planning_on_demand": ["planning.md"],
-    "phase1_always_hot": ["kernel-style.md","kernel-readability-principles.md","llm-tells-checklist.md"],
+    "phase1_always_hot": ["kernel-style.md","kernel-readability-principles.md","llm-tells-checklist.md","coding.md"],
     "phase2_review_add": ["exemplars.md"],
     "phase3_changelog_add": ["changelog-style.md"],
     "patch_series_on_demand": ["patch-series.md"],
 }
+
+# Every file tracked in CONTRIBUTING.md's Tier 1/2 tables, for --files mode.
+# Keep this list in sync with CONTRIBUTING.md when a file is added or removed;
+# re-run --files after editing any of these to refresh CONTRIBUTING's numbers
+# instead of hand-computing wc -w for each file.
+all_tracked_files = [
+    "kernel-style.md","kernel-readability-principles.md","llm-tells-checklist.md","coding.md",
+    "changelog-style.md","exemplars.md","patch-series.md","peer-review.md","planning.md",
+    "review.md","commit.md","review-prompts.md",
+]
 
 def measure_list(flist):
     total_w=0; total_c=0; total_t=0
@@ -59,7 +69,18 @@ out = {
  "phase3_changelog_single": {"words":p3_w,"tokens":p3_t},
  "phase3_multi": {"words":p3m_w,"tokens":p3m_t},
 }
-if "--json" in sys.argv:
+if "--files" in sys.argv:
+    rows = []
+    for fn in all_tracked_files:
+        w,c,t = measure_list([fn])
+        rows.append((fn,w,t))
+    if "--json" in sys.argv:
+        print(json.dumps({"method":method,"files":[{"file":f,"words":w,"tokens":t} for f,w,t in rows]},indent=2))
+    else:
+        print(f"method: {method}")
+        for f,w,t in rows:
+            print(f"{f:35} {w:5} words  ~{t} tok")
+elif "--json" in sys.argv:
     print(json.dumps(out,indent=2))
 else:
     print(f"method: {method}")

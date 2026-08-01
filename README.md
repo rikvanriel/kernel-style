@@ -48,22 +48,7 @@ Four-phase workflow optimized for token cost. Each phase loads additional files 
 
 ## Files
 
-| File | Purpose | Load when | Size |
-|---|---|---|---|
-| [kernel-style.md](./kernel-style.md) | Slim entry point overview factual integrity summary code structure rules 4 anchor quotes pointers to detail files | Always hot Phase 1 Phase 2 Phase 3 — keep resident until task end | S |
-| [kernel-readability-principles.md](./kernel-readability-principles.md) | Composite principles distilled from 14 developers why behind rules signature strengths per developer | Always hot Phase 1 Phase 2 Phase 3 — keep resident until task end | S |
-| [llm-tells-checklist.md](./llm-tells-checklist.md) | Checklist generic LLM tells to strip final verification pass | Always hot Phase 1 Phase 2 Phase 3 — keep resident until task end | S |
-| [coding.md](./coding.md) | Phase 1 draft code checklist (moved from README), upstream kernel coding style reference | Always hot Phase 1 — keep resident until task end | S |
-| [review.md](./review.md) | Phase 2 review checklist, exemplars routing reference, peer-review process reference | Mandatory Phase 2 review before git commit — keep resident until task end | M |
-| [commit.md](./commit.md) | Phase 3 draft changelog checklist (moved from README), changelog-style rules reference, checkpatch verification | Mandatory Phase 3 draft changelog — keep resident until task end | M |
-| [changelog-style.md](./changelog-style.md) | Detailed changelog and code-comment style rules audience relevancy verbatim artifacts paragraph caps trailers LLM-slop contrasts | Mandatory Phase 3 draft changelog pull early Phase 2 review if checking comment density; keep resident until task end | L |
-| [exemplars.md](./exemplars.md) | Annotated real-commit examples per developer voice with per-subsystem routing table at top | Mandatory Phase 2 review before git commit may load once Phase 1 to calibrate specific voice but not every draft iteration; keep resident through Phase 3 | L |
-| [patch-series.md](./patch-series.md) | Multi-patch series structure bisectability ordering cover letters | On demand only when >1 patch | M |
-| [peer-review.md](./peer-review.md) | Review process specification with two mandatory questions what is wrong and is there materially better way — self-review by default, escalating to a second reviewer when available | Mandatory Phase 0 plan convergence, Phase 2 review, and Phase 3 changelog drafting — keep resident until task end | M |
-| [planning.md](./planning.md) | Phase 0 pre-implementation planning: split into logical-change themes, function-length/helper-extraction check, plan convergence via self- or peer-review, human sign-off before coding | On demand, before Phase 1, whenever the change is not a single self-evident edit | M |
-| [review-prompts.md](./review-prompts.md) | What `/kreview` (referenced in kernel-style.md and changelog-style.md §0) actually is — an external slash command from the review-prompts repo, not built in — and one-time setup | On demand: read once to set up `/kreview`; not part of the phase-loading token budget | S |
-
-*Size tiers are approximate to avoid drift: S <1k words, M 1–3k words, L >3k words. For exact word counts run `wc -w` locally, or `./scripts/measure-tokens.py` for approximate token estimate. Resident set grows cumulatively by phase as files listed in How to load are added; patch-series adds cost only when needed.*
+The "How to load" section above names every file an LLM needs to follow the workflow, with its trigger, at the point in each phase file where it actually applies. For a complete inventory of every file in this repository with word/token counts and tier classification, see [CONTRIBUTING.md](./CONTRIBUTING.md)'s Tier 1/2/3 tables — useful for a human browsing the repository or auditing token budget, not required reading for an LLM executing the workflow.
 
 ## Kernel Coding Style
 
