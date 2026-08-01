@@ -36,8 +36,8 @@ filesets = {
 # instead of hand-computing wc -w for each file.
 all_tracked_files = [
     "kernel-style.md","kernel-readability-principles.md","llm-tells-checklist.md","coding.md",
-    "changelog-style.md","exemplars.md","patch-series.md","peer-review.md","planning.md",
-    "review.md","commit.md","review-prompts.md",
+    "changelog-style.md","exemplars.md","patch-series.md","patch-series-rework.md","peer-review.md",
+    "planning.md","review.md","commit.md","review-prompts.md",
 ]
 
 def measure_list(flist):

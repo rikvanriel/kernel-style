@@ -32,7 +32,8 @@ Current Tier 2 files:
 |---|---|---|---|
 | changelog-style.md | ~4,000 | ~6,610 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording |
 | exemplars.md | ~3,685 | ~6,445 | mandatory on Phase 2 review before git commit; may load once in Phase 1 to calibrate specific voice but not every draft iteration |
-| patch-series.md | ~3,045 | ~4,890 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
+| patch-series.md | ~3,145 | ~5,065 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
+| patch-series-rework.md | ~1,120 | ~1,780 | on demand, on top of patch-series.md, only when reworking an already-existing series rather than splitting fresh work |
 | peer-review.md | ~2,565 | ~4,065 | mandatory during Phase 0 plan convergence, Phase 2 review, and Phase 3 changelog drafting |
 | planning.md | ~1,060 | ~1,660 | on demand, before Phase 1, whenever the change is not a single self-evident edit |
 | review.md | ~1,235 | ~2,005 | mandatory Phase 2 review checklist |

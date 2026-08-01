@@ -14,6 +14,8 @@ Concrete checklist for planning a kernel change before any code is drafted. Load
 
 Run Phase 0 planning whenever the requested change is not trivially a single, self-evident edit — concretely: it touches more than one function, more than one file, describes more than one distinct behavior change, or can't be stated as one sentence without "and". Skip it for a one-line fix, a straightforward revert, a single self-contained bug fix confined to one function, or a request that is itself just "apply rule X here."
 
+Also run it when the task is to evaluate, rewrite, or forward-port a patch series that already exists, rather than to write fresh code — the split-check in §2 below still applies, but see [patch-series-rework.md](./patch-series-rework.md) for the procedure specific to restructuring already-committed history rather than choosing boundaries for a diff that doesn't exist yet.
+
 When in doubt, run it. A short planning pass on a change that turns out to be simple costs far less than writing a large diff and retrofitting it into a series afterward.
 
 ## 1. Resolve ambiguity before planning, don't guess
@@ -23,6 +25,8 @@ If the request's scope, target subsystem, or success criteria (what "done" looks
 ## 2. Split into logical-change themes — one functional change per patch
 
 Apply [patch-series.md](./patch-series.md) §1's split procedure — inventory the distinct pieces, sweep target patch counts upward (2, 3, 4, ...), apply the incremental-narrowing check before accepting a ceiling, then sweep back down folding only patches with nothing independently checkable — to the *description* of the intended change, before any code exists, not just at Phase 2 review time against a finished diff. Finding the seams before writing code is cheaper than reverse-engineering them out of a diff afterward.
+
+If the task is instead to evaluate or rework an existing series (see "When this phase fires" above), apply the same test retroactively per patch-series.md's pointer to [patch-series-rework.md](./patch-series-rework.md), which covers squashing a later fixup into an earlier patch, moving a hunk that belongs elsewhere, and re-splitting just the affected part of a series.
 
 If the examination finds the change is genuinely one atomic logical step, say so explicitly and move on with a one-patch plan. Don't force a split that isn't there.
 
