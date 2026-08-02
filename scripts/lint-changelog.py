@@ -132,8 +132,36 @@ def check_trailer_pairing(trailers):
         violations.append("Has Fixes: but no Cc: stable@vger.kernel.org — pair them [CL-11, changelog-style §1]")
     return violations
 
+BULLET_RE = re.compile(r"^\s*(?:[-*\u2022]|\(?\d+[.)])\s+")
+
+def split_list_items(para: str):
+    """A bulleted or numbered block is a list, not a prose paragraph.
+
+    CL-12 caps prose paragraph length; the style rules explicitly allow
+    bullets for genuinely parallel items. Measuring the whole block as one
+    paragraph penalises the permitted structure, so measure each item.
+    """
+    lines = para.splitlines()
+    if not any(BULLET_RE.match(l) for l in lines):
+        return [para]
+    items, cur = [], []
+    for l in lines:
+        if BULLET_RE.match(l) and cur:
+            items.append("\n".join(cur))
+            cur = [l]
+        else:
+            cur.append(l)
+    if cur:
+        items.append("\n".join(cur))
+    return [i for i in items if i.strip()]
+
 def check_paragraph_caps(paras):
     violations = []
+    units = []
+    for p in paras:
+        if p:
+            units.extend(split_list_items(p))
+    paras = units
     word_counts = [count_words(p) for p in paras if p]
     if not word_counts:
         return violations
@@ -223,10 +251,16 @@ def lint(text: str):
     all_violations.extend(check_subject(subject))
     all_violations.extend(check_trailer_pairing(trailers))
     all_violations.extend(check_paragraph_caps(paras))
+    # report the same units the cap was measured on, so the printed counts
+    # cannot disagree with the verdict
+    measured = []
+    for _p in paras:
+        if _p:
+            measured.extend(split_list_items(_p))
     all_violations.extend(check_banned_phrases(body))
     all_violations.extend(check_internal_identifiers(body))
     all_violations.extend(check_verbatim_artifact(body, subject, text))
-    return subject, paras, trailers, all_violations
+    return subject, measured, trailers, all_violations
 
 def main():
     parser = argparse.ArgumentParser(description="lint kernel changelog")
