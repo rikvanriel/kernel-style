@@ -32,7 +32,7 @@ Full rules in [changelog-style.md §1](./changelog-style.md#1-changelog--commit-
 
 - <!-- CL-10 --> Subject `subsystem: imperative summary`, lowercase, no period.
 - <!-- CL-20 --> <!-- CL-22 --> Open body with problem in present tense; lead bugfix with real-world symptom not code mechanism.
-- <!-- CL-25 --> <!-- CL-12 --> Structure problem → cause → fix → effect, 3–6 short paragraphs, 90% ≤50 words, max 70, never beyond.
+- <!-- CL-25 --> <!-- CL-12 --> Structure problem → cause → fix → effect, 3–6 short paragraphs, at most one over 50 words, never over 70.
 - Explain WHY with data; paste raw kernel message verbatim for bugfixes — KASAN/WARNING/oops/Call Trace must appear as indented literal block, not paraphrase.
 - <!-- CL-14 --> **Write for upstream audience, not internal tooling.** Strip internal agent nicknames, private bucket hashes without public syzbot link, internal branch names, internal hostnames, private build IDs, vendor ticket IDs. Use generic "syzkaller triggers", "KASAN reports", "tested on v6.15-rc1". Credit tools generically in prose and via trailers, not by instance name.
 - Trailers: Fixes: + Cc: stable paired, Reported-by, Link to lore, Assisted-by for non-trivial tool work.

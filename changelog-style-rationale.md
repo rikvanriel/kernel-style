@@ -44,7 +44,7 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 ## CL-12 — Paragraph caps
 
-- <!-- CL-12 --> 90% ≤50w, max 70 never beyond — checkable backstop for "one idea per paragraph" from kernel-readability-principles. Applies to changelogs and code comments. Enforced by lint-changelog.py. Cutting >70 signals to split or compress, not pad to 70. Merging two related clauses under cap beats splitting for "one idea per paragraph" cost.
+- <!-- CL-12 --> At most one paragraph over 50w, none over 70 — was "90% of paragraphs ≤50w", changed 2026-08 after applying it to a 40-patch series. A percentage reads lenient but is severe on short changelogs: at 5 paragraphs, 4/5 = 80% < 90%, so *zero* paragraphs could exceed 50 words, and most changelogs in that series are 3-6 paragraphs. The intent was one idea per paragraph with a little slack for content that will not split; an absolute count expresses that directly and does not tighten as the changelog gets shorter. Hard 70 unchanged. — checkable backstop for "one idea per paragraph" from kernel-readability-principles. Applies to changelogs and code comments. Enforced by lint-changelog.py. Cutting >70 signals to split or compress, not pad to 70. Merging two related clauses under cap beats splitting for "one idea per paragraph" cost.
 
 ## CL-14 — Audience / internal identifiers
 

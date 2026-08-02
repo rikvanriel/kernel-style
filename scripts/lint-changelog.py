@@ -167,11 +167,9 @@ def check_paragraph_caps(paras):
         return violations
     over_50 = sum(1 for c in word_counts if c > 50)
     over_70 = sum(1 for c in word_counts if c > 70)
-    # 90% ≤50
-    if len(word_counts) >= 2:
-        pct_over_50 = over_50 / len(word_counts)
-        if pct_over_50 > 0.10:
-            violations.append(f"Paragraph cap: {over_50}/{len(word_counts)} paragraphs >50w ({pct_over_50*100:.0f}%) — need ≤10% [CL-12]. Counts: {word_counts}")
+    # at most one paragraph over 50 words
+    if over_50 > 1:
+        violations.append(f"Paragraph cap: {over_50} paragraphs >50w — at most 1 allowed [CL-12]. Counts: {word_counts}")
     if over_70:
         violations.append(f"Paragraph cap: {over_70} paragraph(s) >70w — never beyond 70 [CL-12]. Counts: {word_counts}")
     # also flag any single para >70 individually
