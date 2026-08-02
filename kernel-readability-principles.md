@@ -19,7 +19,7 @@ Synthesized from the commit styles of 14 widely-respected kernel developers (Hil
 ## Comments
 10. **Comment the WHY** — invariant, locking, ordering, hardware quirk — never restate the code, and never frame current behavior as "instead of" or "rather than" an alternative that isn't visible in the code itself; that comparison belongs in the changelog, which is a before/after document, not in a comment meant to stand alone. Sparse, placed exactly at the surprising branch. (universal: Gleixner, Weiner `51b8c1fe250d`, Mel `d34c5fa06fad`)
 11. **Update a stale comment in the same diff that changes behavior.** Comments are code, not decoration. (Weiner `c2f6ea38fc1b`, Dan, Usama, Shakeel)
-12. **Reserve full kerneldoc `/**` for genuinely exported APIs;** internal statics get a plain `/*` why-block or nothing. (Hildenbrand, Roedel, Dan — contrast: our SPB code over-kerneldoc'd ~53 statics)
+12. **Reserve full kerneldoc `/**` for genuinely exported APIs;** internal statics get a plain `/*` why-block or nothing. The scaffolding is what costs, not the marker: a plain `/*` block carrying `@param:` restates the signature just as much. (Hildenbrand, Roedel, Dan — contrast: one page-allocator series over-kerneldoc'd ~53 statics)
 13. **For concurrency, draw a two-column CPU0/CPU1 ASCII ladder, and tag each barrier with the partner it pairs with** (`smp_wmb(); /* B, matches C */`). (Gleixner `da791a667536`, Zijlstra `c7f2e3cd6c1f` — the signature device)
 ## Code
 14. **Decompose into small, intent-named helpers** (predicates `should_x()`, actions `verb_noun()`); flatten goto-ladders into early returns. (universal: Weiner `try_to_steal_block`, Gleixner, Mel `should_alloc_retry`, Hildenbrand)

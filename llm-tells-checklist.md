@@ -36,7 +36,7 @@ This pass comes first, before the style fixes.
 - [ ] A paragraph restates a code comment added or touched in the same diff, or two adjacent paragraphs describe sequential sub-steps of one change that a connective (since/so/then/--) could join under the paragraph cap — compress; run changelog-style.md's compression pass.
 ## Comments
 - [ ] Comment restates the code ("/* increment counter */") — delete.
-- [ ] Kerneldoc `/**` with `@param` on a static internal helper — downgrade to a plain `/*` why-block or delete; reserve `/**` for exported APIs.
+- [ ] Kerneldoc scaffolding on a static internal helper — downgrade to a plain `/*` why-block or delete; reserve `/**` for exported APIs. Grep for a `name - summary` line and for `@param:`, not for `/**`: the scaffolding is the tell and it appears under both markers.
 - [ ] Multi-paragraph essay / numbered "plan" comment — compress to a 2-8 line why.
 - [ ] A comment now contradicted by the code change — rewrite it in the same diff.
 - [ ] Genuinely subtle logic (locking, ordering, lifetime, invariant) with NO why-comment — add one.

@@ -8,6 +8,33 @@ metadata:
 
 Not loaded during normal patch drafting or review. See [CONTRIBUTING.md](./CONTRIBUTING.md) for the three-tier architecture this file belongs to.
 
+## Principle 12 — kerneldoc scaffolding on statics (2026-08 amendment)
+
+Original principle named the `/**` marker. Amended to name the *scaffolding*
+after a sweep of a 41-patch page-allocator series: scanning for `/**` on
+series-added statics found 24 blocks, but broadening the scan to any block
+carrying a `name - summary` line or `@param:` lines found 29, in 436 lines of
+comment. The five the narrow scan missed open with plain `/*` yet still carry
+`@param:` lines, which is the worst of both: still restating the signature,
+not valid kerneldoc, and invisible to a grep for `/**`.
+
+Mechanically removing only the scaffolding — marker, `name - ` prefix,
+`@param:` lines — cut 46 lines across 26 blocks while preserving every
+sentence of prose, so the restatement really is pure overhead and not a
+carrier for content. 14 of the 26 were still over the 8-line block cap
+afterwards, which is a separate problem (over-explanation) and needs
+judgement rather than a script.
+
+One case argued against the cap and won: a queue-work helper whose comment
+documented a lock requirement, a single-flight key, and silent-drop-on-full
+behaviour, none visible from the code. Three facts a caller cannot derive
+beat an 8-line target. The cap is a prompt to look, not a budget to spend.
+
+The amendment is measurement, not a cited maintainer preference: no merged
+commit was found where a reviewer objected to `@param:` under a plain `/*`
+specifically. Reassess 2026-11-02 — either find such review comments on
+lore and cite them, or keep it on the strength of the count above.
+
 ## Principle 18 — unused parameter as a design smell
 
 Source: David Hildenbrand, reviewing `follow_pte_batch()` in a standalone
