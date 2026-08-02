@@ -82,7 +82,7 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 - <!-- CC-11 --> Density low purposeful 1-2 lines typical max 2-8 block, same 50w cap per CL-12.
 
-- <!-- CS-10 --> Split out named helper when predicate multi-branch/reused — e.g. should_flush_tlb(). Decompose.
+- <!-- CS-10 --> Split out named helper when predicate multi-branch/reused — e.g. should_flush_tlb(). Decompose. Placement clause added 2026-08 after four orphaned doc comments in one page-allocator series: each extraction had been inserted at the `static ... target(` line, which lands *inside* the gap between the target's doc comment and the target, silently reassigning the comment to the new helper. Compiles clean, so neither build nor boot catches it; found only by a comment audit, and only after the same mistake had been fixed once by hand without checking for repeats. Hence a placement rule rather than a review note. Marked experimental (2026-08-02): four instances from one series and one author, no merged-commit corpus. Reassess 2026-11-02 — look for the same orphaning in real `git log -p` helper extractions and cite, or drop if it is an artifact of machine editing rather than a general hazard.
 
 - <!-- CS-11 --> Cap function length 80% ≤20 lines hard max 40 — signal to extract helper.
 
