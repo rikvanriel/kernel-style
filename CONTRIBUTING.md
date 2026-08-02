@@ -16,11 +16,11 @@ Current Tier 1 files and approximate budgets (measured via `wc -w`; token estima
 
 | File | Words | ~tokens | Role |
 |---|---|---|---|
-| kernel-style.md | ~1,094 | ~1,911 | slim entry point, factual integrity R0-1..R0-6 canonical, code structure CS-10/11, 4 anchor quotes |
-| kernel-readability-principles.md | ~1,175 | ~2,060 | composite principles from 14 developers, signature strengths |
-| llm-tells-checklist.md | ~736 | ~1,141 | final-pass checklist, verification R0 cross-ref, LLM tells |
+| kernel-style.md | ~1,324 | ~2,258 | slim entry point, factual integrity R0-1..R0-6 canonical, code structure CS-10/11, 4 anchor quotes |
+| kernel-readability-principles.md | ~1,195 | ~2,094 | composite principles from 14 developers, signature strengths |
+| llm-tells-checklist.md | ~920 | ~1,391 | final-pass checklist, verification R0 cross-ref, LLM tells |
 | coding.md | ~686 | ~1,150 | Phase 1 draft-code checklist, upstream coding-style pointer, routing on-demand |
-| **Phase 1 total always hot** | **~3,691** | **~6,262** | base resident set (4 files) |
+| **Phase 1 total always hot** | **~4,125** | **~6,893** | base resident set (4 files) |
 
 These four stay resident through all phases of a patch-writing task. Nothing in Tier 1 may reference internal tooling, private hostnames, private bucket IDs, agent codenames, internal branch names, or vendor ticket IDs. Assume every character in Tier 1 is world-readable forever via public git history.
 
@@ -30,15 +30,15 @@ Current Tier 2 files:
 
 | File | Words | ~tokens | Load trigger |
 |---|---|---|---|
-| changelog-style.md | ~3,956 | ~6,584 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording. Contains Rule IDs CL-10..CL-28, CL-11, CL-12, CL-14 |
+| changelog-style.md | ~4,095 | ~6,822 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording. Contains Rule IDs CL-10..CL-28, CL-11, CL-12, CL-14 |
 | exemplars-routing.md | ~315 | ~560 | tiny routing table canonical per CONTRIBUTING §2 — mandatory Phase 2 to pick profile, on-demand Phase 1. Saves ~3,169w / ~5.6k tok vs full exemplars.md via `scripts/phases.py --extract` |
 | exemplars.md | ~3,435 | ~6,040 | full per-developer profiles — on-demand per routing pick via `scripts/phases.py --bug-class <class> --extract-only`, not whole file hot. Keep only chosen section resident to save tokens |
-| patch-series.md | ~3,144 | ~5,064 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
-| patch-series-rework.md | ~1,118 | ~1,781 | on demand, on top of patch-series.md, only when reworking an already-existing series rather than splitting fresh work |
+| patch-series.md | ~3,287 | ~5,281 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
+| patch-series-rework.md | ~1,205 | ~1,913 | on demand, on top of patch-series.md, only when reworking an already-existing series rather than splitting fresh work |
 | peer-review.md | ~2,585 | ~4,097 | mandatory during Phase 0 plan convergence, Phase 2 review, and Phase 3 changelog drafting |
 | planning.md | ~1,166 | ~1,847 | on demand, before Phase 1, whenever the change is not a single self-evident edit |
-| review.md | ~1,272 | ~2,092 | mandatory Phase 2 review checklist, now uses routing file + lint-changelog machine helper |
-| commit.md | ~1,205 | ~2,098 | mandatory Phase 3 changelog checklist, now uses lint-changelog.py + verify-cover-letter.py |
+| review.md | ~1,493 | ~2,415 | mandatory Phase 2 review checklist, now uses routing file + lint-changelog machine helper |
+| commit.md | ~1,449 | ~2,463 | mandatory Phase 3 changelog checklist, now uses lint-changelog.py + verify-cover-letter.py |
 
 `review-prompts.md` (~275 words, ~530 tokens) is a special case: read once to set up `/kreview`/`/kseries`, not part of the recurring per-task load budget below.
 
@@ -130,7 +130,7 @@ This rule exists so git history itself carries complete provenance without needi
   * Phase 2 review with exemplars ≤11,000 tokens
   * Phase 3 single-patch with changelog-style ≤17,000 tokens
   * Phase 3 multi-patch with patch-series ≤21,000 tokens
-  Current estimated baseline as of 2026-08-01 (re-measured when coding.md was added to the Tier 1 table and Tier 2 file sizes were refreshed): Phase1 ~6,165 tok, Phase2 ~12,610 tok, Phase3 single ~19,220 tok, Phase3 multi ~24,110 tok — all now over their soft targets, partly because coding.md was previously tracked in the always-hot load order but never counted toward this budget, and partly organic growth of existing files since the 2026-07-22 baseline. Soft targets themselves have not been re-baselined; treat the current numbers as a signal that a slimming pass or a target reassessment is due, not as an immediate blocker.
+  Current estimated baseline as of 2026-08-02 (re-measured after the kerneldoc-scaffolding and helper-placement rules landed): Phase1 ~6,893 tok, Phase2 ~12,933 tok, Phase3 single ~19,755 tok, Phase3 multi ~25,036 tok — all now over their soft targets, partly because coding.md was previously tracked in the always-hot load order but never counted toward this budget, and partly organic growth of existing files since the 2026-07-22 baseline. Soft targets themselves have not been re-baselined; treat the current numbers as a signal that a slimming pass or a target reassessment is due, not as an immediate blocker.
 - Token delta should be reported in PR description as informational, does not block merge; future CI may automate this. Human reviewer uses the number as signal, not gate.
 
 ### 7. Hard denylist for internal identifiers
@@ -179,4 +179,4 @@ This repository is licensed under CC-BY-4.0 (see LICENSE). It is reference docum
 
 ---
 
-_Last updated: 2026-08-01 — fixes per MyClaw Macaroni review: (1) created changelog-style-rationale.md with matching entries for R0-/CL-/CC-/CS- IDs, (2) implemented real per-profile extraction in phases.py --extract + deduped routing table out of exemplars.md intro, (3) fixed verify-cover-letter.py to include us/µs units and do real number diffing not just shape check, (4) relabeled ai-edits internal drafts as INTERNAL DRAFT distinct from EXTERNAL, (5) updated Tier 1/2 tables and §9 to document live ID namespace and new files. Prior: 2026-07-26 — peer-review.md reframed so self-review by a single author is the default, mandatory gate (a second reviewer is an optional enhancement, not a prerequisite); added the cut test (§3) as a standing check against audience-irrelevant meta-commentary (phrases narrating a document's own drafting/adaptation history instead of giving the reader actionable content), applied repo-wide. Prior: 2026-07-22 — initial version establishing three-tier architecture, adversarial review gate, token budget methodology, and external-facing discipline for public repo._
+_Last updated: 2026-08-02 — refreshed Tier 1/2 word and token counts against `measure-tokens.py` after the kerneldoc-scaffolding and helper-placement rules landed; all four Tier 1 files remain over their §1 soft per-file budgets and Phase 1 is ~6,893 tok against a ~5,000 target, so a slimming pass or a target re-baseline is overdue. Prior: 2026-08-01 — fixes per MyClaw Macaroni review: (1) created changelog-style-rationale.md with matching entries for R0-/CL-/CC-/CS- IDs, (2) implemented real per-profile extraction in phases.py --extract + deduped routing table out of exemplars.md intro, (3) fixed verify-cover-letter.py to include us/µs units and do real number diffing not just shape check, (4) relabeled ai-edits internal drafts as INTERNAL DRAFT distinct from EXTERNAL, (5) updated Tier 1/2 tables and §9 to document live ID namespace and new files. Prior: 2026-07-26 — peer-review.md reframed so self-review by a single author is the default, mandatory gate (a second reviewer is an optional enhancement, not a prerequisite); added the cut test (§3) as a standing check against audience-irrelevant meta-commentary (phrases narrating a document's own drafting/adaptation history instead of giving the reader actionable content), applied repo-wide. Prior: 2026-07-22 — initial version establishing three-tier architecture, adversarial review gate, token budget methodology, and external-facing discipline for public repo._
