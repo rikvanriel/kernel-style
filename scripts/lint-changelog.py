@@ -45,7 +45,9 @@ INTERNAL_PATTERNS = [
     (r"\bJIRA-[0-9]+\b|\bT[0-9]{6,}\b.*phabricator", "Vendor ticket ID [CL-14] — use generic phrasing"),
 ]
 
-SUBJECT_RE = re.compile(r"^(?P<prefix>[a-z0-9_,/+-]+): (?P<summary>[^\n]+)$")
+# Prefix is usually lowercase, but established subsystems capitalise: PM:, ACPI:,
+# KVM:, PCI:, RDMA/, Bluetooth:. Allow uppercase in the prefix, not in the summary.
+SUBJECT_RE = re.compile(r"^(?P<prefix>[A-Za-z0-9_,/+-]+): (?P<summary>[^\n]+)$")
 # x86/tip exception: capitalized first word allowed
 X86_CAP_RE = re.compile(r"^x86/")
 
@@ -175,7 +177,8 @@ def check_verbatim_artifact(body: str, subject: str, full_text: str):
     triggers = ["KASAN", "WARNING:", "BUG:", "Call Trace", "INFO: task hung", "softlockup", "RCU stall", "Kfence", "lockdep"]
     mentions = any(t.lower() in full_text.lower() for t in triggers)
     # indented block: line starting with 4 spaces or tab, and containing relevant
-    has_indented = bool(re.search(r"\n(?: {4}|\t).*(?:KASAN|WARNING|Call Trace|dump_stack|RIP:)", full_text))
+    # 2-space indent is as common as 4 for pasted splats in kernel changelogs
+    has_indented = bool(re.search(r"\n(?: {2,}|\t).*(?:KASAN|WARNING|Call Trace|dump_stack|RIP:)", full_text))
     if mentions and not has_indented:
         # heuristic: only flag if bugfix-ish (has Fixes:)
         if "Fixes:" in full_text or "fix" in subject.lower():
