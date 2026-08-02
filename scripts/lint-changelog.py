@@ -182,6 +182,38 @@ def check_verbatim_artifact(body: str, subject: str, full_text: str):
             violations.append("Bugfix mentions kernel message (KASAN/WARNING/oops) but no indented verbatim splat block found [CL-15, changelog-style §1 artifact rule]")
     return violations
 
+# R0-9: sentences that explain code or assert a system fact are claims.
+# The lint cannot judge truth; it enumerates the sentences you must cite a
+# source for. Signal = names code AND states it absolutely, because a
+# confident simplification is what hides an unchecked path.
+NAMES_CODE = [
+    re.compile(r"\b[a-z_][a-z0-9_]*\(\)"),          # foo()
+    re.compile(r"->[a-z_]+|\bstruct [a-z_]+"),        # ->field, struct x
+    re.compile(r"\b[A-Z][A-Z0-9_]{3,}\b"),            # CONFIG_X, DMA32, PG_Reserved-ish
+]
+ABSOLUTE_RE = re.compile(
+    r"\b(simply|just|merely|always|never|all|only|any|every|necessarily)\b", re.I)
+
+def split_sentences(body: str):
+    # drop trailers and indented literal blocks (splats are covered by CL-15)
+    kept = [l for l in body.split("\n")
+            if not re.match(r"^\s*(Signed-off-by|Cc|Fixes|Assisted-by|Acked-by|"
+                            r"Reviewed-by|Tested-by|Link|Reported-by|Suggested-by):", l)
+            and not re.match(r"^(?: {2,}|\t)", l)]
+    flat = " ".join(kept)
+    # protect abbreviations so they do not fake a sentence break
+    for abbr in ("e.g.", "i.e.", "etc.", "cf.", "vs.", "Dr.", "approx."):
+        flat = flat.replace(abbr, abbr.replace(".", "\x00"))
+    parts = re.split(r"(?<=[.!?])\s+", flat)
+    return [p.replace("\x00", ".").strip() for p in parts if len(p.strip()) > 25]
+
+def collect_citation_needed(body: str):
+    out = []
+    for s in split_sentences(body):
+        if any(p.search(s) for p in NAMES_CODE) and ABSOLUTE_RE.search(s):
+            out.append(s)
+    return out
+
 def lint(text: str):
     subject, paras, trailers, body = parse_commit(text)
     all_violations = []
@@ -197,6 +229,8 @@ def main():
     parser = argparse.ArgumentParser(description="lint kernel changelog")
     parser.add_argument("file", nargs="?", help="changelog file")
     parser.add_argument("--stdin", action="store_true", help="read from stdin")
+    parser.add_argument("--cite", action="store_true",
+                        help="R0-9: list sentences explaining code that need a source named")
     args = parser.parse_args()
 
     if args.stdin:
@@ -214,6 +248,19 @@ def main():
     if paras:
         print(f"Word counts: {[count_words(p) for p in paras]}")
     print()
+
+    if args.cite:
+        _, _, _, body = parse_commit(text)
+        needing = collect_citation_needed(body)
+        print("R0-9 — name the source for each sentence below "
+              "(file:function for behaviour, boot log or /proc for a system fact).")
+        print("An absolute in a sentence about code usually marks a path that was not checked.")
+        if not needing:
+            print("  (none flagged — this does not mean the prose is verified)")
+        for i, s in enumerate(needing, 1):
+            print(f"  {i}. {s}")
+        print()
+
     if not violations:
         print("PASS — no rule-ID violations detected (heuristic, not complete)")
         sys.exit(0)
