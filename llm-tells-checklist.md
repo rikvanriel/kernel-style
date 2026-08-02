@@ -7,6 +7,8 @@ metadata:
 # LLM-tells final pass
 A final pass for any kernel changelog/comment/code, made before it is considered done. Each line means "delete or rewrite if present". Derived from what 14 respected kernel devs do and don't do ([kernel-readability-principles](./kernel-readability-principles.md)) and the kernel-style voice ([kernel-style](./kernel-style.md)).
 
+**Scope.** These apply to text your patch adds or changes. Pre-existing prose sitting next to your diff is out of scope — rewriting it is a drive-by cleanup (patch-series.md §1) that inflates a small fix and collides with later patches touching the same lines. Fix it in its own patch.
+
 This checklist is a blunt, self-administered pass over the same category of tell; `/kslop` (from [review-prompts](./review-prompts.md)) runs an automated version with a much higher confidence bar — cluster requirement, compared against neighbouring code, hard cap of 3 findings, phrased as questions rather than flat deletions. Use both: this checklist to fix things yourself before posting, `/kslop` as a second, noise-gated pass.
 ## Verification — never invent facts
 Canonical: kernel-style.md §0 (R0-1..R0-6) — this section is cross-ref checklist only per CONTRIBUTING §2.
@@ -43,4 +45,4 @@ This pass comes first, before the style fixes.
 - [ ] Bare `{ }` scoping blocks — declare at function top.
 - [ ] goto-ladder where early returns read better — flatten.
 - [ ] Drive-by changes mixed with the logic change — split into a separate commit.
-- [ ] Pre-existing code the change has made redundant — a call the new code turns into a no-op, a branch nothing can reach now — remove it, and don't let a comment explain the dead step as if it were required. Sibling of the "comment now contradicted by the code change" item above.
+- [ ] Pre-existing code the change has made redundant — a call the new code turns into a no-op, a branch nothing can reach now — remove it, and don't let a comment explain the dead step as if it were required. Check the failure paths, not just the happy one: a call that is unreachable when every preceding step succeeds may be the only thing that runs when one bails out early. Sibling of the "comment now contradicted by the code change" item above.
