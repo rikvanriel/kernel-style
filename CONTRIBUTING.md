@@ -33,7 +33,7 @@ Current Tier 2 files:
 | changelog-style.md | ~4,095 | ~6,822 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording. Contains Rule IDs CL-10..CL-28, CL-11, CL-12, CL-14 |
 | exemplars-routing.md | ~315 | ~560 | tiny routing table canonical per CONTRIBUTING §2 — mandatory Phase 2 to pick profile, on-demand Phase 1. Saves ~3,169w / ~5.6k tok vs full exemplars.md via `scripts/phases.py --extract` |
 | exemplars.md | ~3,435 | ~6,040 | full per-developer profiles — on-demand per routing pick via `scripts/phases.py --bug-class <class> --extract-only`, not whole file hot. Keep only chosen section resident to save tokens |
-| patch-series.md | ~3,287 | ~5,281 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
+| patch-series.md | ~3,336 | ~5,371 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
 | patch-series-rework.md | ~1,205 | ~1,913 | on demand, on top of patch-series.md, only when reworking an already-existing series rather than splitting fresh work |
 | peer-review.md | ~2,585 | ~4,097 | mandatory during Phase 0 plan convergence, Phase 2 review, and Phase 3 changelog drafting |
 | planning.md | ~1,166 | ~1,847 | on demand, before Phase 1, whenever the change is not a single self-evident edit |

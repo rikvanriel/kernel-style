@@ -40,3 +40,31 @@ first line alone, which mis-parses a prototype whose `;` sits on a continuation 
 for the next `}` and silently swallows the function after it. That version reported
 `__rmqueue_smallest` as untouched by patches 15 through 26. Verified against hand measurement at
 base, p15, p21, p27 and p39 before use.
+
+## Lore link to previous version on repost
+
+Added 2026-08-03 per Rik van Riel request: cover letter should contain lore link to most recent
+previous posting when a series has been posted before.
+
+Provenance:
+- submitting-patches.rst, "Explicit In-Reply-To headers": "for a multi-patch series, it is generally
+  best to avoid using In-Reply-To: to link to older versions of the series. This way multiple versions
+  of the patch don't become an unmanageable forest of references."
+- submitting-patches.rst, "Commentary": prior-version lore links belong after the `---` separator
+  so they are stripped on apply, not committed.
+- b4 practice: `b4` auto-generates `Link: https://lore.kernel.org/r/<Message-Id>/` for previous versions
+  via `--auto-to-lore`; this is the universal redirector form, not list-specific `/lkml/`.
+
+Why /r/ not /lkml/: most patch series are posted only to subsystem lists (e.g. linux-mm, netdev,
+  driver lists) and never cross-posted to lkml; a `/lkml/<id>/` link 404s for those. The redirector
+  `/r/<Message-Id>/` resolves regardless of which list archived it. Review caught initial draft using
+  `/lkml/` example — corrected to `/r/` per Rockhopper adversarial review 2026-08-03.
+
+Placement: must be below `---` alongside inter-version changelog (V2 -> V3 notes), per existing
+rule that changelog and lore links after `---` are not committed. Calling it a "trailer" is misleading
+in this position because `Link:` trailers in kernel docs are committed lines (Signed-off-by etc);
+below `---` it is a note/line stripped on apply. Review feedback fixed terminology.
+
+One source of truth: canonical rule lives in §7 Versioning (avoids duplication with §5 Cover letter).
+§5 now cross-references §7 to avoid drift — both sections previously cited same upstream source
+independently. Per CONTRIBUTING §2 and Rockhopper review 2026-08-03 APPROVE-WITH-CHANGES.
