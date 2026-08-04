@@ -30,9 +30,9 @@ If the task is instead to evaluate or rework an existing series (see "When this 
 
 If the examination finds the change is genuinely one atomic logical step, say so explicitly and move on with a one-patch plan. Don't force a split that isn't there.
 
-## 3. Check for functions that would grow too long
+## 3. Check for functions that would grow too long, or already are too long
 
-For each planned change, estimate whether it will push an existing function past [kernel-style.md](./kernel-style.md) §3's cap (80% ≤20 lines, hard max 40) or make an already-long function longer. If so, plan a helper extraction as its own patch ahead of the functional change that needs it.
+For each planned change, estimate whether it will push an existing function past [kernel-style.md](./kernel-style.md) §3's cap (80% ≤20 lines, hard max 40) or whether the function already is too long. If so, plan a helper extraction as its own patch ahead of the functional change that needs it.
 
 An extraction patch must obey the same rules as any other patch in the series: it must be pure code motion with no behavior change riding along ([patch-series.md](./patch-series.md) §1, "move code and change code in separate patches"), and the extracted helper must go live immediately — don't stage a helper with no caller and add its first user in a later patch ([patch-series.md](./patch-series.md) §2, "new code should go live in the patch that adds it"). If an extraction has nothing independently checkable on its own, fold it into the patch that uses it instead of manufacturing a separate step.
 
