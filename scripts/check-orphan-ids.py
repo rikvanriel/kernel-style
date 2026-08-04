@@ -44,7 +44,7 @@ RATIONALE_FILES = [
     "patch-series-rationale.md",
 ]
 
-ID_RE = re.compile(r"<!--\s*([A-Z][A-Z0-9-]+)\s*-->")
+ID_RE = re.compile(r"<!--\s*([A-Za-z0-9-]+)\s*-->")
 
 def collect_ids_from_file(path: Path):
     try:

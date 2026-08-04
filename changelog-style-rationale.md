@@ -38,6 +38,8 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 - <!-- CL-10c --> Comma-joined multi-subsystem prefixes `mm,vmscan:` — common habit e.g. `8ebe0a5eaaeb`, `da27f796a832`, no space after commas.
 
+- <!-- CL-10d --> Subject must reflect primary impact, not cleanup label. From lore week 2026-07-28..08-04: wifi brcm80211 performance and stability fixes, Arend van Spriel `<d5b7a4a8-532f-47c7-a883-036d5cc81a90@broadcom.com>` review: frame lost when count zero "silently, so frame is lost rather than retried... this change is primarily potential bug fix so rephrase subject, e.g. fix blocked-ring race permanently stopping queue". Also same thread flagged LLM lingo "if coding assistant used please add Assisted-by tag" — don't hide bugfix as cleanup, and don't hide assistance. Existing CL-10 says lowercase imperative but not that subject must not use meta-verb "Fix <action>" that garbles nor cleanup label that hides impact. Example before "track credits" after "fix blocked-ring race stopping queue". Checkable: if body describes queue stop/data loss/race but subject says "cleanup" or "track", flag.
+
 ## CL-11 — Fixes + Cc: stable pairing
 
 - <!-- CL-11 --> If Fixes: footer, add Cc: stable@vger.kernel.org — Fixes: marks bug worth backporting. Checkable: Fixes present but no Cc stable is red flag. Enforced by `scripts/lint-changelog.py`.
@@ -69,6 +71,8 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 - <!-- CL-25 --> Structure problem→cause→fix→effect, 3-6 paragraphs 2-4 sentences each — typical shape `5cbcb62dddf5`.
 
 - <!-- CL-26 --> Explain WHY with data — before/after tables, percentages. Examples `e1e4cfd01a6e` 1560→4720 MB/s, `209954cbc7d0` 4.5s→4.2s, `da27f796a832` 6 min→1 sec.
+
+- <!-- CL-26b --> More about motivations than implementation details. Lead with why old behavior was costly — user-visible symptom, spec violation, regression, risk — not how you fixed it. From lore week 2026-07-28..08-04: Jakub Kicinski `<20260803230745.2291141-2-kuba@kernel.org>` hinic3 old code sent frame with pseudo-header checksum only → changelog must describe wire corruption, not internal flag `ip_summed stays CHECKSUM_PARTIAL`; Alison Schofield cxl `<anFCdsSo6dvxfFrZ@aschofie-mobl2.lan>`: implied partition order — define what order is, where from spec, that patch starts enforcing. Same principle that cut meta verification paragraphs with tool names and internal review nicknames per CL-14 in this repo's own history — motivation (wire corruption, spec violation) > mechanism (which helper, which lock).
 
 - <!-- CL-27 --> Paste raw artifact verbatim — KASAN splat, benchmark table indented as literal block. Composite: Dan Williams `101c268bd2f3` annotated splat.
 
