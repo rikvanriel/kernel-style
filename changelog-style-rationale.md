@@ -76,7 +76,7 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 - Also see CL-10..CL-14 above for trailers, caps, audience.
 
-## CC-10..14 / CS-10..11 — Code
+## CC-10..14 / CS-10..12 — Code
 
 - <!-- CC-10 --> Comment WHY not WHAT — hardware, locking, ordering, lifetime. Universal.
 
@@ -85,6 +85,8 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 - <!-- CS-10 --> Split out named helper when predicate multi-branch/reused — e.g. should_flush_tlb(). Decompose. Placement clause added 2026-08 after four orphaned doc comments in one page-allocator series: each extraction had been inserted at the `static ... target(` line, which lands *inside* the gap between the target's doc comment and the target, silently reassigning the comment to the new helper. Compiles clean, so neither build nor boot catches it; found only by a comment audit, and only after the same mistake had been fixed once by hand without checking for repeats. Hence a placement rule rather than a review note. Marked experimental (2026-08-02): four instances from one series and one author, no merged-commit corpus. Reassess 2026-11-02 — look for the same orphaning in real `git log -p` helper extractions and cite, or drop if it is an artifact of machine editing rather than a general hazard.
 
 - <!-- CS-11 --> Cap function length 80% ≤20 lines hard max 40 — signal to extract helper.
+
+- <!-- CS-12 --> Prefer guard() / __free() automatic cleanup over manual lock/unlock + goto. Mass conversion observed week 2026-07-28..08-04 in lore: Greg KH `<2026080345-bucked-debunk-5b57@gregkh>` debugfs "guard() is nicer" vs `mutex_lock(&debugfs_str_write_mutex)`, Jonathan Cameron `<20260802003827.1a1b8d3a@jic23-huawei>` iio/adc "use guard() rather than scoped_guard() where whole function", Thunderbolt `<20260731161842.12636-1-atharvatiwarilinuxdev@gmail.com>` "Used __free(pci_dev_put) to avoid label". Existing coding says early return, but not cleanup attributes. Guard for whole-function scope, scoped_guard for limited scope, __free(kfree)/__free(put_device) to eliminate label, no_free_ptr() for success handoff — but retain automatic cleanup through every later path including copy_to_user() failures (SCMI review `<2DA6F517-360A-4B0E-BCE6-C8BE2D5501E8@contoso.com>` leak after no_free_ptr). Avoid error-prone explicit locking; error paths with manual unlock easily miss unlock on new return.
 
 ## CL-13 — Contrast / LLM tells (summary pointer)
 

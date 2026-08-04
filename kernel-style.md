@@ -49,6 +49,7 @@ Full rules in [changelog-style.md §2](./changelog-style.md#2-code-comments). Hi
 ## 3. Code structure
 - <!-- CS-10 --> **Split out named helper when predicate gets multi-branch or reused.** Helpers small single-purpose. e.g. `should_flush_tlb()`. Place the new helper *above* the target function's doc comment, never between that comment and the function it describes — inserting at the `static ... target(` line orphans the comment onto the helper, and it still compiles.
 - <!-- CS-11 --> **Cap function length: 80% ≤20 lines, hard max 40** unless unavoidable or splitting increases complexity. Signal to extract helper, not pad.
+- <!-- CS-12 --> **Prefer guard() / __free() automatic cleanup over manual lock/unlock + goto.** `guard(mutex)` for whole-function scope, `scoped_guard` for limited scope, `__free(kfree)` / `__free(put_device)` to avoid cleanup label, `no_free_ptr()` for success handoff — retain automatic cleanup through every later path including `copy_to_user()` failures.
 - **Rename rather than duplicate when refactoring toward finer locking.**
 - **Prefer minimal obvious fix over rework.** e.g. "This patch implements the obvious fix."
 - **Locals short conventional; helper names predicate or action.**
