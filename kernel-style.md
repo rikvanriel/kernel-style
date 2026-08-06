@@ -54,6 +54,7 @@ Full rules in [changelog-style.md §2](./changelog-style.md#2-code-comments). Hi
 - **Prefer minimal obvious fix over rework.** e.g. "This patch implements the obvious fix."
 - **Locals short conventional; helper names predicate or action.**
 - **Guard early return early.** No deep nesting.
+- <!-- CS-13 --> **Split by theme, not by line count.** Group the body by what each part is *about* — validation, lookup, the state change, the accounting — and cut along those seams. A split that only moves lines out leaves a reviewer tracing one piece of logic across two functions; a split on a theme boundary lets the helper's name state what the caller may then take on trust.
 
 ## 4. Contrast with generic LLM output — summary
 Full list in [changelog-style.md §3](./changelog-style.md#3-contrast-with-generic-llm-output-do-not-do-these) [CL-13] + `llm-tells-checklist.md`. Core bans: no redundant comments restating code, no hedging filler ("Note that", "Importantly"), no marketing adjectives, no over-bulleting, no em-dash sprinkling, no recap paragraphs, no mixed verb tense, no vague justification without numbers, no double negatives, no over-explaining simple point, no templated Pros/Cons, no hyper-formal tone, no inferable boilerplate, no ornate verbs, no verbose operational detail in comments (drop PIDs hostnames dates crash narratives from source), **no internal identifiers in changelogs or comments**, no invented facts.
