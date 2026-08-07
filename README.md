@@ -47,11 +47,6 @@ Machine helper: `./scripts/phases.py --phase N` prints exact cat commands + toke
 
 **Phase 3 — draft changelog:** load [commit.md](./commit.md) mandatory on top of Phase 1+2 base. See commit.md for Phase 3 checklist, changelog-style rules reference, and verification: `scripts/checkpatch.pl --strict`, `scripts/lint-changelog.py` (Rule IDs CL-10..CL-14, CL-12 caps), `scripts/verify-cover-letter.py` for multi-patch staleness.
 
-
-## Files
-
-The "How to load" section above names every file an LLM needs to follow the workflow, with its trigger, at the point in each phase file where it actually applies. For a complete inventory of every file in this repository with word/token counts and tier classification, see [CONTRIBUTING.md](./CONTRIBUTING.md)'s Tier 1/2/3 tables — useful for a human browsing the repository or auditing token budget, not required reading for an LLM executing the workflow.
-
 ## Kernel Coding Style
 
 For upstream kernel coding style rules see Documentation/process/coding-style.rst in the Linux kernel tree, referenced in detail in [coding.md](./coding.md) Phase 1 and [review.md](./review.md) Phase 2.
