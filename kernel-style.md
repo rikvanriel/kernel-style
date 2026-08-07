@@ -28,15 +28,15 @@ Enforced before any other pass, in every file. Canonical for R0 — other files 
 For full tool list — `/kreview` setup, `checkpatch.pl`, `git log`, benchmark — see [review-prompts.md](./review-prompts.md) and changelog-style.md §0 cross-ref.
 
 ## 1. Changelog / commit message — summary
-Full rules in [changelog-style.md §1](./changelog-style.md#1-changelog--commit-message). Highlights:
+Full rules in [changelog-style.md §1](./changelog-style.md#1-changelog--commit-message).
 
 - <!-- CL-10 --> Subject `subsystem: imperative summary`, lowercase, no period.
-- <!-- CL-20 --> <!-- CL-22 --> Open body with problem in present tense; lead bugfix with real-world symptom not code mechanism.
-- <!-- CL-25 --> <!-- CL-12 --> Structure problem → cause → fix → effect, 3–6 short paragraphs, at most one over 50 words, never over 70.
-- Explain WHY with data; paste raw kernel message verbatim for bugfixes — KASAN/WARNING/oops/Call Trace must appear as indented literal block, not paraphrase.
-- <!-- CL-14 --> **Write for upstream audience, not internal tooling.** Strip internal agent nicknames, private bucket hashes without public syzbot link, internal branch names, internal hostnames, private build IDs, vendor ticket IDs. Use generic "syzkaller triggers", "KASAN reports", "tested on v6.15-rc1". Credit tools generically in prose and via trailers, not by instance name.
-- Trailers: Fixes: + Cc: stable paired, Reported-by, Link to lore, Assisted-by for non-trivial tool work.
-- Tone calm factual engineer-to-engineer; active voice; no marketing adjectives, no hedging filler, no em-dash sprinkling, no recap.
+See changelog-style.md for body structure (problem→cause→fix→effect),
+verbatim KASAN/WARNING/Call Trace artifacts, safety paragraph
+("should be safe because..." naming lock/snapshot), syzkaller chain
+(2-4 sentences, file:function per step, sister-site contrast, concrete OOB
+example), audience stripping, trailers (Fixes+stable, Reported-by, Link,
+Assisted-by), and tone.
 
 ## 2. Code comments — summary
 Full rules in [changelog-style.md §2](./changelog-style.md#2-code-comments). Highlights:
