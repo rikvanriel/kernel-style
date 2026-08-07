@@ -30,7 +30,7 @@ Current Tier 2 files:
 
 | File | Words | ~tokens | Load trigger |
 |---|---|---|---|
-| changelog-style.md | ~4,095 | ~6,822 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording. Contains Rule IDs CL-10..CL-28, CL-11, CL-12, CL-14 |
+| changelog-style.md | ~4,359 | ~7,318 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording. Contains Rule IDs CL-10..CL-28, CL-30, CL-31, CL-11, CL-12, CL-14 |
 | exemplars-routing.md | ~315 | ~560 | tiny routing table canonical per CONTRIBUTING §2 — mandatory Phase 2 to pick profile, on-demand Phase 1. Saves ~3,169w / ~5.6k tok vs full exemplars.md via `scripts/phases.py --extract` |
 | exemplars.md | ~3,435 | ~6,040 | full per-developer profiles — on-demand per routing pick via `scripts/phases.py --bug-class <class> --extract-only`, not whole file hot. Keep only chosen section resident to save tokens |
 | patch-series.md | ~3,336 | ~5,371 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
@@ -110,12 +110,12 @@ Signed-off-by: Rik van Riel <riel@surriel.com>
 ```
 
 * `Assisted-by` acknowledges non-trivial tool assistance following Documentation/process/coding-assistants.rst style adapted for docs repositories. Use public provider:model names that already appear in git history for this repository — scan `git log --grep Assisted-by` or `git log --format=%B | grep Assisted-by` before inventing new spelling. Current established forms in this repo history (verified via `git log --grep Assisted-by`):
-  - `Assisted-by: Claude:claude-opus-4-8` — for Claude-family models
-  - `Assisted-by: Meta:avocado-tester` — for Meta Avocado-family models
-If using another provider model family, follow the same `PROVIDER:MODEL` pattern with capitalized provider name matching public model family naming — for example `Assisted-by: Gemini:gemini-3-pro` would be appropriate format for Gemini models, adjust version as needed, but verify no prior established spelling already exists in git history before inventing new variant.
-  List only public model names, never internal-only tooling codenames. Multiple Assisted-by lines allowed, one per model, ordered by contribution weight. If changes are purely human-authored with trivial tool assistance (spelling, formatting, boilerplate completion), Assisted-by may be omitted, but when in doubt include it — omitting meaningful assistance may impede acceptance.
-
-* `Signed-off-by` certifies Developer Certificate of Origin per usual kernel process. For this repository Rik van Riel signs off as owner on every commit, whether human-authored or AI-assisted. An AI agent must never add its own Signed-off-by — only human SOB.
+  - `Assisted-by: Claude:claude-opus-4-8` — for Claude-family models (harness:model per coding-assistants.rst)
+  - `Assisted-by: Hermes:muse-spark-1.2 syzkaller` — for Hermes harness with Muse Spark external product name, plus syzkaller tool
+  - `Assisted-by: Meta:avocado-tester` — legacy, use `Hermes:muse-spark-1.2 syzkaller` for current models
+If using another provider model family, follow the same `AGENT_NAME:MODEL_VERSION [TOOL]` pattern per coding-assistants.rst with harness name before colon (AGENT_NAME) matching existing git history — for example `Assisted-by: Gemini:gemini-3-pro` would be appropriate format for Gemini models, adjust version as needed, but verify no prior established spelling already exists in git history before inventing new variant.
+  Format is harness:model per `Documentation/process/coding-assistants.rst` — e.g. `Hermes:muse-spark-1.2 syzkaller`. Multiple Assisted-by lines allowed, one per model, ordered by contribution weight.
+* `Signed-off-by` certifies Developer Certificate of Origin per usual kernel process. An AI agent must never add its own Signed-off-by — only human SOB.
 
 * No other trailers are required unless fixing a prior commit (then add `Fixes:` with full 12-character commit hash and subject context in body, per kernel-style rules themselves).
 

@@ -78,9 +78,13 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 - <!-- CL-28 --> If bug produces kernel message, MUST include verbatim — KASAN/UBSAN/WARNING/oops/Call Trace indented literal block, not paraphrase. Trim noise but keep signature, Call Trace, Allocated-by/Freed-by for UAF. Never fabricate matching splat if you captured different signature (R0).
 
+- <!-- CL-30 --> Safety paragraph for concurrency/locking/bounds fixes: must state "should be safe because..." not "is safe because...", naming protecting lock/snapshot and why no new race. Verifiable in review — reviewer checks lock, snapshot, free path you name. Derived from real syzkaller fixes: nvmet max_qid fix `eae699c90e4b`→`deb91776540e` transition — configfs qid_max store holds down_write(&nvmet_config_sem) deletes old controllers, snapshot in ctrl immutable after creation, no extra locking should be needed. Pattern in fbdev bitblit fix `bb46c1e199cc`.
+
+- <!-- CL-31 --> Chain-of-events paragraph mandatory for every syzkaller fix, 2-4 sentences, file:function per step, sister-site contrast, concrete OOB example. Derived from syzkaller workflow needing to verify bug possibility without reproducer. Examples: fbdev soft_cursor global OOB — When font is changed from 512 to 256 glyphs, hi_font_mask cleared but screen buffer retains high-bit glyph via vt.c:screen_glyph, bit_cursor lacks clamp vs bit_putcs_aligned at 18c4ef4e765a which does clamp, concrete glyph 257 past 256-glyph fontdata_8x16+0x1010; nvmet TOCTOU — When max_qid raised from small to large via configfs.c:attr_qid_max_store under down_write, controller keeps old small sqs array allocated in core.c:nvmet_alloc_ctrl, I/O connect validates against new large but dereferences old array at qid=2 past 16-byte. Keep under 70 words, one over-50 allowed, kverify checks file:function exists and sister-site has clamp.
+
 - Also see CL-10..CL-14 above for trailers, caps, audience.
 
-## CC-10..14 / CS-10..12 — Code
+## CC-10..14 / CS-10..13 — Code
 
 - <!-- CC-10 --> Comment WHY not WHAT — hardware, locking, ordering, lifetime. Universal.
 
@@ -91,6 +95,8 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 - <!-- CS-11 --> Cap function length 80% ≤20 lines hard max 40 — signal to extract helper.
 
 - <!-- CS-12 --> Prefer guard() / __free() automatic cleanup over manual lock/unlock + goto. Mass conversion observed week 2026-07-28..08-04 in lore: Greg KH `<2026080345-bucked-debunk-5b57@gregkh>` debugfs "guard() is nicer" vs `mutex_lock(&debugfs_str_write_mutex)`, Jonathan Cameron `<20260802003827.1a1b8d3a@jic23-huawei>` iio/adc "use guard() rather than scoped_guard() where whole function", Thunderbolt `<20260731161842.12636-1-atharvatiwarilinuxdev@gmail.com>` "Used __free(pci_dev_put) to avoid label". Existing coding says early return, but not cleanup attributes. Guard for whole-function scope, scoped_guard for limited scope, __free(kfree)/__free(put_device) to eliminate label, no_free_ptr() for success handoff — but retain automatic cleanup through every later path including copy_to_user() failures (SCMI review `<2DA6F517-360A-4B0E-BCE6-C8BE2D5501E8@contoso.com>` leak after no_free_ptr). Avoid error-prone explicit locking; error paths with manual unlock easily miss unlock on new return.
+
+- <!-- CS-13 --> Split by theme, not line count. Group body by what each part is *about* — validation, lookup, state change, accounting — and cut along those seams. A split that only moves lines out leaves reviewer tracing one piece of logic across two functions; a split on theme boundary lets helper's name state what caller may then take on trust. From refactoring toward finer locking: rename rather than duplicate when refactoring. Added 2026-08 after mm/gup series where helper was split by line count not theme.
 
 ## CL-13 — Contrast / LLM tells (summary pointer)
 
