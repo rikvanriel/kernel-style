@@ -179,6 +179,69 @@ def check_paragraph_caps(paras):
             violations.append(f"Para {i+1} {c}w >70: '{preview}...' [CL-12]")
     return violations
 
+LORE_BAD = re.compile(r"^Link:\s*https?://lore\.kernel\.org/(?!r/)", re.M)
+ASSISTED = re.compile(r"^Assisted-by:\s*(\S+)\s*$", re.M)
+ASSISTED_OK = re.compile(r"^[A-Z][A-Za-z]*:[a-z0-9][a-z0-9-]*$")
+FWD_REF = re.compile(r"\ba (?:later|subsequent) (?:change|patch)\b|\bthe next patch\b", re.I)
+IDENT = re.compile(r"[a-z_][a-z0-9_]*\(\)|`[^`]+`")
+RACE = re.compile(r"\brace|\bconcurrent|\binterleav", re.I)
+CPU_LADDER = re.compile(r"^\s*CPU ?[01]\b", re.M)
+UNIT = re.compile(r"\b\d[\d,.]*\s*(us|ms|ns|%|x|MB/s|GB/s|iops|cycles)\b", re.I)
+INDENTED = re.compile(r"^(?:\t| {2,})\S", re.M)
+CLEANUP_SUBJ = re.compile(r"\b(cleanup|clean up|refactor|track|simplify|tidy)\b", re.I)
+IMPACT_BODY = re.compile(r"\brace\b|\bleak\b|\bcorrupt|\bhang\b|\bcrash|\bdeadlock", re.I)
+# a hash has at least one a-f; an all-digit run is a date or a message-id
+BARE_HASH = re.compile(r"(?<!commit )\b(?=[0-9a-f]*[a-f])[0-9a-f]{12,40}\b")
+
+
+def check_trailer_forms(text: str, trailers: list):
+    """Checks with no checkpatch.pl equivalent, or narrower than its version."""
+    out = []
+    for m in LORE_BAD.finditer(text):
+        out.append("Link: uses a list-specific lore path — /r/ is the redirector "
+                   "that resolves for subsystem-only postings [patch-series 7]")
+    for m in ASSISTED.finditer(text):
+        if not ASSISTED_OK.match(m.group(1)):
+            out.append(f"Assisted-by value {m.group(1)!r} — expect "
+                       "AGENT:model-version with hyphens; checkpatch only checks "
+                       "for the colon, so a wrong spelling passes it")
+    joined = " ".join(trailers)
+    if "stable@vger" in joined and "Fixes:" not in joined:
+        out.append("Cc: stable without a Fixes: tag — name the commit being fixed [CL-11]")
+    return out
+
+
+def check_message_body_rules(subject: str, body: str, text: str):
+    out = []
+    if "is safe because" in body.lower() and "should be safe" not in body.lower():
+        out.append('says "is safe because" — write "should be safe because", '
+                   "a patch can overlook a path [CL-30]")
+    for line in body.split("\n"):
+        if FWD_REF.search(line):
+            # reported even when an identifier is nearby: the identifier is
+            # usually the thing being changed, not the later change itself,
+            # which is what has to be named
+            out.append(f"forward reference to an unnamed change: {line.strip()[:58]!r} "
+                       "— name the function or contract it introduces [CL-13]")
+    if RACE.search(body) and not CPU_LADDER.search(text):
+        out.append("describes a race with no CPU 1 / CPU 2 ladder [CL-23]")
+    if UNIT.search(body) and not INDENTED.search(body):
+        out.append("quotes a measured quantity with no indented literal block — "
+                   "paste the artifact [CL-27, R0-5]")
+    if CLEANUP_SUBJ.search(subject) and IMPACT_BODY.search(body):
+        out.append("subject reads as cleanup while the body describes a race, leak, "
+                   "hang or corruption — say the impact [CL-10d]")
+    return out
+
+
+def collect_bare_hashes(body: str):
+    body = "\n".join(l for l in body.split("\n")
+                     if not l.startswith(("Link:", "Message-Id:", "References:")))
+    """R0-1 gap: checkpatch validates 'commit <sha> ("title")' and Fixes:, not a
+    hash dropped into prose on its own."""
+    return sorted(set(m.group(0) for m in BARE_HASH.finditer(body)))
+
+
 def check_banned_phrases(body: str):
     violations = []
     for pat, msg in BANNED_PHRASES:
@@ -258,6 +321,8 @@ def lint(text: str):
     all_violations.extend(check_banned_phrases(body))
     all_violations.extend(check_internal_identifiers(body))
     all_violations.extend(check_verbatim_artifact(body, subject, text))
+    all_violations.extend(check_trailer_forms(text, trailers))
+    all_violations.extend(check_message_body_rules(subject, body, text))
     return subject, measured, trailers, all_violations
 
 def main():
@@ -283,6 +348,14 @@ def main():
     if paras:
         print(f"Word counts: {[count_words(p) for p in paras]}")
     print()
+
+    bare = collect_bare_hashes(parse_commit(text)[3])
+    if bare:
+        print("R0-1 — checkpatch does not validate a bare hash in prose; confirm "
+              "each exists:")
+        for h in bare:
+            print(f"  git cat-file -e {h}^{{commit}}")
+        print()
 
     if args.cite:
         _, _, _, body = parse_commit(text)
