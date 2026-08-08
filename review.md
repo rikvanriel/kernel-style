@@ -27,7 +27,7 @@ Add mandatory for Phase 2 review:
 On demand during Phase 2 if needed:
 - `changelog-style.md` — pull early if reviewing code comments for density or style, or if reviewing proposed commit message structure before drafting final message. Its §2 contains detailed comment rules beyond summary in kernel-style.md; §1 contains detailed changelog rules beyond summary. Normally changelog-style loads in Phase 3, but an early pull in Phase 2 is fine if you need it there.
 
-- `patch-series.md` - pull early if any single source file has 200 or more changed lines, or a patch has 400 or more changed lines.
+- `patch-series.md` - pull early if any single source file has 200 or more changed lines, or a patch has 400 or more changed lines, or if a single patch covers more than one theme. Check the theme trigger separately, because it fires on patches well under both line counts: a patch that changes when a lock is held *and* changes a function's signature or return contract is carrying two themes, and so is one that leaves a function it touched still over kernel-style.md §3's length cap.
 
 ## Phase 2 mandatory steps
 
