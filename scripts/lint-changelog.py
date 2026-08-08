@@ -11,6 +11,21 @@ Checks a commit message file or patch changelog file for:
 - CL-14 internal identifiers: bucket hashes, agent nicknames, private branches
 - CL-15 verbatim artifact rule: bugfix mentioning KASAN/WARNING/oops must include indented literal block
 
+What belongs in this script
+---------------------------
+Only a rule that is (a) decidable from the artifact alone, with no judgement
+about intent or quality, and (b) very unlikely to fire on correct work.
+
+The second half is the binding one. A check that is right most of the time
+still teaches the author to skim past output, and it takes the reliable checks
+in the same run down with it. Prefer no check to a noisy one.
+
+When a rule is real but the test is not that clean, it goes in as a note
+instead of a finding: notes are printed and not counted, so they can ask a
+question the script cannot answer. When it cannot even be a reliable note,
+leave it in the prose rules, where it does its work by priming the author
+rather than by gating the commit.
+
 Usage:
   ./scripts/lint-changelog.py <changelog-file>
   ./scripts/lint-changelog.py --stdin < patch.txt

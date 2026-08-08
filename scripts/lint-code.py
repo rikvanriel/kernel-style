@@ -23,6 +23,21 @@ Deliberately not implemented, with reasons, so nobody adds them by reflex:
   only the last has a table" is equally true of a correct prep-then-optimise
   pair, so it belongs in a series-level advisory, not a per-patch gate.
 
+What belongs in this script
+---------------------------
+Only a rule that is (a) decidable from the artifact alone, with no judgement
+about intent or quality, and (b) very unlikely to fire on correct work.
+
+The second half is the binding one. A check that is right most of the time
+still teaches the author to skim past output, and it takes the reliable checks
+in the same run down with it. Prefer no check to a noisy one.
+
+When a rule is real but the test is not that clean, it goes in as a note
+instead of a finding: notes are printed and not counted, so they can ask a
+question the script cannot answer. When it cannot even be a reliable note,
+leave it in the prose rules, where it does its work by priming the author
+rather than by gating the commit.
+
 Overlap with checkpatch.pl is avoided: commit-hash citation (GIT_COMMIT_ID,
 BAD_FIXES_TAG) and Assisted-by shape are already enforced there.
 
