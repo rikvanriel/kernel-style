@@ -84,6 +84,8 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 - <!-- CL-32 --> Per-patch benchmark attribution when a series splits one optimisation. Derived from mm/gup follow_page_mask batching, posted as a single combined table in `20260801031540.2742891-1-riel@surriel.com`: `4 kB 2721->1198 (2.3x), 64 kB mTHP 2929->201 (14.6x)`, all attributed to the final batching patch. Re-measured per patch with before held at the series base, the walk alone gave 4 kB 2753->1178 (2.3x) and 64 kB 2946->1361 (2.2x); batching then took 64 kB to 231 (12.8x). The walk helped both sizes about equally because what it saves is the page-table descent, not anything folio-specific — invisible in the combined number. CL-26/CL-27 require a table; neither requires attribution across a split.
 
+- <!-- CL-33 --> Within-noise differences and control rows. From the mm/gup per-patch re-measurement: 4 kB base pages read 1178 us with the walk applied and 1198 us with batching applied on top, across two boots of the same benchmark. Batching cannot touch base pages, which share no folio, so the 1.7% is variation; reporting it either way would have invented a mechanism. The 2 MB THP row stayed at 70-72 us throughout and is what demonstrates follow_page_pte() is never reached for PMD-mapped folios, a scope claim otherwise unverifiable from the changelog.
+
 - Also see CL-10..CL-14 above for trailers, caps, audience.
 
 ## CC-10..14 / CS-10..13 — Code
