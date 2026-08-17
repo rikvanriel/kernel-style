@@ -94,6 +94,16 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 - <!-- CC-10 --> Comment WHY not WHAT — hardware, locking, ordering, lifetime. Universal.
 
+- <!-- CC-10b --> Restatement that reads like explanation. CC-10 bans restating the code, but a comment can describe what a function does with its arguments and still feel like a why, because it names a purpose rather than echoing a line. Two from one review of a maple tree helper:
+
+  Before: "Widen [*lo, *hi] to cover every iova overlapping the requested range, or return the existing iova if that one already covers the whole request." After: "A maple tree cannot hold overlapping ranges, so overlapping reservations have to be merged into one wider entry." The before is the signature in prose; the after is the constraint that forced the helper to exist, and the rbtree version it replaced simply left overlapping nodes in the tree.
+
+  Before: "Preallocate the nodes for the merged store so it cannot fail; only then free the now-superseded overlaps and store the merged range." After: "The superseded overlaps are freed before the merged store, so the store must not be able to fail after that point." Same length. The before spends its second clause listing the order of the next eight lines; the after says why the preallocate call is there at all.
+
+  Both drafts passed a self-review against CC-10 because each explained *a* why — a purpose, an ordering. The narrower test is whether the sentence could be reconstructed from the signature plus the body. If it could, it is restatement.
+
+  Marked experimental (2026-08-17): two instances, one helper, one author, no merged-commit corpus. Reassess 2026-11-17.
+
 - <!-- CC-11 --> Density low purposeful 1-2 lines typical max 2-8 block, same 50w cap per CL-12.
 
 - <!-- CS-10 --> Split out named helper when predicate multi-branch/reused — e.g. should_flush_tlb(). Decompose. Placement clause added 2026-08 after four orphaned doc comments in one page-allocator series: each extraction had been inserted at the `static ... target(` line, which lands *inside* the gap between the target's doc comment and the target, silently reassigning the comment to the new helper. Compiles clean, so neither build nor boot catches it; found only by a comment audit, and only after the same mistake had been fixed once by hand without checking for repeats. Hence a placement rule rather than a review note. Marked experimental (2026-08-02): four instances from one series and one author, no merged-commit corpus. Reassess 2026-11-02 — look for the same orphaning in real `git log -p` helper extractions and cite, or drop if it is an artifact of machine editing rather than a general hazard.
