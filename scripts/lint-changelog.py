@@ -231,12 +231,16 @@ def check_message_body_rules(subject: str, body: str, text: str):
     if "is safe because" in body.lower() and "should be safe" not in body.lower():
         out.append('says "is safe because" — write "should be safe because", '
                    "a patch can overlook a path [CL-30]")
-    for line in body.split("\n"):
-        if FWD_REF.search(line):
-            # reported even when an identifier is nearby: the identifier is
-            # usually the thing being changed, not the later change itself,
-            # which is what has to be named
-            out.append(f"forward reference to an unnamed change: {line.strip()[:58]!r} "
+    # Sentence-scoped, not line-scoped: a changelog is hard-wrapped, so the
+    # forward reference and the identifier that satisfies it are usually on
+    # different lines. CL-13 permits the reference when it names what it
+    # points at, so a sentence containing a foo() identifier is left alone.
+    # Cost of that: a sentence naming the thing being *changed* rather than
+    # the later change now passes. Firing on compliant text is worse — a
+    # check that cries wolf stops being read.
+    for sentence in re.split(r"(?<=[.!?])\s+", " ".join(body.split("\n"))):
+        if FWD_REF.search(sentence) and not re.search(r"\w+\(\)", sentence):
+            out.append(f"forward reference to an unnamed change: {sentence.strip()[:58]!r} "
                        "— name the function or contract it introduces [CL-13]")
     if RACE.search(body) and not CPU_LADDER.search(text):
         out.append("describes a race with no CPU 1 / CPU 2 ladder [CL-23]")
