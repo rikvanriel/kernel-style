@@ -47,6 +47,10 @@ Machine helper: `./scripts/phases.py --phase N` prints exact cat commands + toke
 
 **Phase 3 — draft changelog:** load [commit.md](./commit.md) mandatory on top of Phase 1+2 base. See commit.md for Phase 3 checklist, changelog-style rules reference, and verification: `scripts/checkpatch.pl --strict`, `scripts/lint-changelog.py` (Rule IDs CL-10..CL-14, CL-12 caps), `scripts/verify-cover-letter.py` for multi-patch staleness.
 
+**Rationale files (Tier 3) — read on demand, never loaded by default.** Every rule ID in a hot file has a matching `<!-- ID -->` entry in the sibling rationale file: `changelog-style.md` → `changelog-style-rationale.md`, `kernel-readability-principles.md` → `kernel-readability-rationale.md`. Each entry holds the worked before/after that produced the rule, the wordings considered and rejected, and any experimental marking with a reassess date.
+
+Read the matching entry when you are unsure how to apply a rule, when a rule looks wrong or over-fit and you are about to dispute or weaken it, or when you are about to propose a new rule that may already exist as a clause on an old one. It costs one grep for the ID and usually settles the question — CL-12's entry records why the paragraph cap is an absolute count rather than a percentage, which is the question reviewers most often re-derive from scratch. Note this is a *read* trigger; CONTRIBUTING §1's requirement to update the entry when you change a rule is separate.
+
 ## Kernel Coding Style
 
 For upstream kernel coding style rules see Documentation/process/coding-style.rst in the Linux kernel tree, referenced in detail in [coding.md](./coding.md) Phase 1 and [review.md](./review.md) Phase 2.

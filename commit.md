@@ -27,6 +27,8 @@ Add mandatory for Phase 3 draft changelog:
 On demand during Phase 3 if needed:
 - `patch-series.md` — how to structure multi-patch series: one logical change per patch, bisectability, ordering, cover letters. Load only when change is >1 patch (~2,112 words ≈3,475 tokens transient). Keep resident until task end if loaded.
 
+- `changelog-style-rationale.md` — pull the single `<!-- ID -->` entry for a rule when unsure how to apply it, or before arguing with it. Holds the worked before/after and the experimental markings. See README.
+
 ## Phase 3 mandatory steps
 
 1. Keep Phase 1 and Phase 2 files resident per cumulative model — do not unload previous phase context or you lose code structure rules and voice calibration achieved in earlier phases.
