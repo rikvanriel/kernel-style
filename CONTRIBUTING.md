@@ -30,7 +30,7 @@ Current Tier 2 files:
 
 | File | Words | ~tokens | Load trigger |
 |---|---|---|---|
-| changelog-style.md | ~5,220 | ~8,610 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording. Contains Rule IDs CL-10..CL-14, CL-20..CL-33, CL-35..CL-37 (CL-34 is the hallucination-leakage rule) |
+| changelog-style.md | ~5,300 | ~8,735 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording. Contains Rule IDs CL-10..CL-14, CL-12b, CL-20..CL-33, CL-35..CL-37 (CL-34 is the hallucination-leakage rule), CC-10b |
 | exemplars-routing.md | ~315 | ~560 | tiny routing table canonical per CONTRIBUTING §2 — mandatory Phase 2 to pick profile, on-demand Phase 1. Saves ~3,169w / ~5.6k tok vs full exemplars.md via `scripts/phases.py --extract` |
 | exemplars.md | ~3,435 | ~6,040 | full per-developer profiles — on-demand per routing pick via `scripts/phases.py --bug-class <class> --extract-only`, not whole file hot. Keep only chosen section resident to save tokens |
 | patch-series.md | ~3,336 | ~5,371 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
@@ -153,7 +153,7 @@ This rule exists so git history itself carries complete provenance without needi
 ID system is now **live** in hot files (not just planned). Namespace:
 - `R0-1..R0-6` — factual integrity canonical (kernel-style.md §0). Plus `R0-3-CH`, `R0-5-CH`, `R0-6-CH` changelog-specific subset.
 - `CL-10..CL-28` — changelog / commit message rules (CL-10 subject, CL-11 Fixes+Cc, CL-12 caps, CL-14 audience/internal-IDs, CL-20..28 body structure)
-- `CC-10..CC-14` — code comment rules (CC-10 WHY not WHAT, CC-14 no internal IDs)
+- `CC-10..CC-14` — code comment rules (CC-10 WHY not WHAT, CC-10b restatement that reads like explanation, CC-14 no internal IDs)
 - `CS-10..CS-11` — code structure (CS-10 helper extraction, CS-11 function length cap)
 - `CL-13` / `CC-13` — anti-LLM-tells (hedging, marketing, em-dash, recap) — full list in llm-tells-checklist.md, summary in changelog-style.md §3
 

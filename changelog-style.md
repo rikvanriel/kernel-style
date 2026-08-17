@@ -68,6 +68,7 @@ Canonical: [](./kernel-style.md#0-factual-integrity--never-invent-always-verify)
 
 ## 2. Code comments
 - **Comment the WHY: hardware behavior, locking, ordering, lifetime, subtle invariants — never restate the code.** (e.g. `b7aa05cbdc52` INVLPGB ordering/flag semantics; `209954cbc7d0` "Atomic writes to mm_cpumask can be expensive under contention. The CPU will be removed lazily at TLB flush time.").
+- <!-- CC-10b --> **A sentence describing what the function does with its arguments is restatement, even when it reads like an explanation.** The signature and the body already say it. Comment the constraint that made the function necessary instead: "A maple tree cannot hold overlapping ranges, so overlapping reservations have to be merged into one wider entry" beats "Widen [*lo, *hi] to cover every iova overlapping the requested range, or return the existing iova if that one already covers the whole request."
 - **Density is low and purposeful.** Most lines uncommented; comments cluster where reasoning is non-obvious (a new helper, a tricky branch, a race). Obvious code gets none.
 - **Keep a comment as short as the point allows — one or two lines for a simple invariant, not a paragraph.** Even when every line is accurate, padding an obvious placement/ordering rule into a multi-line explanation reads as LLM slop. Say the why in the fewest words and stop.
 - **Same paragraph cap as changelogs: CL-12.**
