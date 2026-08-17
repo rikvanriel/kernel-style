@@ -15,6 +15,9 @@ Checks:
   llm-tells-checklist.md, review.md, commit.md, etc. Pattern: <!-- ID -->
 - Collects IDs from rationale files: changelog-style-rationale.md, kernel-readability-rationale.md etc.
 - Reports hot-only and rationale-only.
+- Reports the same ID used twice inside one hot file. Set membership alone cannot see
+  this: reusing a live ID for an unrelated new rule leaves both files "matched" and
+  the check green, while the older rule silently points at the wrong rationale entry.
 
 This script was added per review feedback round 2 (Rockhopper):
 Previously CONTRIBUTING claimed "CI orphan check passes" with no script — now this is the script.
@@ -46,6 +49,13 @@ RATIONALE_FILES = [
 
 ID_RE = re.compile(r"<!--\s*([A-Za-z0-9-]+)\s*-->")
 
+# An ID may appear in several hot files: CONTRIBUTING §2 asks for one canonical
+# location plus short cross-references. Twice in the SAME file is a collision.
+# Entries here are known duplications CONTRIBUTING §2 already tracks for consolidation.
+KNOWN_INTRA_FILE_DUPES = {
+    "changelog-style.md": {"CL-14"},
+}
+
 def collect_ids_from_file(path: Path):
     try:
         text = path.read_text(errors="replace")
@@ -61,6 +71,19 @@ def collect_ids_from_file(path: Path):
             filtered.add(i)
     return filtered
 
+def collect_dupes_from_file(path: Path):
+    """IDs appearing more than once in one file, minus the tracked exceptions."""
+    try:
+        text = path.read_text(errors="replace")
+    except FileNotFoundError:
+        return {}
+    counts = {}
+    for i in ID_RE.findall(text):
+        if re.match(r"^(R0|CL|CC|CS)-", i):
+            counts[i] = counts.get(i, 0) + 1
+    allowed = KNOWN_INTRA_FILE_DUPES.get(path.name, set())
+    return {i: n for i, n in counts.items() if n > 1 and i not in allowed}
+
 def main():
     parser = argparse.ArgumentParser(description="check orphan Rule IDs hot <-> rationale")
     parser.add_argument("--strict", action="store_true", help="exit 1 on any orphan")
@@ -69,11 +92,15 @@ def main():
 
     hot_ids = set()
     hot_by_file = {}
+    dupes_by_file = {}
     for fname in HOT_FILES:
         p = REPO / fname
         ids = collect_ids_from_file(p)
         hot_by_file[fname] = ids
         hot_ids |= ids
+        d = collect_dupes_from_file(p)
+        if d:
+            dupes_by_file[fname] = d
 
     rationale_ids = set()
     rationale_by_file = {}
@@ -95,6 +122,7 @@ def main():
             "rationale_only": rationale_only,
             "hot_by_file": {k: sorted(v) for k,v in hot_by_file.items()},
             "rationale_by_file": {k: sorted(v) for k,v in rationale_by_file.items()},
+            "intra_file_dupes": dupes_by_file,
         }, indent=2))
     else:
         print(f"Hot files: {HOT_FILES}")
@@ -122,13 +150,16 @@ def main():
         else:
             print("PASS: No rationale-only IDs — every rationale ID has matching hot entry")
 
-    if (hot_only or rationale_only) and args.strict:
-        sys.exit(1)
-    else:
-        # Even in non-strict, exit 1 if orphans to make CI useful, but allow manual runs to see output
-        if hot_only or rationale_only:
-            sys.exit(1)
-        sys.exit(0)
+        print()
+        if dupes_by_file:
+            print("FAIL: Same Rule ID used twice inside one hot file:")
+            for fname, d in dupes_by_file.items():
+                for i, n in sorted(d.items()):
+                    print(f"  - {fname}: {i} appears {n} times — give the new rule the next free ID")
+        else:
+            print("PASS: No duplicate Rule IDs within a hot file")
+
+    sys.exit(1 if (hot_only or rationale_only or dupes_by_file) else 0)
 
 if __name__ == "__main__":
     main()

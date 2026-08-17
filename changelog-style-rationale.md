@@ -112,6 +112,8 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 - Phase 3 final gate: `scripts/checkpatch.pl --strict`, `scripts/lint-changelog.py <file>` or `git log -1 --pretty=%B | lint-changelog.py --stdin`, `scripts/verify-cover-letter.py --cover cover.txt --patches patch*.patch` for multi (with real number diffing, not just shape presence — fixed per feedback #3). Then peer-review.md two questions as self-review, then commit with trailers per CONTRIBUTING §5.
 
+- <!-- CL-34 --> Cross-fix leakage. Added in `b26bc33` "check for hallucinations in the changelog" without a rationale entry, which left it orphaned until the ID was nearly recycled for an unrelated rule. The failure mode it guards is narrower than R0-1's "verify every claim": a changelog can be internally consistent and still describe the previous patch's subsystem, call chain, reproducer, or `Fixes:` hash, because that text was in context when this one was drafted. R0-1 asks whether a claim is true somewhere; CL-34 asks whether it is true of *this* diff. Both footers and prose leak, so the rule covers `Fixes:`, `Closes:`, `Reported-by:` and `Link:` explicitly.
+
 ## Cross-links
 
 - Hot: kernel-style.md §0 R0-1..R0-6 canonical, §1 CL-10, §2 CC-10, §3 CS-10, §4 CL-13 summary
