@@ -24,7 +24,7 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 - <!-- R0-8 --> Name the artifact per claim — companion mechanical step for R0-1/R0-3/R0-7. Same 2026-08 series: `checkpatch.pl` reported "no obvious style problems and is ready for submission" on a patch whose changelog asserted an unobserved splat, so the existing tool gate gave false assurance. Listing each empirical claim beside the artifact that produced it (log path, command output, `git show` hash) is checkable by a reviewer and by the author, where "did I verify this?" recalled from memory is not.
 
-- <!-- R0-3-CH --> Changelog-specific verification of scope/files/symptom/cause/fix/perf/Fixes/Link/Reported-by — subset of R0-3 focused on changelog. Derived-not-measured clause added 2026-08-17: a draft claimed maple nodes cost "roughly 28-41 bytes per entry at typical fill", computed from node-fill assumptions rather than measured. The author deleted it instead of defending it. A measurement taken later put the real figure at 41 B per entry, so the estimate was not even wrong — it was simply uncheckable by a reviewer.
+- <!-- R0-3-CH --> Changelog-specific verification of scope/files/symptom/cause/fix/perf/Fixes/Link/Reported-by — subset of R0-3 focused on changelog. Derived-not-measured clause added 2026-08-17: a draft claimed maple nodes cost "roughly 28-41 bytes per entry at typical fill", computed from node-fill assumptions rather than measured. The author deleted it instead of defending it. The point is not that the estimate was wrong. A number derived from assumptions cannot be checked by a reviewer, so it buys nothing that omitting it would not.
 
 - <!-- R0-5-CH --> Artifact verbatim checks: git show exists, lore/syzbot link resolves.
 
@@ -46,7 +46,7 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 ## CL-12 — Paragraph caps
 
-- <!-- CL-12 --> At most one paragraph over 50w, none over 70 — was "90% of paragraphs ≤50w", changed 2026-08 after applying it to a 40-patch series. A percentage reads lenient but is severe on short changelogs: at 5 paragraphs, 4/5 = 80% < 90%, so *zero* paragraphs could exceed 50 words, and most changelogs in that series are 3-6 paragraphs. The intent was one idea per paragraph with a little slack for content that will not split; an absolute count expresses that directly and does not tighten as the changelog gets shorter. Hard 70 unchanged. — checkable backstop for "one idea per paragraph" from kernel-readability-principles. Applies to changelogs and code comments. Enforced by lint-changelog.py. Cutting >70 signals to split or compress, not pad to 70. Merging two related clauses under cap beats splitting for "one idea per paragraph" cost. 2026-08: ordering between the two made explicit after a draft was shortened by deleting whole paragraphs rather than compressing them. One idea per paragraph is the invariant; the word count is how a violation is detected, not a number to shrink toward. Hard 70 unchanged: one idea needing over 70 words is usually two.
+- <!-- CL-12 --> At most one paragraph over 50w, none over 70 — was "90% of paragraphs ≤50w", changed 2026-08 after applying it to a 40-patch series. A percentage reads lenient but is severe on short changelogs: at 5 paragraphs, 4/5 = 80% < 90%, so *zero* paragraphs could exceed 50 words, and most changelogs in that series are 3-6 paragraphs. The intent was one idea per paragraph with a little slack for content that will not split; an absolute count expresses that directly and does not tighten as the changelog gets shorter. Hard 70 unchanged. — checkable backstop for "one idea per paragraph" from kernel-readability-principles. Applies to changelogs and code comments. Enforced by lint-changelog.py. Cutting >70 signals to split or compress, not pad to 70. Merging two related clauses under cap beats splitting for "one idea per paragraph" cost. Precedence over "one idea per paragraph" split out to CL-12b 2026-08-17.
 
 ## CL-14 — Audience / internal identifiers
 
@@ -106,6 +106,9 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 ## CL-13 — Contrast / LLM tells (summary pointer)
 
+- <!-- CL-12b --> Precedence between the cap and one idea per paragraph. Split from CL-12 2026-08-17: the two had been welded onto one bullet, which read as the same point said twice because CL-12 warns against padding up to 70 while this warns against splitting below it. Made explicit after a draft was shortened by deleting whole paragraphs rather than compressing them, on the reasoning that one idea per paragraph is the invariant and the word count is how a violation gets detected, not a number to shrink toward. Hard 70 unchanged.
+
+  Marked experimental (2026-08-17): one drafting exercise, one author, no merged-commit corpus. Reassess 2026-11-17.
 - <!-- CL-13 --> Full list in llm-tells-checklist.md, summary in changelog-style.md §3. Core bans: redundant comments, hedging filler "Note that", marketing adjectives robust/powerful/seamless, over-bulleting, em-dash, recap, mixed tense, vague justification, double negatives, templated Pros/Cons, ornate verbs, inferable boilerplate "No functional change" on obvious rename, internal identifiers. Enforced by lint-changelog.py heuristic + /kslop automated (higher confidence bar, cluster requirement, hard cap 3 findings).
 
 ## Verification workflow
