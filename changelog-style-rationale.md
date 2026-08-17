@@ -115,6 +115,7 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 - Phase 3 final gate: `scripts/checkpatch.pl --strict`, `scripts/lint-changelog.py <file>` or `git log -1 --pretty=%B | lint-changelog.py --stdin`, `scripts/verify-cover-letter.py --cover cover.txt --patches patch*.patch` for multi (with real number diffing, not just shape presence — fixed per feedback #3). Then peer-review.md two questions as self-review, then commit with trailers per CONTRIBUTING §5.
 
+- <!-- CL-34 --> Cross-fix leakage. Added in `b26bc33` "check for hallucinations in the changelog" without a rationale entry, which left it orphaned until the ID was nearly recycled for an unrelated rule. The failure mode it guards is narrower than R0-1's "verify every claim": a changelog can be internally consistent and still describe the previous patch's subsystem, call chain, reproducer, or `Fixes:` hash, because that text was in context when this one was drafted. R0-1 asks whether a claim is true somewhere; CL-34 asks whether it is true of *this* diff. Both footers and prose leak, so the rule covers `Fixes:`, `Closes:`, `Reported-by:` and `Link:` explicitly.
 - <!-- CL-35 --> Iteration and compression axis. One changelog for a 158/255-line rbtree-to-maple-tree conversion in drivers/iommu/iova.c took three passes: 401 words in 11 paragraphs (max 54), then 320 in 8 (max 47) after an LLM asked to shorten it deleted three paragraphs, then 282 in 10 (max 45) after the author rewrote every paragraph in place. Fewer words in more paragraphs, and the deleted claims came back.
 
   The stopping criterion is about claims rather than length because of what changed between passes. The third pass replaced the alignment paragraph's arithmetic with the tradeoff behind it and dropped a derived byte-range, so it still moved content; a pass that only reworded would have meant the changelog had converged. Scoping the rule to "asked to shorten" missed the common case, which is noticing on a re-read.
@@ -128,6 +129,7 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 - <!-- CL-37 --> Ordering multiple reasons. Same changelog, lock paragraph. MT_FLAGS_LOCK_EXTERN has two justifications: the iova code runs in interrupt context and needs an irq-safe lock, which mtree_lock()'s plain spin_lock() is not; and one critical section spans a gap search plus the store that fills it. The draft led with the second and trailed the first as a clause; the final led with the interrupt-context requirement and compressed the rest to "The same lock also protects related iova data". Only the first makes the tree's built-in lock unusable.
 
   Marked experimental (2026-08-17): sourced from one drafting exercise on one patch by one author, with no merged-commit corpus. The example is an unpublished scratch-branch commit, so there is no citable upstream hash and none should be invented. Reassess 2026-11-17 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
+
 
 ## Cross-links
 
