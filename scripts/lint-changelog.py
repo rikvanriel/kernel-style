@@ -6,7 +6,7 @@ Checks a commit message file or patch changelog file for:
 - R0 factual integrity markers (TODO vs invented numbers — heuristic)
 - CL-10 subject format: subsys: lowercase imperative, no trailing period
 - CL-11 Fixes: must be paired with Cc: stable@
-- CL-12 paragraph caps: 90% ≤50w, max 70, never beyond
+- CL-12 paragraph caps: at most one paragraph >50w, none >70
 - CL-13 banned LLM tells: "This patch", "Note that", marketing adjectives, em-dash sprinkling, recap
 - CL-14 internal identifiers: bucket hashes, agent nicknames, private branches
 - CL-15 verbatim artifact rule: bugfix mentioning KASAN/WARNING/oops must include indented literal block

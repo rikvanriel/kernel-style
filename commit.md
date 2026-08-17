@@ -34,9 +34,9 @@ On demand during Phase 3 if needed:
 2. Load changelog-style.md mandatory when writing commit message. Follow its §1 structure:
  - Subject `subsystem: imperative summary`, lowercase after colon, no period, imperative mood. Check git history prevailing prefix via `git log --oneline -- <path>` to match existing subsystem token consistency.
  - Open body with problem in present tense; lead bugfix with real-world symptom not code mechanism.
- - Structure problem → cause → fix → effect as short paragraphs, one idea (or one change) each. At most one paragraph over 50 words, none over 70 [CL-12]. The count detects a paragraph holding two ideas; it is not a target to shrink toward.
+ - Structure problem → cause → fix → effect as short paragraphs, one idea (or one change) each, under the caps in CL-12.
  - Before finalizing, run changelog-style.md's compression pass: cut anything restating a code comment in the same diff, cut glosses of already-obvious values, join adjacent paragraphs that describe sequential sub-steps of one change when a connective fits them under the cap. Keep separate only paragraphs carrying a genuinely distinct, independently-verifiable claim.
- - Expect several passes [CL-35]. Re-read the finished draft and compress again while a pass still changes what the changelog claims; stop when it only changes wording. Compress paragraphs in place before deleting any.
+ - Expect several passes; re-read the finished draft and compress again, per CL-35.
  - Explain WHY with data; paste raw kernel message verbatim for bugfixes — KASAN/WARNING/oops/Call Trace as indented literal block, not paraphrase. Must appear, not optional.
  - Write for upstream audience not internal tooling per audience relevancy rule — strip internal agent nicknames, private bucket hashes without public syzbot link, internal branch names, hostnames, build IDs, vendor ticket IDs. Use generic phrasing.
  - Trailers: Fixes: + Cc: stable paired, Reported-by, Link to lore, Assisted-by for non-trivial tool work, Signed-off-by for DCO certification.

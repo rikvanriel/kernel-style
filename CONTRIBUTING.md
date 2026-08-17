@@ -30,7 +30,7 @@ Current Tier 2 files:
 
 | File | Words | ~tokens | Load trigger |
 |---|---|---|---|
-| changelog-style.md | ~4,736 | ~7,875 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording. Contains Rule IDs CL-10..CL-29, CL-30, CL-31, CL-11, CL-12, CL-14 |
+| changelog-style.md | ~5,220 | ~8,610 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording. Contains Rule IDs CL-10..CL-14, CL-20..CL-33, CL-35..CL-37 (CL-34 is the hallucination-leakage rule) |
 | exemplars-routing.md | ~315 | ~560 | tiny routing table canonical per CONTRIBUTING §2 — mandatory Phase 2 to pick profile, on-demand Phase 1. Saves ~3,169w / ~5.6k tok vs full exemplars.md via `scripts/phases.py --extract` |
 | exemplars.md | ~3,435 | ~6,040 | full per-developer profiles — on-demand per routing pick via `scripts/phases.py --bug-class <class> --extract-only`, not whole file hot. Keep only chosen section resident to save tokens |
 | patch-series.md | ~3,336 | ~5,371 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
@@ -38,7 +38,7 @@ Current Tier 2 files:
 | peer-review.md | ~2,585 | ~4,097 | mandatory during Phase 0 plan convergence, Phase 2 review, and Phase 3 changelog drafting |
 | planning.md | ~1,166 | ~1,847 | on demand, before Phase 1, whenever the change is not a single self-evident edit |
 | review.md | ~1,493 | ~2,415 | mandatory Phase 2 review checklist, now uses routing file + lint-changelog machine helper |
-| commit.md | ~1,449 | ~2,463 | mandatory Phase 3 changelog checklist, now uses lint-changelog.py + verify-cover-letter.py |
+| commit.md | ~1,465 | ~2,488 | mandatory Phase 3 changelog checklist, now uses lint-changelog.py + verify-cover-letter.py |
 
 `review-prompts.md` (~275 words, ~530 tokens) is a special case: read once to set up `/kreview`/`/kseries`, not part of the recurring per-task load budget below.
 
