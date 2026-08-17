@@ -29,6 +29,8 @@ On demand during Phase 2 if needed:
 
 - `patch-series.md` - pull early if any single source file has 200 or more changed lines, or a patch has 400 or more changed lines, or if a single patch covers more than one theme. Check the theme trigger separately, because it fires on patches well under both line counts: a patch that changes when a lock is held *and* changes a function's signature or return contract is carrying two themes, and so is one that leaves a function it touched still over kernel-style.md §3's length cap.
 
+- `changelog-style-rationale.md` / `kernel-readability-rationale.md` — pull the single `<!-- ID -->` entry for a rule, not the file, before filing a finding that the rule is wrong or over-fit. A rule whose rationale already answers the objection is not a finding. See README.
+
 ## Phase 2 mandatory steps
 
 1. Capture the change as an artifact and review *that*, not the working copy you just typed. Commit (or stage) first, then read it back with `git show`, `git format-patch --stdout`, or `git diff --cached`, and review the output as if another developer had posted it. Reviewing your own draft in place tends to re-run the reasoning that produced it and confirm intent; reading the same change back as a decontextualized patch is what surfaces a comment that restates the code, a claim with no artifact behind it, or a now-redundant line. Keep Phase 1 files resident.
