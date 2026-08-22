@@ -5,6 +5,7 @@ lint-changelog.py — machine-checkable subset of kernel-style rules.
 Checks a commit message file or patch changelog file for:
 - R0 factual integrity markers (TODO vs invented numbers — heuristic)
 - CL-10 subject format: subsys: lowercase imperative, no trailing period
+- CL-10e subject in the negative — note only, since the positive form may not exist
 - CL-11 Fixes: must be paired with Cc: stable@
 - CL-12 paragraph caps: at most one paragraph >50w, none >70
 - CL-13 banned LLM tells: "This patch", "Note that", marketing adjectives, em-dash sprinkling, recap
@@ -138,6 +139,21 @@ def check_subject(subject: str):
         violations.append(f"Subject summary should be lowercase after colon: '{subject}' [CL-10] (x86/tip exception: capital allowed)")
     # check prevailing prefix would need git history; skip here
     return violations
+
+# A subject that names what stopped rather than what works. Idiomatic when the
+# removed behaviour is the point, so this can only ever be a note: whether a
+# positive form exists is a question about the diff, not about the text.
+NEGATIVE_SUBJECT_RE = re.compile(
+    r"(?<![a-z])(do not|don'?t|no longer|never|stop(s|ped)? [a-z]+ing)(?![a-z])",
+    re.IGNORECASE,
+)
+
+
+def negative_subject_note(subject: str):
+    """The matched phrase, or None."""
+    m = NEGATIVE_SUBJECT_RE.search(subject)
+    return m.group(0) if m else None
+
 
 def check_trailer_pairing(trailers):
     violations = []
@@ -367,6 +383,15 @@ def main():
     if paras:
         print(f"Word counts: {[count_words(p) for p in paras]}")
     print()
+
+    negative = negative_subject_note(subject)
+    if negative:
+        print(f"CL-10e — the subject says what stopped (\"{negative}\"), which is right only "
+              "when the removed behaviour is the point.")
+        print("  Ask: can you name what the code does after this patch in the same words?")
+        print("  If yes, use that. If the point is a leak, a spurious warning or a wrong")
+        print("  write, the negative form is the accurate one and this note is noise.")
+        print()
 
     bare = collect_bare_hashes(parse_commit(text)[3])
     if bare:
