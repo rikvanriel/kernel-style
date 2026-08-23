@@ -30,7 +30,7 @@ Current Tier 2 files:
 
 | File | Words | ~tokens | Load trigger |
 |---|---|---|---|
-| changelog-style.md | ~5,397 | ~8,874 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording. Contains Rule IDs CL-10..CL-14, CL-10e, CL-12b, CL-20..CL-37 (CL-34 is the hallucination-leakage rule), CC-10b |
+| changelog-style.md | ~5,615 | ~9,179 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording. Contains Rule IDs CL-10..CL-14, CL-10e, CL-12b, CL-20..CL-37 (CL-34 is the hallucination-leakage rule), CC-10b..CC-10d |
 | exemplars-routing.md | ~315 | ~560 | tiny routing table canonical per CONTRIBUTING §2 — mandatory Phase 2 to pick profile, on-demand Phase 1. Saves ~3,169w / ~5.6k tok vs full exemplars.md via `scripts/phases.py --extract` |
 | exemplars.md | ~3,435 | ~6,040 | full per-developer profiles — on-demand per routing pick via `scripts/phases.py --bug-class <class> --extract-only`, not whole file hot. Keep only chosen section resident to save tokens |
 | patch-series.md | ~3,336 | ~5,371 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
@@ -42,14 +42,14 @@ Current Tier 2 files:
 
 `review-prompts.md` (~275 words, ~530 tokens) is a special case: read once to set up `/kreview`/`/kseries`, not part of the recurring per-task load budget below.
 
-Phase 2 now loads routing (315w) hot + keeps only chosen profile section (~266w for race example) resident instead of full exemplars.md, for total HOT ~8,797w (~14,404 tok) resident during review (was ~11,194w with full exemplars before dedup). Measured via `scripts/phases.py --phase 2`. Phase 2 on-demand full exemplars.md still available if needed. Phase 3 single with changelog-style: HOT ~15,693w (~25,819 tok) resident during changelog drafting (~19,029w / ~31,190 tok with patch-series on-demand). This figure tracks flagship content per phase on top of Tier 1 base, does not additionally sum optional files separately — see Tier 2 table above. Use `scripts/phases.py --phase N --bug-class <class> --extract-only` to load only one profile and save ~3,169w / ~5.6k tok. Unload all at task end. See README.md "How to load" and `scripts/phases.py`.
+Phase 2 now loads routing (315w) hot + keeps only chosen profile section (~266w for race example) resident instead of full exemplars.md, for total HOT ~8,797w (~14,404 tok) resident during review (was ~11,194w with full exemplars before dedup). Measured via `scripts/phases.py --phase 2`. Phase 2 on-demand full exemplars.md still available if needed. Phase 3 single with changelog-style: HOT ~13,255w (~22,251 tok) resident during changelog drafting (~16,591w / ~27,622 tok with patch-series on-demand). This figure tracks flagship content per phase on top of Tier 1 base, does not additionally sum optional files separately — see Tier 2 table above. Use `scripts/phases.py --phase N --bug-class <class> --extract-only` to load only one profile and save ~3,169w / ~5.6k tok. Unload all at task end. See README.md "How to load" and `scripts/phases.py`.
 
 **Tier 3 — rationale and history. Never loaded by default.** Load only when modifying the style guide itself, to understand intent before changing a rule.
 
 **Tier 3 existing / planned:**
 
 Existing:
-- `changelog-style-rationale.md` (~4,365w) — per-rule history for R0-1..R0-9, CL-10..CL-37, CC-10..CC-11, CS-10..CS-13. Message-IDs, dates, public LKML reviewer names, alternative phrasings rejected, validation notes. Created to satisfy CONTRIBUTING §1 for Rule IDs added in hot files (addresses review feedback #1). Contains matching entries for every new ID, so manual orphan check passes; automated check via `scripts/check-orphan-ids.py` (0 orphans both directions), to be wired to CI.
+- `changelog-style-rationale.md` (~4,716w) — per-rule history for R0-1..R0-9, CL-10..CL-37, CC-10..CC-10d, CC-11, CS-10..CS-13. Message-IDs, dates, public LKML reviewer names, alternative phrasings rejected, validation notes. Created to satisfy CONTRIBUTING §1 for Rule IDs added in hot files (addresses review feedback #1). Contains matching entries for every new ID, so manual orphan check passes; automated check via `scripts/check-orphan-ids.py` (0 orphans both directions), to be wired to CI.
 - `kernel-readability-rationale.md` (~345w) — per-developer detail expansion, different scheme (## Principle N headings) — predates Rule ID system.
 - `exemplars.md` already serves as reference detail; now straddles Tier 2/Tier 3: full file Tier 2 on-demand, but individual extracted sections via `phases.py --extract` behave as Tier 3 granularity.
 

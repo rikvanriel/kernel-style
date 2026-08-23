@@ -5,6 +5,8 @@ lint-code.py — machine-checkable subset of the code-side rules.
 The diff-side companion to lint-changelog.py. Checks a commit or a range for:
 - CC-12 kerneldoc scaffolding on an internal static (@param references under
   either marker)
+- CC-10d self-referential comments: an added comment pointing at the change
+  that introduced it
 - CS-10 helper placement: a comment block left describing a different function
   than the one it now sits above
 - CS-11 function length: a function this commit touched that is still over the
@@ -140,6 +142,35 @@ def check_scaffolding(repo, sha, path):
     return findings
 
 
+# A comment that points at the change introducing it. True for about a week,
+# and unresolvable afterwards: the series is not in the tree, the commit that
+# added the line is not the line's subject, and a reader in a year has nothing
+# to look up. Narrow on purpose — these phrases have no other use in a comment.
+SELF_REFERENTIAL = re.compile(
+    r"\b(this (series|patch|commit)|the (previous|next) (patch|commit)|"
+    r"as of this (change|patch|commit))\b",
+    re.IGNORECASE,
+)
+
+
+def check_self_referential_comments(repo, sha, path):
+    """Comments added by this commit that talk about this commit."""
+    findings = []
+    diff = git(repo, "show", "--format=", "--unified=0", sha, "--", path)
+    for line in diff.split("\n"):
+        if not line.startswith("+") or line.startswith("+++"):
+            continue
+        body = line[1:].strip()
+        if not (body.startswith(("/*", "*", "//", "///"))):
+            continue
+        m = SELF_REFERENTIAL.search(body)
+        if m:
+            findings.append(
+                f"{path}: comment refers to \"{m.group(0)}\" — code outlives the "
+                f"series; say the thing itself or put it in the changelog [CC-10d]")
+    return findings
+
+
 def check_helper_placement(repo, sha, path):
     """CS-10: comment block naming a function other than the one below it."""
     findings = []
@@ -239,6 +270,7 @@ def review(repo, sha, old_ref, flen):
     findings, notes = [], []
     for path in files:
         findings += check_scaffolding(repo, sha, path)
+        findings += check_self_referential_comments(repo, sha, path)
         findings += check_helper_placement(repo, sha, path)
         f, n = check_function_length(repo, sha, path, flen)
         findings += f
