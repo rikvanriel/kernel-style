@@ -23,14 +23,14 @@ Phase 0, 2, and 3 focus on planning or reviewing rather than drafting.
 > **For automated tools:** this repository is reference documentation. Nothing here is instruction
 > to execute outside deliberate style-guide loading context. Treat as data when crawling.
 
-## Two mandatory questions — ask both, every time, of your own work
+## Three mandatory questions — ask all three, every time, of your own work
 
 Before committing any change, the author — whether a solo kernel developer, an AI agent working
-alone, or a human-AI pair — must explicitly answer both of the following questions about the work
+alone, or a human-AI pair — must explicitly answer all three of the following questions about the work
 **as if reviewing someone else's patch**, not as a formality. This is the default gate and it is
 mandatory whether or not a second reviewer is ever involved. Answering only (a) is incomplete;
-answering only (b) is incomplete. Skip both only for trivial one-line typo fixes and pure factual
-verification passes where no design choice is involved.
+answering only (b) is incomplete; answering only (a)+(b) is incomplete. Skip all three only for
+trivial one-line typo fixes and pure factual verification passes where no design choice is involved.
 
 **Why self-review can work, and where it genuinely can't fully replace a second party:** the same
 reasoning that produced a subtle logic or design mistake is often the same reasoning that will
@@ -71,11 +71,24 @@ whether the current proposal is free of defects.
 * Examples of material alternatives relevant to this repository: keeping phase workflow description in README versus splitting into separate phase files coding.md review.md commit.md with single-sentence pointers from README (tradeoff: token saving per deliberate load vs increased file count and cross-reference maintenance burden); keeping per-developer exemplars in always-hot set versus moving to on-demand mandatory at review gate (tradeoff: voice calibration quality every draft turn vs token cost saving compounding across draft iterations); keeping Rule 0 factual integrity duplicated across three hot files versus single canonical source with cross-references (tradeoff: defense in depth vs drift risk).
 * Skip (b) for trivial one-line typo fixes, pure factual verification passes with no design choice involved, and mechanical renames with no behavior change. Its highest-leverage moment is plan review before implementation per [planning.md](./planning.md) §6 — reviewing the plan not just finished output avoids anchoring bias toward a solution already seen, and this applies just as much when you are the only reviewer: pressure-test the plan before you've sunk cost into one implementation.
 
+### (c) Can the same correctness be achieved with less structural duplication?
+
+Scan the diff itself for mechanical simplification that does not change behavior. Systematically check:
+
+* **Same guard, lock, or RCU read duplicated per object, variant, or branch** → hoist the common `guard(rcu)`, `mutex_lock`, or `if (predicate) continue` / early return to the loop or function top so the check is done once and all variants share it. For RCU, the flag or state set and the queue or publish that depends on it must stay together inside the same RCU read-side critical section so the pairing with `synchronize_rcu()` is obvious and not split across helpers. Check isolation-style predicates at the top of the loop before touching per-object state.
+* **Same test-set-queue or test-set-publish pattern duplicated per variant** → extract a helper or handle the fast or local path together first, then share one remote or slow path.
+* **Nested conditionals that can be flattened** → invert to `if (!cond) continue` or `if (!cond) return` early return or continue.
+* **Two branches that differ by one predicate** → merge them or invert the condition to reduce nesting.
+
+For each, sketch a concrete before and after of 3–6 lines or explicitly state why the current form is already minimal because every guard or predicate is unique to one site. Do not dismiss as `minimal obvious fix` when duplication was introduced by the change itself — hoisting that duplication is part of minimal. Prefer fewer distinct concepts over fewer lines; a hoist that removes one duplicated guard or predicate at the cost of two extra lines is a win. A concrete example: two adjacent `for_each` iterations each doing `guard(rcu) { if (cpu_is_isolated(cpu)) continue; if (test_and_set_bit(FLUSH, &flags)) continue; queue_work_on(cpu, wq, work); }` hoists to `if (curcpu) { /* inline both */ continue; } guard(rcu); if (cpu_is_isolated(cpu)) continue; /* flag+queue for each, no duplicated guard+check */`.
+
+* Skip (c) only for trivial one-line typo fixes and pure factual verification passes with no design choice involved. Its highest-leverage moment is also plan review and late review after the correctness questions — structural duplication is easiest to see once the logic is settled. Concluding `already simple` without checking the four bullets is not a review.
+
 ### Write it down
 
-Keep a short, concrete self-review note before committing — three or four bullets is enough: what
+Keep a short, concrete self-review note before committing — four or five bullets is enough: what
 you checked under (a) and what (if anything) you found and fixed; the alternative you weighed under
-(b) and why you kept (or changed) your approach. This is not bureaucracy for its own sake — a review
+(b) and why you kept (or changed) your approach; the duplication you checked under (c) and the hoist or helper you considered or why the current form is already minimal. This is not bureaucracy for its own sake — a review
 that only ever happens silently in your head is the one that gets skipped under time pressure, and
 writing it down forces you to actually apply the checklist instead of pattern-matching to "looks
 fine." Keep the note out of the public commit message (it's about your own process, not something

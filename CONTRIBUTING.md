@@ -35,7 +35,7 @@ Current Tier 2 files:
 | exemplars.md | ~3,435 | ~6,040 | full per-developer profiles — on-demand per routing pick via `scripts/phases.py --bug-class <class> --extract-only`, not whole file hot. Keep only chosen section resident to save tokens |
 | patch-series.md | ~3,336 | ~5,371 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
 | patch-series-rework.md | ~1,205 | ~1,913 | on demand, on top of patch-series.md, only when reworking an already-existing series rather than splitting fresh work |
-| peer-review.md | ~2,585 | ~4,097 | mandatory during Phase 0 plan convergence, Phase 2 review, and Phase 3 changelog drafting |
+| peer-review.md | ~2,984 | ~4,726 | mandatory during Phase 0 plan convergence, Phase 2 review, and Phase 3 changelog drafting |
 | planning.md | ~1,442 | ~2,243 | on demand, before Phase 1, whenever the change is not a single self-evident edit |
 | review.md | ~1,692 | ~2,715 | mandatory Phase 2 review checklist, now uses routing file + lint-changelog machine helper |
 | commit.md | ~1,499 | ~2,541 | mandatory Phase 3 changelog checklist, now uses lint-changelog.py + verify-cover-letter.py |
