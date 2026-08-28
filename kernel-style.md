@@ -47,12 +47,13 @@ Full rules in [changelog-style.md §2](./changelog-style.md#2-code-comments). Hi
 - One source of truth: document at definition not header prototype; cross-reference not duplicate.
 
 ## 3. Code structure
-- <!-- CS-10 --> **Split out named helper when predicate gets multi-branch or reused.** Helpers small single-purpose. e.g. `should_flush_tlb()`. Place the new helper *above* the target function's doc comment, never between that comment and the function it describes — inserting at the `static ... target(` line orphans the comment onto the helper, and it still compiles.
+- <!-- CS-10 --> **Split out named helper when predicate gets multi-branch or reused.** Helpers small single-purpose. e.g. `should_flush_tlb()` `6db2526c1d69`. Place the new helper *above* the target function's doc comment, never between that comment and the function it describes — inserting at the `static ... target(` line orphans the comment onto the helper, and it still compiles.
+- <!-- CS-10p --> **`static bool` helpers that only test state — even with a guard flag — use `should_`/`is_`/`needs_`/`can_`/`has_`/`try_` (e.g. `should_flush_tlb()` `6db2526c1d69`); helpers that mutate beyond a guard flag use `verb_noun` (e.g. `drain_stock()`).**
 - <!-- CS-11 --> **Cap function length: 80% ≤20 lines, hard max 40** unless unavoidable or splitting increases complexity. Signal to extract helper, not pad.
 - <!-- CS-12 --> **Prefer guard() / __free() automatic cleanup over manual lock/unlock + goto.** `guard(mutex)` for whole-function scope, `scoped_guard` for limited scope, `__free(kfree)` / `__free(put_device)` to avoid cleanup label, `no_free_ptr()` for success handoff — retain automatic cleanup through every later path including `copy_to_user()` failures.
 - **Rename rather than duplicate when refactoring toward finer locking.**
 - **Prefer minimal obvious fix over rework.** e.g. "This patch implements the obvious fix."
-- **Locals short conventional; helper names predicate or action.**
+- **Locals short conventional; `static bool` helper names state effect per CS-10p — predicates `should_`/`is_` vs actions `verb_noun`.**
 - **Guard early return early.** No deep nesting.
 - <!-- CS-13 --> **Split by theme, not by line count.** Group the body by what each part is *about* — validation, lookup, the state change, the accounting — and cut along those seams. A split that only moves lines out leaves a reviewer tracing one piece of logic across two functions; a split on a theme boundary lets the helper's name state what the caller may then take on trust.
 

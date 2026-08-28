@@ -245,6 +245,51 @@ def note_safety_paragraph(repo, sha, message):
     return []
 
 
+
+def note_predicate_action_name(repo, sha):
+    """CS-10p: bool helper whose name is a verb but whose body only tests state.
+
+    A `static bool` that only tests state (even if it sets a guard flag)
+    should read as a question, not a command: `if (should_drain(...))
+    drain_local(...)` vs `if (claim_drain(...)) drain_local(...)` already
+    claimed. Narrow and a note so `try_`/`can_` and real mutating helpers
+    (`drain`/`queue_work`/`kmalloc` in body) never fire. [CS-10p]
+    """
+    notes = []
+    for path in [f for f in git(repo, "show", "--format=", "--name-only", sha).split("\n") if f.endswith((".c", ".h"))]:
+        diff = git(repo, "show", "--format=", "--unified=0", sha, "--", path)
+        # collect added static bool helpers
+        for line in diff.split("\n"):
+            if not line.startswith("+") or line.startswith("+++"):
+                continue
+            m = re.search(r"static\s+bool\s+([a-z_][a-z0-9_]*)\s*\(", line)
+            if not m:
+                continue
+            name = m.group(1)
+            # whitelist idiomatic predicate verbs and already-correct predicate prefixes
+            if name.startswith(("should_", "needs_", "is_", "has_", "can_", "try_", "use_")):
+                continue
+            # only mutating-verb names are suspicious
+            if not re.match(r"^(drain|claim|flush|schedul|acquir|alloc|free|get|put|create|destroy)_|^.*_(drain|claim|flush)$", name):
+                # broader: verb_noun containing those verbs anywhere before/after _
+                if not any(v in name for v in ["drain", "claim", "flush", "schedule"]):
+                    continue
+            # inspect the helper body as added in this commit — heuristic: body contains only predicate primitives
+            body = git(repo, "show", f"{sha}:{path}")
+            # find function text naively: from signature to next blank+static or ^}
+            # cheap: search for name + flag primitives and absence of mutating call
+            if name not in body:
+                continue
+            # extract block around name
+            idx = body.find(name)
+            snippet = body[max(0, idx-200): idx+1200]
+            has_predicate = any(k in snippet for k in ["test_bit", "test_and_set_bit", "is_", "READ_ONCE", "return false", "return true"])
+            mutating_beyond_guard = ("queue_work" in snippet or "drain_stock" in snippet or "drain_obj" in snippet or "kmalloc" in snippet or "__free" in snippet)
+            if has_predicate and not mutating_beyond_guard:
+                notes.append(f"{path}: {name}() reads as action but behaves as predicate — consider should_/needs_/is_/can_ [CS-10/CS-13; cf. should_flush_tlb() 6db2526c1d69]")
+    return notes
+
+
 def check_carried_claims(repo, sha, old_ref):
     """R0-7: a measured quantity that survived a reword onto a new base."""
     new = git(repo, "log", "-1", "--format=%B", sha)
@@ -276,6 +321,7 @@ def review(repo, sha, old_ref, flen):
         findings += f
         notes += n
     notes += note_safety_paragraph(repo, sha, message)
+    notes += note_predicate_action_name(repo, sha)
     if old_ref:
         findings += check_carried_claims(repo, sha, old_ref)
     return subject, findings, notes
