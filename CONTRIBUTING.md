@@ -105,16 +105,11 @@ This repository is public on GitHub and intended for upstream kernel contributor
 Every commit to this repository must end with both trailers in this order, after a blank line separating them from the commit message body:
 
 ```
-Assisted-by: <PROVIDER>:<MODEL> [<TOOL> or <ROLE>]
+Assisted-by: LLM [TOOL1] [TOOL2]
 Signed-off-by: Rik van Riel <riel@surriel.com>
 ```
 
-* `Assisted-by` acknowledges non-trivial tool assistance following Documentation/process/coding-assistants.rst style adapted for docs repositories. Use public provider:model names that already appear in git history for this repository — scan `git log --grep Assisted-by` or `git log --format=%B | grep Assisted-by` before inventing new spelling. Current established forms in this repo history (verified via `git log --grep Assisted-by`):
-  - `Assisted-by: Claude:claude-opus-4-8` — for Claude-family models (harness:model per coding-assistants.rst)
-  - `Assisted-by: Hermes:muse-spark-1.2 syzkaller` — for Hermes harness with Muse Spark external product name, plus syzkaller tool
-  - `Assisted-by: Meta:avocado-tester` — legacy, use `Hermes:muse-spark-1.2 syzkaller` for current models
-If using another provider model family, follow the same `AGENT_NAME:MODEL_VERSION [TOOL]` pattern per coding-assistants.rst with harness name before colon (AGENT_NAME) matching existing git history — for example `Assisted-by: Gemini:gemini-3-pro` would be appropriate format for Gemini models, adjust version as needed, but verify no prior established spelling already exists in git history before inventing new variant.
-  Format is harness:model per `Documentation/process/coding-assistants.rst` — e.g. `Hermes:muse-spark-1.2 syzkaller`. Multiple Assisted-by lines allowed, one per model, ordered by contribution weight.
+* `Assisted-by` acknowledges non-trivial tool assistance per `Documentation/process/coding-assistants.rst`. Format is `Assisted-by: LLM [TOOL1] [TOOL2]`, e.g. `Assisted-by: LLM syzkaller`, `Assisted-by: LLM coccinelle sparse`. `[TOOL]` are optional specialized analysis tools (coccinelle sparse smatch syzkaller clang-tidy), not basic tools (git gcc make editors). List only public tools, never internal-only tooling. Multiple Assisted-by lines allowed only if distinct tool sets need documenting, normally one suffices. Historical form in this repo was `PROVIDER:MODEL [TOOL]` (e.g. `Claude:claude-opus-4-8`, `Hermes:muse-spark-1.2 syzkaller`) — superseded upstream by `LLM` (`816d9992d9ed coding-assistants: simplify attribution`, merged in docs-7.3, checkpatch now only checks that a value exists `2a8d68338ee7`). New commits use the simplified `LLM` form to match upstream.
 * `Signed-off-by` certifies Developer Certificate of Origin per usual kernel process. An AI agent must never add its own Signed-off-by — only human SOB.
 
 * No other trailers are required unless fixing a prior commit (then add `Fixes:` with full 12-character commit hash and subject context in body, per kernel-style rules themselves).
