@@ -211,8 +211,11 @@ def check_paragraph_caps(paras):
     return violations
 
 LORE_BAD = re.compile(r"^Link:\s*https?://lore\.kernel\.org/(?!r/)", re.M)
-ASSISTED = re.compile(r"^Assisted-by:\s*(\S+)\s*$", re.M)
-ASSISTED_OK = re.compile(r"^[A-Z][A-Za-z]*:[a-z0-9][a-z0-9-]*$")
+# Upstream simplified 816d9992d9ed (docs-7.3): Assisted-by: LLM [TOOL1] [TOOL2]
+# checkpatch 2a8d68338ee7 now only checks value exists. Keep lint permissive:
+# first token LLM case-insensitive, rest optional public tool names.
+ASSISTED = re.compile(r"^Assisted-by:\s*(.+?)\s*$", re.M)
+ASSISTED_OK = re.compile(r"^LLM(\s+[A-Za-z0-9._-]+)*$", re.I)
 FWD_REF = re.compile(r"\ba (?:later|subsequent) (?:change|patch)\b|\bthe next patch\b", re.I)
 IDENT = re.compile(r"[a-z_][a-z0-9_]*\(\)|`[^`]+`")
 RACE = re.compile(r"\brace|\bconcurrent|\binterleav", re.I)
@@ -232,10 +235,14 @@ def check_trailer_forms(text: str, trailers: list):
         out.append("Link: uses a list-specific lore path — /r/ is the redirector "
                    "that resolves for subsystem-only postings [patch-series 7]")
     for m in ASSISTED.finditer(text):
-        if not ASSISTED_OK.match(m.group(1)):
-            out.append(f"Assisted-by value {m.group(1)!r} — expect "
-                       "AGENT:model-version with hyphens; checkpatch only checks "
-                       "for the colon, so a wrong spelling passes it")
+        val = m.group(1).strip()
+        if not ASSISTED_OK.match(val):
+            # keep compatible with old PROVIDER:MODEL form as note, not hard fail,
+            # but new docs require LLM token
+            if ":" in val and re.match(r"^[A-Za-z]+:[A-Za-z0-9._-]+", val):
+                out.append(f"Assisted-by value {val!r} — old AGENT:MODEL form; upstream now uses 'LLM [tools]' per 816d9992d9ed (docs-7.3); prefer 'Assisted-by: LLM ...'")
+            else:
+                out.append(f"Assisted-by value {val!r} — expect 'LLM [TOOL1] [TOOL2]' e.g. 'Assisted-by: LLM syzkaller'; checkpatch only checks value exists (2a8d68338ee7)")
     joined = " ".join(trailers)
     if "stable@vger" in joined and "Fixes:" not in joined:
         out.append("Cc: stable without a Fixes: tag — name the commit being fixed [CL-11]")
