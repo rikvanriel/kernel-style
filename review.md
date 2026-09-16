@@ -1,6 +1,6 @@
 ---
 name: review
-description: Phase 2 review code checklist for Linux kernel style — mandatory exemplars load before git commit, self-review process (escalating to a second reviewer when available) per peer-review.md, git diff comparison workflow. Load during Phase 2 review on top of Phase 1 base per README three-phase cumulative workflow.
+description: Phase 2 review code checklist for Linux kernel style — mandatory exemplars load before git commit, self-review process (escalating to a second reviewer when available) per peer-review.md, git diff comparison workflow. Load during Phase 2 review on top of Phase 1 base per README four-phase cumulative workflow.
 metadata:
  type: reference
 ---
@@ -62,4 +62,4 @@ The Documentation/process/coding-style.rst file in the Linux kernel repository i
 When Phase 2 review passes with exemplars calibration applied and peer review completed per two-question gate, move to Phase 3 draft changelog — see [commit.md](./commit.md) for Phase 3 mandatory checklist including changelog-style rules summary, trailers checklist, checkpatch reference moved there from README, and final verification before git commit. Do not proceed to git commit without completing the Phase 2 self-review gate above — it applies whether or not a second reviewer is ever involved. CONTRIBUTING's adversarial-review requirement for norm changes to this style guide itself is a separate, additional gate for changes to the repository's own normative content; see CONTRIBUTING.md §3.
 
 ---
-*Phase 2 review checklist for kernel-style guide per README three-phase workflow. For peer review process specification see peer-review.md; for per-developer exemplars see exemplars.md; for meta rules see CONTRIBUTING.md.*
+*Phase 2 review checklist for kernel-style guide per README four-phase workflow. For peer review process specification see peer-review.md; for per-developer exemplars see exemplars.md; for meta rules see CONTRIBUTING.md.*
