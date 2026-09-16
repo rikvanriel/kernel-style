@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Phase 3 draft changelog checklist for Linux kernel style — mandatory changelog-style load when drafting commit message, trailers checklist, checkpatch reference moved here from README. Load during Phase 3 draft changelog on top of Phase 1 base and Phase 2 review base per README three-phase cumulative workflow.
+description: Phase 3 draft changelog checklist for Linux kernel style — mandatory changelog-style load when drafting commit message, trailers checklist, checkpatch reference moved here from README. Load during Phase 3 draft changelog on top of Phase 1 base and Phase 2 review base per README four-phase cumulative workflow.
 metadata:
  type: reference
 ---
@@ -69,7 +69,7 @@ On demand during Phase 3 if needed:
 
 ## Next phase pointer
 
-This is final phase of three-phase workflow. After Phase 3 completes with commit message drafted following above checklist and trailers verified, commit to git per `git commit` with descriptive commit message following repository's own style rules. For guidelines on modifying this style guide itself rather than using it to write kernel patches, see CONTRIBUTING.md which is loaded on demand when modifying rules rather than when writing kernel patches.
+This is final phase of four-phase workflow. After Phase 3 completes with commit message drafted following above checklist and trailers verified, commit to git per `git commit` with descriptive commit message following repository's own style rules. For guidelines on modifying this style guide itself rather than using it to write kernel patches, see CONTRIBUTING.md which is loaded on demand when modifying rules rather than when writing kernel patches.
 
 ---
-*Phase 3 draft changelog checklist per README three-phase workflow. For full changelog rules see changelog-style.md §1; for trailers and commit trailer requirements see CONTRIBUTING.md §5; for checkpatch usage see upstream scripts/checkpatch.pl documentation referenced here.*
+*Phase 3 draft changelog checklist per README four-phase workflow. For full changelog rules see changelog-style.md §1; for trailers and commit trailer requirements see CONTRIBUTING.md §5; for checkpatch usage see upstream scripts/checkpatch.pl documentation referenced here.*
