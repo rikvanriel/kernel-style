@@ -68,3 +68,21 @@ below `---` it is a note/line stripped on apply. Review feedback fixed terminolo
 One source of truth: canonical rule lives in §7 Versioning (avoids duplication with §5 Cover letter).
 §5 now cross-references §7 to avoid drift — both sections previously cited same upstream source
 independently. Per CONTRIBUTING §2 and Rockhopper review 2026-08-03 APPROVE-WITH-CHANGES.
+
+## Keep related patches together (thematic grouping within a series)
+
+Added 2026-09 per review of a multi-theme mm series where patches of the same
+theme were interleaved with another theme, forcing reviewers to context-switch.
+Initial wording "try to keep within each theme together, whenever practical"
+was soft — rewrite makes it checkable:
+
+- Qualified by "where dependencies and bisectability allow" so it never conflicts
+  with §2 (bisect) or §3 (ordering) — grouping never justifies a bisect break.
+- Benefit stated as "reviewer can stay in one context" rather than generic
+  "easier to review".
+- Cross-ref to CS-13 which is the per-patch counterpart: CS-13 says split a
+  single patch along theme seams, this rule says keep same-theme patches
+  consecutive within a series. Related but different direction.
+
+Experimental: verify by watching /kseries on a 10+ patch series with 2-3 themes.
+If grouping consistently trades off against bisect order, strengthen wording.
