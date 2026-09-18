@@ -51,6 +51,16 @@ Machine helper: `./scripts/phases.py --phase N` prints exact cat commands + toke
 
 Read the matching entry when you are unsure how to apply a rule, when a rule looks wrong or over-fit and you are about to dispute or weaken it, or when you are about to propose a new rule that may already exist as a clause on an old one. It costs one grep for the ID and usually settles the question — CL-12's entry records why the paragraph cap is an absolute count rather than a percentage, which is the question reviewers most often re-derive from scratch. Note this is a *read* trigger; CONTRIBUTING §1's requirement to update the entry when you change a rule is separate.
 
+## Install as an agent skill
+
+[skills/kernel-style/SKILL.md](./skills/kernel-style/SKILL.md) routes by phase and loads the rule files above on demand — install it so the guide loads when planning, writing, or reviewing kernel patches:
+
+```bash
+./scripts/install-skill.sh --list
+./scripts/install-skill.sh --install kernel-style   # live pointer, always latest
+./scripts/install-skill.sh --install kernel-style --mode snapshot  # self-contained copy
+```
+
 ## Kernel Coding Style
 
 For upstream kernel coding style rules see Documentation/process/coding-style.rst in the Linux kernel tree, referenced in detail in [coding.md](./coding.md) Phase 1 and [review.md](./review.md) Phase 2.
