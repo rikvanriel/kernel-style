@@ -94,3 +94,9 @@ Added 2026-10 after the repository owner's rewrite of an AI-drafted cover for an
 Open question: the same rewrite dropped a bare-metal-untested limitation line. Whether limitation disclosure stays in the cover while lab detail moves out is undecided — this rule covers supporting detail only, and the limitation half needs a second instance before it is written down.
 
 Experimental: reassess 2027-01-07 against posted lore; confirm the limitation boundary or drop.
+
+## Reported metrics name their instrument
+
+Added 2026-10 after the repository owner's rewrite of an AI-drafted cover for an unpublished mm series. The draft reported a polluted-block range with no word on how blocks were counted; the rewrite added one sentence naming the /proc file walked after each round. The instrument sentence is cheap — a clause, not a section — and it converts an assertion into a checkable claim: a reviewer who doubts the number knows exactly what to re-run. Companion to R0-8's artifact rule for changelogs: that rule says be able to point at what produced a number; this one says put the pointer in the cover itself, since the cover has no diff beside it.
+
+Experimental: reassess 2027-01-07 against posted lore.
