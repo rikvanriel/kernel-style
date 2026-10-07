@@ -129,6 +129,10 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
   Marked experimental (2026-10-07): sourced from one rewrite on an unpublished series, so there is no citable upstream hash and none should be invented. Reassess 2027-01-07 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
 
+- <!-- CS-15 --> Generic code gets generic names. The repository owner's 2026-10 instruction on an mm/page_alloc series: code that is not project-specific must not carry the project codename. A zone-span predicate and several vmstat counters were renamed from project-prefixed names to behavior names — what the predicate tests, what the counter counts. The test is reuse: if another subsystem could call the helper tomorrow without renaming it, the name is right; a project prefix on such code either lies about scope or forces a rename later.
+
+  Marked experimental (2026-10-07): sourced from one rewrite on an unpublished series, so there is no citable upstream hash and none should be invented. Reassess 2027-01-07 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
+
 ## CL-13 — Contrast / LLM tells (summary pointer)
 
 - <!-- CL-12b --> Precedence between the cap and one idea per paragraph. Split from CL-12 2026-08-17: the two had been welded onto one bullet, which read as the same point said twice because CL-12 warns against padding up to 70 while this warns against splitting below it. Made explicit after a draft was shortened by deleting whole paragraphs rather than compressing them, on the reasoning that one idea per paragraph is the invariant and the word count is how a violation gets detected, not a number to shrink toward. Hard 70 unchanged.
