@@ -86,3 +86,23 @@ was soft — rewrite makes it checkable:
 
 Experimental: verify by watching /kseries on a 10+ patch series with 2-3 themes.
 If grouping consistently trades off against bisect order, strengthen wording.
+
+## Cover letter argues the series; lab detail stays local
+
+Added 2026-10 after the repository owner's rewrite of an AI-drafted cover for an unpublished mm series. The draft carried a third debug-flag arm, a swap-cost analysis, null-result workloads, and a within-arm variance discussion; the rewrite kept the problem, the mechanism, the two-arm verdict table, and a method sketch, moving the rest to local notes. The cuts share a shape: each answers a question the reviewer did not ask — the debug arm duplicates the base contrast, the swap cost follows the success rather than the rules, the nulls and variance explain why other workloads show nothing. None of it is deleted; it stays citable if review asks for it.
+
+Open question: the same rewrite dropped a bare-metal-untested limitation line. Whether limitation disclosure stays in the cover while lab detail moves out is undecided — this rule covers supporting detail only, and the limitation half needs a second instance before it is written down.
+
+Experimental: reassess 2027-01-07 against posted lore; confirm the limitation boundary or drop.
+
+## Reported metrics name their instrument
+
+Added 2026-10 after the repository owner's rewrite of an AI-drafted cover for an unpublished mm series. The draft reported a polluted-block range with no word on how blocks were counted; the rewrite added one sentence naming the /proc file walked after each round. The instrument sentence is cheap — a clause, not a section — and it converts an assertion into a checkable claim: a reviewer who doubts the number knows exactly what to re-run. Companion to R0-8's artifact rule for changelogs: that rule says be able to point at what produced a number; this one says put the pointer in the cover itself, since the cover has no diff beside it.
+
+Experimental: reassess 2027-01-07 against posted lore.
+
+## Breakout covers open with provenance, plan, and credit
+
+Added 2026-10 after the repository owner's rewrite of an AI-drafted cover for a series split out of a larger prototype. The draft opened with the mechanism as if the series had always stood alone; the rewrite opens with the parent lore link, a staged merge plan naming this stage and the next ones, and a by-name credit to the reviewer who suggested the split was independently useful. Each answers a different reviewer question — where did this come from, where is it going, whose idea was the split — and none of it fits in any single patch's changelog, so the cover is its only home. The credit follows the existing "credit people in the body by name" convention from changelog-style.md §1, applied to the cover.
+
+Experimental: reassess 2027-01-07 against posted lore.
