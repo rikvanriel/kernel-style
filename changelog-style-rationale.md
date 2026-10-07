@@ -167,6 +167,10 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
   Marked experimental (2026-10-07): sourced from one rewrite on an unpublished series, so there is no citable upstream hash and none should be invented. Reassess 2027-01-07 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
 
+- <!-- CL-39 --> Reverse-direction sentence. The repository owner's 2026-10 rewrite of an AI-drafted mm/page_alloc changelog added, to a patch refusing non-movable steals from movable blocks: "Movable allocations can steal, because kcompactd can always move those pages out of non-movable blocks later." The draft had said nothing about the reverse, leaving the reviewer to wonder whether the symmetric hole was an oversight. One sentence closes it: the reverse is safe for a stated reason, not unexamined. This is the dual of the scope-bounding sentence in CL-36 — that one says what need not be reviewed, this one says what need not be fixed.
+
+  Marked experimental (2026-10-07): sourced from one rewrite on an unpublished series, so there is no citable upstream hash and none should be invented. Reassess 2027-01-07 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
+
 
 ## Cross-links
 
