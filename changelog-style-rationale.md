@@ -163,6 +163,10 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
   Marked experimental (2026-08-17): sourced from one drafting exercise on one patch by one author, with no merged-commit corpus. The example is an unpublished scratch-branch commit, so there is no citable upstream hash and none should be invented. Reassess 2026-11-17 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
 
+- <!-- CL-38 --> Numbers are problem-scale, effect, or safety. The repository owner's 2026-10 rewrite of an AI-drafted mm/page_alloc changelog kept the allocation count sizing the problem and the stall table showing no regression, and cut a measured entry-mode ratio (how often batches arrived already stealing versus via the claim) plus a tried-and-dropped experiment's counts. The ratio described the author's investigation, not the reader's decision: it answers neither "how big is the problem" nor "did the fix work" nor "did anything break". The evidence is not deleted — it stays in local notes, citable if a reviewer asks — but the committed log carries only what argues the patch.
+
+  Marked experimental (2026-10-07): sourced from one rewrite on an unpublished series, so there is no citable upstream hash and none should be invented. Reassess 2027-01-07 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
+
 
 ## Cross-links
 
