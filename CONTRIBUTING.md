@@ -16,11 +16,11 @@ Current Tier 1 files and approximate budgets (measured via `wc -w`; token estima
 
 | File | Words | ~tokens | Role |
 |---|---|---|---|
-| kernel-style.md | ~1,404 | ~2,397 | slim entry point, factual integrity R0-1..R0-9 canonical, code structure CS-10..CS-13, 4 anchor quotes |
+| kernel-style.md | ~1,524 | ~2,605 | slim entry point, factual integrity R0-1..R0-9 canonical, code structure CS-10..CS-15, 4 anchor quotes |
 | kernel-readability-principles.md | ~1,195 | ~2,094 | composite principles from 14 developers, signature strengths |
 | llm-tells-checklist.md | ~920 | ~1,391 | final-pass checklist, verification R0 cross-ref, LLM tells |
 | coding.md | ~686 | ~1,150 | Phase 1 draft-code checklist, upstream coding-style pointer, routing on-demand |
-| **Phase 1 total always hot** | **~4,205** | **~7,032** | base resident set (4 files) |
+| **Phase 1 total always hot** | **~4,358** | **~7,308** | base resident set (4 files) |
 
 These four stay resident through all phases of a patch-writing task. Nothing in Tier 1 may reference internal tooling, private hostnames, private bucket IDs, agent codenames, internal branch names, or vendor ticket IDs. Assume every character in Tier 1 is world-readable forever via public git history.
 
@@ -30,10 +30,10 @@ Current Tier 2 files:
 
 | File | Words | ~tokens | Load trigger |
 |---|---|---|---|
-| changelog-style.md | ~5,615 | ~9,179 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording. Contains Rule IDs CL-10..CL-14, CL-10e, CL-12b, CL-20..CL-37 (CL-34 is the hallucination-leakage rule), CC-10b..CC-10d |
+| changelog-style.md | ~6,317 | ~10,243 | mandatory on Phase 3 draft changelog; may pull early in Phase 2 review if checking comment density or message wording. Contains Rule IDs CL-10..CL-14, CL-10e, CL-12b, CL-20..CL-39 (CL-34 is the hallucination-leakage rule), CC-10b..CC-10g |
 | exemplars-routing.md | ~315 | ~560 | tiny routing table canonical per CONTRIBUTING §2 — mandatory Phase 2 to pick profile, on-demand Phase 1. Saves ~3,169w / ~5.6k tok vs full exemplars.md via `scripts/phases.py --extract` |
 | exemplars.md | ~3,435 | ~6,040 | full per-developer profiles — on-demand per routing pick via `scripts/phases.py --bug-class <class> --extract-only`, not whole file hot. Keep only chosen section resident to save tokens |
-| patch-series.md | ~3,336 | ~5,371 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
+| patch-series.md | ~3,530 | ~5,659 | on demand only when change is >1 patch, or during Phase 0 planning per planning.md §2 |
 | patch-series-rework.md | ~1,205 | ~1,913 | on demand, on top of patch-series.md, only when reworking an already-existing series rather than splitting fresh work |
 | peer-review.md | ~2,984 | ~4,726 | mandatory during Phase 0 plan convergence, Phase 2 review, and Phase 3 changelog drafting |
 | planning.md | ~1,442 | ~2,243 | on demand, before Phase 1, whenever the change is not a single self-evident edit |
@@ -49,12 +49,12 @@ Phase 2 now loads routing (315w) hot + keeps only chosen profile section (~266w 
 **Tier 3 existing / planned:**
 
 Existing:
-- `changelog-style-rationale.md` (~4,716w) — per-rule history for R0-1..R0-9, CL-10..CL-37, CC-10..CC-10d, CC-11, CS-10..CS-13. Message-IDs, dates, public LKML reviewer names, alternative phrasings rejected, validation notes. Created to satisfy CONTRIBUTING §1 for Rule IDs added in hot files (addresses review feedback #1). Contains matching entries for every new ID, so manual orphan check passes; automated check via `scripts/check-orphan-ids.py` (0 orphans both directions), to be wired to CI.
+- `changelog-style-rationale.md` (~6,450w) — per-rule history for R0-1..R0-9, CL-10..CL-39, CC-10..CC-10g, CC-11, CS-10..CS-15. Message-IDs, dates, public LKML reviewer names, alternative phrasings rejected, validation notes. Created to satisfy CONTRIBUTING §1 for Rule IDs added in hot files (addresses review feedback #1). Contains matching entries for every new ID, so manual orphan check passes; automated check via `scripts/check-orphan-ids.py` (0 orphans both directions), to be wired to CI.
+- `patch-series-rationale.md` (~1,240w) — per-rule history for patch-series.md (heading-keyed entries; that file carries no Rule IDs).
 - `kernel-readability-rationale.md` (~345w) — per-developer detail expansion, different scheme (## Principle N headings) — predates Rule ID system.
 - `exemplars.md` already serves as reference detail; now straddles Tier 2/Tier 3: full file Tier 2 on-demand, but individual extracted sections via `phases.py --extract` behave as Tier 3 granularity.
 
-Planned (to be created alongside further slimming):
-- `patch-series-rationale.md` — full lore Message-ID quotes, submitting-patches.rst excerpts that support each rule, historical evolution.
+Planned: none currently.
 
 Rationale files are public-audience too — no internal identifiers.
 
@@ -147,9 +147,9 @@ This rule exists so git history itself carries complete provenance without needi
 
 ID system is now **live** in hot files (not just planned). Namespace:
 - `R0-1..R0-6` — factual integrity canonical (kernel-style.md §0). Plus `R0-3-CH`, `R0-5-CH`, `R0-6-CH` changelog-specific subset.
-- `CL-10..CL-28` — changelog / commit message rules (CL-10 subject, CL-11 Fixes+Cc, CL-12 caps, CL-14 audience/internal-IDs, CL-20..28 body structure)
+- `CL-10..CL-39` — changelog / commit message rules (CL-10 subject, CL-11 Fixes+Cc, CL-12 caps, CL-14 audience/internal-IDs, CL-20..39 body structure)
 - `CC-10..CC-14` — code comment rules (CC-10 WHY not WHAT, CC-10b restatement that reads like explanation, CC-14 no internal IDs)
-- `CS-10..CS-11` — code structure (CS-10 helper extraction, CS-11 function length cap)
+- `CS-10..CS-15` — code structure (CS-10 helper extraction, CS-11 function length cap)
 - `CL-13` / `CC-13` — anti-LLM-tells (hedging, marketing, em-dash, recap) — full list in llm-tells-checklist.md, summary in changelog-style.md §3
 
 - Every normative rule in hot and Tier 2 files gets a stable ID comment `<!-- ID -->` near the rule that survives wording tweaks, or heading anchor that is part of API.

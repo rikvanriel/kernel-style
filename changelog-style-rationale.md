@@ -94,7 +94,7 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 - Also see CL-10..CL-14 above for trailers, caps, audience.
 
-## CC-10..14 / CS-10..17 — Code
+## CC-10..14 / CS-10..15 — Code
 
 - <!-- CC-10 --> Comment WHY not WHAT — hardware, locking, ordering, lifetime. Universal.
 
