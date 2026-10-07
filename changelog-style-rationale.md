@@ -133,6 +133,10 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
   Marked experimental (2026-10-07): sourced from one rewrite on an unpublished series, so there is no citable upstream hash and none should be invented. Reassess 2027-01-07 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
 
+- <!-- CC-10f --> Policy branches carry policy and reason. The repository owner's 2026-10 rewrite of an AI-drafted comment on a fallback-refusal branch in mm/page_alloc replaced mechanism facts the code already showed (which type is last in the fallback table, which list is therefore empty, that only the list head is checked) with the policy and its reason: do not place non-movable pages in movable blocks because that could break compaction, and such allocations should claim blocks instead. The mechanism facts were not deleted — they moved to the changelog, which is inherently a before/after document while the comment must read standalone. Companion to CC-10c (a comment states the contract rather than defending it): CC-10c cuts persuasion, CC-10f relocates mechanism.
+
+  Marked experimental (2026-10-07): sourced from one rewrite on an unpublished series, so there is no citable upstream hash and none should be invented. Reassess 2027-01-07 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
+
 ## CL-13 — Contrast / LLM tells (summary pointer)
 
 - <!-- CL-12b --> Precedence between the cap and one idea per paragraph. Split from CL-12 2026-08-17: the two had been welded onto one bullet, which read as the same point said twice because CL-12 warns against padding up to 70 while this warns against splitting below it. Made explicit after a draft was shortened by deleting whole paragraphs rather than compressing them, on the reasoning that one idea per paragraph is the invariant and the word count is how a violation gets detected, not a number to shrink toward. Hard 70 unchanged.
