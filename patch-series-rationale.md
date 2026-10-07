@@ -100,3 +100,9 @@ Experimental: reassess 2027-01-07 against posted lore; confirm the limitation bo
 Added 2026-10 after the repository owner's rewrite of an AI-drafted cover for an unpublished mm series. The draft reported a polluted-block range with no word on how blocks were counted; the rewrite added one sentence naming the /proc file walked after each round. The instrument sentence is cheap — a clause, not a section — and it converts an assertion into a checkable claim: a reviewer who doubts the number knows exactly what to re-run. Companion to R0-8's artifact rule for changelogs: that rule says be able to point at what produced a number; this one says put the pointer in the cover itself, since the cover has no diff beside it.
 
 Experimental: reassess 2027-01-07 against posted lore.
+
+## Breakout covers open with provenance, plan, and credit
+
+Added 2026-10 after the repository owner's rewrite of an AI-drafted cover for a series split out of a larger prototype. The draft opened with the mechanism as if the series had always stood alone; the rewrite opens with the parent lore link, a staged merge plan naming this stage and the next ones, and a by-name credit to the reviewer who suggested the split was independently useful. Each answers a different reviewer question — where did this come from, where is it going, whose idea was the split — and none of it fits in any single patch's changelog, so the cover is its only home. The credit follows the existing "credit people in the body by name" convention from changelog-style.md §1, applied to the cover.
+
+Experimental: reassess 2027-01-07 against posted lore.
