@@ -137,6 +137,10 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
   Marked experimental (2026-10-07): sourced from one rewrite on an unpublished series, so there is no citable upstream hash and none should be invented. Reassess 2027-01-07 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
 
+- <!-- CC-10g --> Name the exclusion when relying on an early return. The repository owner's 2026-10 review of an AI draft in mm/page_alloc dropped a redundant order check because partial blocks already returned at the refusal above — and required the comment to say so. Without the sentence, a reader sees a conversion with no wholeness check and must reconstruct the earlier guard to convince themselves it is safe; with it, the check is visibly delegated rather than missing. Applies whenever a check is omitted by reliance rather than by irrelevance: irrelevance needs no comment, reliance does.
+
+  Marked experimental (2026-10-07): sourced from one rewrite on an unpublished series, so there is no citable upstream hash and none should be invented. Reassess 2027-01-07 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
+
 ## CL-13 — Contrast / LLM tells (summary pointer)
 
 - <!-- CL-12b --> Precedence between the cap and one idea per paragraph. Split from CL-12 2026-08-17: the two had been welded onto one bullet, which read as the same point said twice because CL-12 warns against padding up to 70 while this warns against splitting below it. Made explicit after a draft was shortened by deleting whole paragraphs rather than compressing them, on the reasoning that one idea per paragraph is the invariant and the word count is how a violation gets detected, not a number to shrink toward. Hard 70 unchanged.
