@@ -183,6 +183,10 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
   Marked experimental (2026-11-20): sourced from review practice, no merged-commit corpus yet. Reassess 2027-02-20 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
 
+- <!-- CL-41 --> Invariant before mechanism. Drafts tend to interleave problem, code walk, and justification, which forces the reviewer to reconstruct the argument. The two-paragraph test decides: after paragraph two the reader can state the bug and the fixing truth without having read any mechanism. Mechanism paragraphs open with the failure they prevent, in plain words, and get at most half the words of the rationale they carry.
+
+  Marked experimental (2026-11-20): sourced from review practice, no merged-commit corpus yet. Reassess 2027-02-20 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
+
 
 ## Cross-links
 
