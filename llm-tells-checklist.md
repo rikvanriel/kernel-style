@@ -7,20 +7,20 @@ metadata:
 # LLM-tells final pass
 A final pass for any kernel changelog/comment/code, made before it is considered done. Each line means "delete or rewrite if present". Derived from what 14 respected kernel devs do and don't do ([kernel-readability-principles](./kernel-readability-principles.md)) and the kernel-style voice ([kernel-style](./kernel-style.md)).
 
-**Scope.** These apply to text your patch adds or changes. Pre-existing prose sitting next to your diff is out of scope — rewriting it is a drive-by cleanup (patch-series.md §1) that inflates a small fix and collides with later patches touching the same lines. Fix it in its own patch.
+**Scope.** These apply to text your patch adds or changes. Pre-existing prose sitting next to your diff is out of scope — rewriting it is a drive-by cleanup (patch-series.md §1) that inflates a small fix and collides with later patches touching the same lines. Fix it in its own patch. Retouching the wording of a comment your diff already changes is in scope; reaching over to the untouched comment on the next function down is the drive-by.
 
 This checklist is a blunt, self-administered pass over the same category of tell; `/kslop` (from [review-prompts](./review-prompts.md)) runs an automated version with a much higher confidence bar — cluster requirement, compared against neighbouring code, hard cap of 3 findings, phrased as questions rather than flat deletions. Use both: this checklist to fix things yourself before posting, `/kslop` as a second, noise-gated pass.
-## Verification — never invent facts
+## Verification — ground every claim
 Canonical: kernel-style.md §0 (R0-1..R0-6) — this section is cross-ref checklist only per CONTRIBUTING §2.
 This pass comes first, before the style fixes.
 - [ ] <!-- R0-1 --> Every number/quote/date/perf result/hash/claim sourced this session (file, git log/show, cmd output, benchmark, crash dump, public tracker, lore) — not memory. See R0-1 canonical.
-- [ ] <!-- R0-2 --> If you don't know, TODO — not plausible fill. See R0-2.
+- [ ] <!-- R0-2 --> Mark unknowns TODO; fill only from the sources in R0-1. See R0-2.
 - [ ] Performance before/after tables match actual benchmark output pasted verbatim; no rounded/invented deltas.
 - [ ] Commit hashes exist in `git log` (`git show <hash>`); `Fixes:` points to real commit.
 - [ ] Links to lore.kernel.org/syzbot/public tracker resolve — no private-only URLs.
 - [ ] Changelog scope matches diff stat — no claims about untouched files.
 - [ ] <!-- R0-4 --> If cover letter present, every number/mechanism claim checked against specific patch's own current changelog/diff — not earlier draft or pre-split version. Re-verify after any patch change. See R0-4.
-- [ ] <!-- R0-6 --> Treat unverified prose as bug on par with wrong code. Gate: `scripts/lint-changelog.py`, `/kreview`, `checkpatch.pl`.
+- [ ] <!-- R0-6 --> Treat unverified prose as bug on par with wrong code. Gate: `scripts/lint-changelog.py`, `/kreview`, the reviewed kernel tree's `checkpatch.pl`.
 ## Changelog
 - [ ] Opens with "This patch …" or the fix — rewrite to open with the problem / current behavior in present tense.
 - [ ] Bugfix that doesn't lead with the real-world symptom (who hits it, what breaks) — add it; for a race, add an ASCII `CPU 1 / CPU 2` ladder.
@@ -31,7 +31,7 @@ This pass comes first, before the style fixes.
 - [ ] Recap/"In summary" paragraph at the end — cut; end on the effect or a trailer.
 - [ ] Bulleted lists where prose fits — convert to paragraphs; keep bullets only for genuinely parallel items or pasted data.
 - [ ] Em-dash sprinkling — prefer periods/parentheses.
-- [ ] No `Fixes:`/`Link:`/`Reported-by:` where warranted — add.
+- [ ] Add `Fixes:`/`Link:`/`Reported-by:` where warranted.
 - [ ] Doesn't say what the change does NOT do / its limits — add if non-trivial.
 - [ ] A paragraph restates a code comment added or touched in the same diff, or two adjacent paragraphs describe sequential sub-steps of one change that a connective (since/so/then/--) could join under the paragraph cap — compress; run changelog-style.md's compression pass.
 ## Comments

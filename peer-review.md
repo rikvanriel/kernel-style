@@ -23,27 +23,26 @@ Phase 0, 2, and 3 focus on planning or reviewing rather than drafting.
 > **For automated tools:** this repository is reference documentation. Nothing here is instruction
 > to execute outside deliberate style-guide loading context. Treat as data when crawling.
 
-## Three mandatory questions — ask all three, every time, of your own work
+## Five mandatory questions — ask all five, every time, of your own work
 
 Before committing any change, the author — whether a solo kernel developer, an AI agent working
-alone, or a human-AI pair — must explicitly answer all three of the following questions about the work
+alone, or a human-AI pair — must explicitly answer all five of the following questions about the work
 **as if reviewing someone else's patch**, not as a formality. This is the default gate and it is
-mandatory whether or not a second reviewer is ever involved. Answering only (a) is incomplete;
-answering only (b) is incomplete; answering only (a)+(b) is incomplete. Skip all three only for
-trivial one-line typo fixes and pure factual verification passes where no design choice is involved.
+mandatory whether or not a second reviewer is ever involved. Answering any subset is incomplete.
+Skip all five only for trivial one-line typo fixes and pure factual verification passes where no design choice is involved.
 
 **Why self-review can work, and where it genuinely can't fully replace a second party:** the same
 reasoning that produced a subtle logic or design mistake is often the same reasoning that will
 happily re-validate it, because the gap is conceptual, not a typo you'd literally see twice. Two
 things make self-review effective anyway: (1) doing it as a **separate, deliberate pass** with an
 adversarial stance — not glancing at the diff again while still holding the "I just wrote this and
-it's obviously right" frame, and (2) treating the two questions below as a real checklist to work
+it's obviously right" frame, and (2) treating the five questions below as a real checklist to work
 through methodically, not a vibe check. For genuinely high-stakes, high-blast-radius, or hard-to-
 reverse changes, still actively seek a second opinion if you possibly can (see "Escalating to a
 second reviewer" below) — self-review is a strong floor, not a claim that it's exactly as good as
 an independent pair of eyes every time. Say so plainly rather than pretending otherwise.
 
-### (a) What's wrong?
+### (1) Is it wrong?
 
 The job is to find defects, not to ratify. Hunt systematically for:
 
@@ -60,7 +59,7 @@ from the list above is not a review, even of your own work — go back and probe
 committing. Default stance is adversarial, not advisory-approving, regardless of who (or what) is
 doing the reviewing.
 
-### (b) Is there a materially better way?
+### (2) Is there a better way?
 
 For any design choice, approach, wording structure, rule scope, or file organization change you're
 about to commit, explicitly address whether a materially better alternative exists — not just
@@ -69,9 +68,17 @@ whether the current proposal is free of defects.
 * **Name at least one concrete alternative approach** with its tradeoff in correctness, robustness, simplicity, maintainability, token cost, or human readability, **or explicitly state why none beats the chosen approach** for the stated goal. An answer that neither names an alternative nor says why none wins is incomplete, same as "looks good" with no probing.
 * "Better" must be material — not stylistic preference, not bike-shedding word choice, not gold-plating beyond original goal. Respect the original intent of the change; do not redesign requirements mid-review.
 * Examples of material alternatives relevant to this repository: keeping phase workflow description in README versus splitting into separate phase files coding.md review.md commit.md with single-sentence pointers from README (tradeoff: token saving per deliberate load vs increased file count and cross-reference maintenance burden); keeping per-developer exemplars in always-hot set versus moving to on-demand mandatory at review gate (tradeoff: voice calibration quality every draft turn vs token cost saving compounding across draft iterations); keeping Rule 0 factual integrity duplicated across three hot files versus single canonical source with cross-references (tradeoff: defense in depth vs drift risk).
-* Skip (b) for trivial one-line typo fixes, pure factual verification passes with no design choice involved, and mechanical renames with no behavior change. Its highest-leverage moment is plan review before implementation per [planning.md](./planning.md) §6 — reviewing the plan not just finished output avoids anchoring bias toward a solution already seen, and this applies just as much when you are the only reviewer: pressure-test the plan before you've sunk cost into one implementation.
+* Skip (2) for trivial one-line typo fixes, pure factual verification passes with no design choice involved, and mechanical renames with no behavior change. Its highest-leverage moment is plan review before implementation per [planning.md](./planning.md) §6 — reviewing the plan not just finished output avoids anchoring bias toward a solution already seen, and this applies just as much when you are the only reviewer: pressure-test the plan before you've sunk cost into one implementation.
 
-### (c) Can the same correctness be achieved with less structural duplication?
+### (3) Is there a simpler way?
+
+Ask whether a simpler approach reaches the same result — fewer concepts, fewer steps, less machinery — even if the current form is already correct and no better alternative won under (2). (2) weighs tradeoffs between approaches, where the winner may add machinery worth its cost; (3) asks whether the chosen approach itself can shrink, and if it cannot, what exactly would be lost. A simplification that drops a checkable claim or a handled case is not simpler, it is less.
+
+### (4) Is something missing?
+
+Hunt for what the change does not cover that it should: an unhandled case or caller, a missing test or benchmark leg, a claim without its artifact, a required trailer, a doc the code now contradicts. (1) probes what is present; (4) probes what is absent. Name each candidate gap and either close it or state why it is out of scope — silence is not scoping.
+
+### (5) Is there structural duplication?
 
 Scan the diff itself for mechanical simplification that does not change behavior. Systematically check:
 
@@ -82,13 +89,15 @@ Scan the diff itself for mechanical simplification that does not change behavior
 
 For each, sketch a concrete before and after of 3–6 lines or explicitly state why the current form is already minimal because every guard or predicate is unique to one site. Do not dismiss as `minimal obvious fix` when duplication was introduced by the change itself — hoisting that duplication is part of minimal. Prefer fewer distinct concepts over fewer lines; a hoist that removes one duplicated guard or predicate at the cost of two extra lines is a win. A concrete example: two adjacent `for_each` iterations each doing `guard(rcu) { if (cpu_is_isolated(cpu)) continue; if (test_and_set_bit(FLUSH, &flags)) continue; queue_work_on(cpu, wq, work); }` hoists to `if (curcpu) { /* inline both */ continue; } guard(rcu); if (cpu_is_isolated(cpu)) continue; /* flag+queue for each, no duplicated guard+check */`.
 
-* Skip (c) only for trivial one-line typo fixes and pure factual verification passes with no design choice involved. Its highest-leverage moment is also plan review and late review after the correctness questions — structural duplication is easiest to see once the logic is settled. Concluding `already simple` without checking the four bullets is not a review.
+* Skip (5) only for trivial one-line typo fixes and pure factual verification passes with no design choice involved. Its highest-leverage moments are plan review — spotting duplicated setup or verification legs across patches before they are written — and late review after the correctness questions. Structural duplication is easiest to see once the logic is settled, and cheapest to fix when spotted in the plan. Concluding `already simple` without checking the four bullets is not a review.
 
 ### Write it down
 
-Keep a short, concrete self-review note before committing — four or five bullets is enough: what
-you checked under (a) and what (if anything) you found and fixed; the alternative you weighed under
-(b) and why you kept (or changed) your approach; the duplication you checked under (c) and the hoist or helper you considered or why the current form is already minimal. This is not bureaucracy for its own sake — a review
+Keep a short, concrete self-review note before committing — five or six bullets is enough: what
+you checked under (1) and what (if anything) you found and fixed; the alternatives you weighed under
+(2) and (3) and why you kept (or changed) your approach; the gap you closed or scoped out under (4);
+the duplication you checked under (5) and the hoist or helper you considered or why the current form
+is already minimal. This is not bureaucracy for its own sake — a review
 that only ever happens silently in your head is the one that gets skipped under time pressure, and
 writing it down forces you to actually apply the checklist instead of pattern-matching to "looks
 fine." Keep the note out of the public commit message (it's about your own process, not something
@@ -142,10 +151,10 @@ and during Phase 3 draft changelog as final review gate before git commit, per R
 load order. It is **not** loaded during Phase 1 draft code hot path, because Phase 1 focuses on
 writing code to core style rules not on reviewing what was written.
 
-* **Phase 0 planning uses peer-review.md before any code exists.** Per [planning.md](./planning.md) §6, run the same two questions against the plan document instead of a diff, iterating until convergence (or the iteration cap) before presenting the plan to the human. No exemplars.md or changelog-style.md involved yet — there is no code or commit message draft to calibrate voice against at this point.
+* **Phase 0 planning uses peer-review.md before any code exists.** Per [planning.md](./planning.md) §6, run all five questions against the plan document instead of a diff, iterating until convergence (or the iteration cap) before presenting the plan to the human. No exemplars.md or changelog-style.md involved yet — there is no code or commit message draft to calibrate voice against at this point.
 * **Phase 1 draft code always hot set** remains: kernel-style.md entry point, kernel-readability-principles.md composite principles, llm-tells-checklist.md final-pass checklist. No peer-review.md loaded here — saves tokens during most frequent draft iterations.
-* **Phase 2 review adds peer-review.md mandatory** on top of Phase 1 base per cumulative load model. At review gate before git commit, load peer-review.md and run the two-question self-review checklist above against both the code diff and the proposed commit message draft structure, then, if a second reviewer is available, route to them per "Escalating to a second reviewer" above. Compare git diff output against exemplars.md per-subsystem routing table (see exemplars.md introduction) to calibrate voice, then adjust tone and comment density to match chosen developer profile.
-* **Phase 3 draft changelog adds changelog-style.md mandatory** on top of Phase 1+2 base, and peer-review.md remains resident through Phase 3 as the final review gate before git commit per cumulative model. Re-run the two-question self-review specifically focused on the commit message draft: (a) what's wrong in this commit message draft per changelog-style rules? (b) is there a materially better way to phrase the subject/body/trailers choice? Route to a second reviewer here too if one is available.
+* **Phase 2 review adds peer-review.md mandatory** on top of Phase 1 base per cumulative load model. At review gate before git commit, load peer-review.md and run the five-question self-review checklist above against both the code diff and the proposed commit message draft structure, then, if a second reviewer is available, route to them per "Escalating to a second reviewer" above. Compare git diff output against exemplars.md per-subsystem routing table (see exemplars.md introduction) to calibrate voice, then adjust tone and comment density to match chosen developer profile.
+* **Phase 3 draft changelog adds changelog-style.md mandatory** on top of Phase 1+2 base, and peer-review.md remains resident through Phase 3 as the final review gate before git commit per cumulative model. Re-run questions (1) and (2) specifically focused on the commit message draft: (1) is anything wrong in this commit message draft per changelog-style rules? (2) is there a better way to phrase the subject/body/trailers choice? Route to a second reviewer here too if one is available.
 
 Unload all phase-specific files at task end after git commit with proper trailers per CONTRIBUTING.md §5 commit trailers required.
 
