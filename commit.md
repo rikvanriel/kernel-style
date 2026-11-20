@@ -60,7 +60,7 @@ On demand during Phase 3 if needed:
  ```
  Signed-off-by: Your Name <your.email@example.com>
  ```
- An AI agent must never add its own Signed-off-by — only human SOB certifies DCO per kernel process.
+ An AI agent must never add its own Signed-off-by — only human SOB certifies DCO per kernel process. Verify trailer bytes after every amend (`git log -1 --format=%B | tail -3 | cat -A`): a quoted `...<name@host>` can eat the closing `>`, invisible in normal log output, and DCO flags what the eye cannot see. Verify subject length with a command, never by eye (`git log --format=%s -1 | awk '{ print length }'`), and re-run the check after every amend — drafters and reviewers both miscount by a few characters, and an over-long subject reads exactly like a compliant one. After an amend, compare trees: a message-only amend must leave the tree hash identical (`git show --pretty=%T -s`), a content change must move it — if the hash did not move the way you intended, the edit is still sitting unstaged.
 
 8. If this patch is part of a multi-patch series with a cover letter, before sending run the cover-letter verification pass per patch-series.md §5: for every number and every "patch N does/is the only one that..." claim in the cover letter, open that specific patch's own current changelog and diff and confirm the exact match. Do this as its own explicit pass over the finished cover letter, separate from writing it — a cover letter drafted earlier in the process (or regenerated via `git format-patch --cover-letter` after a patch changed) is exactly the case this catches. Do not send on the strength of having verified the patches alone.
 
