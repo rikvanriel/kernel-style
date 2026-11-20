@@ -140,6 +140,9 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 - <!-- CC-10g --> Name the exclusion when relying on an early return. The repository owner's 2026-10 review of an AI draft in mm/page_alloc dropped a redundant order check because partial blocks already returned at the refusal above — and required the comment to say so. Without the sentence, a reader sees a conversion with no wholeness check and must reconstruct the earlier guard to convince themselves it is safe; with it, the check is visibly delegated rather than missing. Applies whenever a check is omitted by reliance rather than by irrelevance: irrelevance needs no comment, reliance does.
 
   Marked experimental (2026-10-07): sourced from one rewrite on an unpublished series, so there is no citable upstream hash and none should be invented. Reassess 2027-01-07 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
+- <!-- CC-10h --> Block shape is categorical. Provenance: a 2026-11 series review caught text-on-opener blocks twice — once where a comment copied to a deeper indent kept its opener text and read unformatted, once on a fresh block written that way. With text on the opener the block's first line sits at a different column than the rest and the closer has nowhere consistent to land; the bare-opener form is also what CodingStyle prescribes. Companions CC-10e (one-liner vs block is categorical, settled by the file's samples) and the one-line cap carried in the rule itself: the count decides the shape, the shape is then fixed.
+
+  Marked experimental (2026-11-20): sourced from one review round on an unpublished series, so there is no citable upstream hash and none should be invented. Reassess 2027-02-20 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
 
 ## CL-13 — Contrast / LLM tells (summary pointer)
 
