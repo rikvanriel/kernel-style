@@ -60,9 +60,9 @@ A plan is a short document, not a paragraph of prose held in your head. Cover:
 
 ## 6. Converge the plan via review, before writing code
 
-Run [peer-review.md](./peer-review.md)'s questions (1) and (2) — "is it wrong?" and "is there a better way?" — against the plan itself, the same way peer-review.md runs them against a diff at Phase 2. Use the same self-review-by-default, second-reviewer-when-available structure described there, including its "Escalating to a second reviewer" tiers.
+Run [peer-review.md](./peer-review.md)'s five questions against the plan itself, the same way peer-review.md runs them against a diff at Phase 2. Use the same self-review-by-default, second-reviewer-when-available structure described there, including its "Escalating to a second reviewer" tiers.
 
-Iterate: revise the plan, then re-run both questions against the revised plan. **Convergence** means one full pass finds nothing under (1) that requires a change, and either finds no alternative worth adopting under (2) or explicitly justifies why the current plan beats the alternative found. Cap iteration at roughly two or three rounds — if the plan still hasn't converged by then, surface the disagreement or open question to the human rather than looping indefinitely.
+Iterate: revise the plan, then re-run all five questions against the revised plan. **Convergence** means one full pass finds nothing under (1), (4), or (5) that requires a change, and either finds nothing worth adopting under (2) or (3) or explicitly justifies why the current plan stands. Cap iteration at roughly two or three rounds — if the plan still hasn't converged by then, surface the disagreement or open question to the human rather than looping indefinitely.
 
 ## 7. Present the plan; wait for sign-off
 
