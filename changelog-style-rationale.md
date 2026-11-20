@@ -179,6 +179,18 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
   Marked experimental (2026-10-07): sourced from one rewrite on an unpublished series, so there is no citable upstream hash and none should be invented. Reassess 2027-01-07 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
 
+- <!-- CL-40 --> Condition over witness. A cross-platform offload path written around the instance that motivated it ("on XPU, allocate pageable host memory") reads false on the next platform with the same property; written around the predicate the code tests ("on non-CUDA platforms") it stays true. The substitution test decides: if swapping in another satisfier breaks the sentence, the sentence names the wrong thing. Same test audits identifiers — a class or helper named for the witness is a wrong name even when a test fixture may carry it as one instance.
+
+  Marked experimental (2026-11-20): sourced from review practice, no merged-commit corpus yet. Reassess 2027-02-20 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
+
+- <!-- CL-42 --> Present tense for permanent text. "The same call the old code made" forces a reader to reconstruct a history they cannot see; the compliant form states the rule that makes the call right ("a none PTE reaches no_page_table() only when no write check could fail it"). Wrapping hides hits — "old" at line end, "code" on the next — so grep the stems (old, previous, used to, as before, was previously), not the phrases.
+
+  Marked experimental (2026-11-20): sourced from review practice, no merged-commit corpus yet. Reassess 2027-02-20 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
+
+- <!-- CL-41 --> Invariant before mechanism. Drafts tend to interleave problem, code walk, and justification, which forces the reviewer to reconstruct the argument. The two-paragraph test decides: after paragraph two the reader can state the bug and the fixing truth without having read any mechanism. Mechanism paragraphs open with the failure they prevent, in plain words, and get at most half the words of the rationale they carry.
+
+  Marked experimental (2026-11-20): sourced from review practice, no merged-commit corpus yet. Reassess 2027-02-20 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
+
 
 ## Cross-links
 
