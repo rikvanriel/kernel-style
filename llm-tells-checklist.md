@@ -7,7 +7,7 @@ metadata:
 # LLM-tells final pass
 A final pass for any kernel changelog/comment/code, made before it is considered done. Each line means "delete or rewrite if present". Derived from what 14 respected kernel devs do and don't do ([kernel-readability-principles](./kernel-readability-principles.md)) and the kernel-style voice ([kernel-style](./kernel-style.md)).
 
-**Scope.** These apply to text your patch adds or changes. Pre-existing prose sitting next to your diff is out of scope — rewriting it is a drive-by cleanup (patch-series.md §1) that inflates a small fix and collides with later patches touching the same lines. Fix it in its own patch.
+**Scope.** These apply to text your patch adds or changes. Pre-existing prose sitting next to your diff is out of scope — rewriting it is a drive-by cleanup (patch-series.md §1) that inflates a small fix and collides with later patches touching the same lines. Fix it in its own patch. Retouching the wording of a comment your diff already changes is in scope; reaching over to the untouched comment on the next function down is the drive-by.
 
 This checklist is a blunt, self-administered pass over the same category of tell; `/kslop` (from [review-prompts](./review-prompts.md)) runs an automated version with a much higher confidence bar — cluster requirement, compared against neighbouring code, hard cap of 3 findings, phrased as questions rather than flat deletions. Use both: this checklist to fix things yourself before posting, `/kslop` as a second, noise-gated pass.
 ## Verification — ground every claim
