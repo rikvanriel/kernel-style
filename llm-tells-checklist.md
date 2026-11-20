@@ -20,7 +20,7 @@ This pass comes first, before the style fixes.
 - [ ] Links to lore.kernel.org/syzbot/public tracker resolve — no private-only URLs.
 - [ ] Changelog scope matches diff stat — no claims about untouched files.
 - [ ] <!-- R0-4 --> If cover letter present, every number/mechanism claim checked against specific patch's own current changelog/diff — not earlier draft or pre-split version. Re-verify after any patch change. See R0-4.
-- [ ] <!-- R0-6 --> Treat unverified prose as bug on par with wrong code. Gate: `scripts/lint-changelog.py`, `/kreview`, `checkpatch.pl`.
+- [ ] <!-- R0-6 --> Treat unverified prose as bug on par with wrong code. Gate: `scripts/lint-changelog.py`, `/kreview`, the reviewed kernel tree's `checkpatch.pl`.
 ## Changelog
 - [ ] Opens with "This patch …" or the fix — rewrite to open with the problem / current behavior in present tense.
 - [ ] Bugfix that doesn't lead with the real-world symptom (who hits it, what breaks) — add it; for a race, add an ASCII `CPU 1 / CPU 2` ladder.
