@@ -28,6 +28,7 @@ This pass comes first, before the style fixes.
 - [ ] Marketing adjectives: robust, powerful, seamless, comprehensive, elegant, gracefully — cut.
 - [ ] Hedging filler: "Note that", "Importantly", "It's worth noting", "Keep in mind" — cut, state the fact directly.
 - [ ] Double negative ("not X, not Y", "doesn't not do Z") — rewrite as the positive condition it actually describes. Applies to comments too.
+- [ ] An abstraction doing a human verb (reads, sees, asks, lends, carries, proves, says, answers, keeps, refuses) — rewrite with the code or the reader as subject; a metaphor doing the explaining (rides, threads, warmed) goes unless no plain version says the same thing.
 - [ ] Recap/"In summary" paragraph at the end — cut; end on the effect or a trailer.
 - [ ] Bulleted lists where prose fits — convert to paragraphs; keep bullets only for genuinely parallel items or pasted data.
 - [ ] Em-dash sprinkling — prefer periods/parentheses.

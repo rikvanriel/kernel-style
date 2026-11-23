@@ -196,6 +196,10 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
   Marked experimental (2026-11-20): sourced from review practice, no merged-commit corpus yet. Reassess 2027-02-20 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
 
+- <!-- CL-43 --> Plain-words rewrite test, per sentence. Sourced from a 2026-11 changelog cleanup pass (eight messages where abstractions acted: "the named edge never asked whether its definition was live", "actuals strip &", "whitespace alone proves nothing", "the reverse lookup fetches candidates by callee equality") — each rewrote cleanly with the code or the reader as subject. Distinct from the ornate-verbs rule: that one bans word choice, this one tests the sentence subject, and the grep signal differs — grep the verb stems (reads|sees|asks|lends|carr|prov|answers|keeps|refus), not a fixed word list. The metaphor escape is deliberately narrow: most explaining metaphors (rides, warmed, barren) rewrite cleanly, and invoking it requires a one-line note saying why the mechanism-word is load-bearing, not silence.
+
+  Marked experimental (2026-11-23): sourced from one cleanup pass on an unmerged series, so no merged-commit citation yet. Reassess 2027-02-23 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop.
+
 
 ## Cross-links
 
