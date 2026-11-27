@@ -95,6 +95,10 @@ Open question: the same rewrite dropped a bare-metal-untested limitation line. W
 
 Experimental: reassess 2027-01-07 against posted lore; confirm the limitation boundary or drop.
 
+## Cover letter lists what each fix does
+
+Added 2026-11-27 from rtmutex review practice (Desnoyers 2026-11-08). The cover routes: one short entry per fix — what the patch changes and what that buys, in a line or two — while the mechanism, the numbers, and the impact stay in the commit messages and are never repeated in the cover. A cover that re-argues each patch doubles the review surface and drifts from the messages at repost; the one-entry form keeps the cover a checklist against the series. Marked experimental: sourced from review practice on an unpublished series, no citable upstream hash. Reassess 2027-02-27.
+
 ## Reported metrics name their instrument
 
 Added 2026-10 after the repository owner's rewrite of an AI-drafted cover for an unpublished mm series. The draft reported a polluted-block range with no word on how blocks were counted; the rewrite added one sentence naming the /proc file walked after each round. The instrument sentence is cheap — a clause, not a section — and it converts an assertion into a checkable claim: a reviewer who doubts the number knows exactly what to re-run. Companion to R0-8's artifact rule for changelogs: that rule says be able to point at what produced a number; this one says put the pointer in the cover itself, since the cover has no diff beside it.
