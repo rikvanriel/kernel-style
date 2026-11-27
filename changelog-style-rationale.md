@@ -94,6 +94,8 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 - <!-- CL-33 --> Within-noise differences and control rows. From the mm/gup per-patch re-measurement: 4 kB base pages read 1178 us with the walk applied and 1198 us with batching applied on top, across two boots of the same benchmark. Batching cannot touch base pages, which share no folio, so the 1.7% is variation; reporting it either way would have invented a mechanism. The 2 MB THP row stayed at 70-72 us throughout and is what demonstrates follow_page_pte() is never reached for PMD-mapped folios, a scope claim otherwise unverifiable from the changelog.
 
+- <!-- CL-45 --> Say what bounds a number, not just its value. Marked experimental (2026-11-27): sourced from rtmutex review practice (Desnoyers 2026-11-07/08), so there is no citable upstream hash and none should be invented. Reassess 2027-02-27 — replace with a merged-commit citation if the pattern appears in reviewed LKML history, or drop. A "maximum seen in testing" is not a limit: the PREEMPT_RT ww_mutex spin's "up to a second" was the fair server (950ms default period plus runtime) — moving those settings moved the maximum exactly, and with the fair server off the spin ended on the 4s softlockup-watchdog period. The message now says what stops the spin, not how long it lasted in our runs.
+
 - Also see CL-10..CL-14 above for trailers, caps, audience.
 
 ## CC-10..14 / CS-10..15 — Code
