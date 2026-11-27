@@ -68,7 +68,7 @@ Rationale is public-audience: Message-IDs, public reviewer names, commit hashes,
 
 - <!-- CL-22 --> Lead bugfix with real-world symptom — who triggers, what breaks, then internals. Example `2820b0f09be9` opens with jemalloc/tcalloc → SIGBUS, not "zap_page_range_single fails to take i_mmap_rwsem".
 
-- <!-- CL-23 --> For race, draw CPU 1 / CPU 2 ASCII ladder — common device, e.g. `2820b0f09be9`. Partner-tagged barriers for Zijlstra.
+- <!-- CL-23 --> For race, draw CPU 1 / CPU 2 ASCII ladder — common device, e.g. `2820b0f09be9`. Partner-tagged barriers for Zijlstra. Refined 2026-11-27 from rtmutex review practice: Zijlstra called the v1 message "word soup" (2026-11-07) and Rostedt "very verbose ... makes it sound more complicated than it is"; Desnoyers review concluded a diagram only earns its place when step order between actors is the bug (a single-loop missed exit check was "overkill"), the legend names every actor/CPU/lock first, and setup runs as a step rather than implicit initial state. Width: diagrams may run to 100 columns, accepting checkpatch's "Prefer a maximum 75 chars per line" (verified in the reviewed tree's scripts/checkpatch.pl); precedent `b6e13e85829f` ("sched/core: Fix ttwu() race", verified via git show, max body line 92).
 
 - <!-- CL-24 --> Match changelog length to change size — simple improvement ~3 paragraphs (efa7df3e3bb5), race earns more.
 
