@@ -30,7 +30,7 @@ This pass comes first, before the style fixes.
 - [ ] Double negative ("not X, not Y", "doesn't not do Z") — rewrite as the positive condition it actually describes. Applies to comments too.
 - [ ] An abstraction doing a human verb (reads, sees, asks, lends, carries, proves, says, answers, keeps, refuses) — rewrite with the code or the reader as subject; a metaphor doing the explaining (rides, threads, warmed) goes unless no plain version says the same thing.
 - [ ] Recap/"In summary" paragraph at the end — cut; end on the effect or a trailer.
-- [ ] Bulleted lists where prose fits — convert to paragraphs; keep bullets only for genuinely parallel items or pasted data.
+- [ ] Bulleted lists where prose fits — convert to paragraphs; keep bullets only for genuinely parallel items or pasted data. Each item names its own mapping; one intro sentence says what the list lists.
 - [ ] Em-dash sprinkling — prefer periods/parentheses.
 - [ ] Add `Fixes:`/`Link:`/`Reported-by:` where warranted.
 - [ ] Doesn't say what the change does NOT do / its limits — add if non-trivial.

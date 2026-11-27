@@ -119,7 +119,7 @@ These apply to both changelogs and comments; kept here because they are most oft
 - **No redundant comments restating the code** ("// increment counter"). Comment only the non-obvious why.
 - **No hedging filler:** "Note that", "Importantly", "It's worth noting", "Keep in mind". State facts directly.
 - **No marketing adjectives** ("robust", "powerful", "seamless", "comprehensive", "elegant"). Quantify effects, don't praise them.
-- **No over-bulleting.** Paragraphs by default; bullets only for quoted data.
+- **Lists are for parallel items, prose for everything else.** Test cases with their failures, requirements, per-patch entries — each item on its own line, each naming its own mapping — never chained with semicolons, never "each case passes from the fix it covers." One intro sentence says what the list lists, never a bare list after a paragraph. Anything else stays prose: a list is for items the reader must match one-to-one, not a way to dodge paragraph structure.
 - **No em-dash sprinkling.** Periods and short sentences; parentheses for asides.
 - **No recap paragraphs** ("In summary, this change.."). End on the effect or a trailer.
 - **No mixed verb tense.** Describe the code's current behavior consistently in the present ("does", "turns"); don't drift into past ("did so") or call present code the "original" version. (validation 2026-07-01, David Hildenbrand review.)
